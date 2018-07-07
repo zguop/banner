@@ -25,8 +25,7 @@ compile project(':banner')
 ```
 
 
-#### Step 2.在布局文件中添加Banner，可以设置自定义属性
-！！！此步骤可以省略，直接在Activity或者Fragment中new Banner();
+#### Step 2.在布局文件中添加Banner
 ```xml
     <com.to.aboomy.banner.QyBanner
         android:id="@+id/banner"
