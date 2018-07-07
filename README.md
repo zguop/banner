@@ -6,7 +6,8 @@ banner View，实现无线轮播功能。自定义transformer 内置了ScalePage
 ## 效果图
 
 ![效果示例](auto3.gif)|
-![效果示例](auto3.gif)|
+![效果示例](auto4.gif)|
+![效果示例](auto5.gif)|
 
 
 ## 使用步骤
@@ -58,7 +59,7 @@ public class BannerAdapter extends QyPagerAdapter<Integer> {
 }
 ```
 
-#### Step 5.在页面中配置QyBanner
+#### Step 4.在页面中配置QyBanner
 
 ```java
 
