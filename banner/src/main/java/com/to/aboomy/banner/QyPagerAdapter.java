@@ -65,12 +65,8 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
         }
     }
 
-    public void setCanLoop(boolean canLoop) {
+    void setCanLoop(boolean canLoop) {
         isCanLoop = canLoop;
-    }
-
-    public boolean isCanLoop() {
-        return isCanLoop;
     }
 
     public int getRealCount() {
@@ -81,7 +77,7 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
      * 轮播图启动的位置
      */
     int startAdapterPosition(int dataPosition) {
-        if (isCanLoop()) {
+        if (isCanLoop) {
             return getRealCount() * MULTIPLE_COUNT / 2 + dataPosition;
         }
         return dataPosition;
@@ -91,7 +87,7 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
      * 控制轮播图的范围
      */
     int controlAdapterPosition(int adapterPosition) {
-        if (isCanLoop()) {
+        if (isCanLoop) {
             if (adapterPosition > (getRealCount() * MULTIPLE_COUNT * 0.98) || adapterPosition < (getRealCount() * MULTIPLE_COUNT * 0.02)) {
                 return startAdapterPosition(toRealPosition(adapterPosition));
             }

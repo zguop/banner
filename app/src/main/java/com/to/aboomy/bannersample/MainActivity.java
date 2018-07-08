@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 .setIndicatorColor(Color.BLACK)
                 .setIndicatorInColor(Color.WHITE)
                 .setGravity(Gravity.CENTER);
-        banner.setAdapter(bannerAdpter, qyIndicator);
+        banner.setIndicator(qyIndicator);
+        banner.setAdapter(bannerAdpter);
     }
 }

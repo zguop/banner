@@ -22,6 +22,7 @@ public class QyViewPager extends ViewPager {
 
     private boolean turning; //是否正在翻页
     private long autoTurningTime = 2_500;
+    private boolean isCanLoop = Boolean.TRUE;
 
     public QyViewPager(Context context) {
         this(context, null);
@@ -75,13 +76,21 @@ public class QyViewPager extends ViewPager {
 
     public void setAdapter(PagerAdapter adapter) {
         mAdapter = (QyPagerAdapter) adapter;
-        mAdapter.setCanLoop(mAdapter.getRealCount() != 1);
+        mAdapter.setCanLoop(isCanLoop && mAdapter.getRealCount() != 1);
         super.setAdapter(mAdapter);
         setCurrentItem(mAdapter.startAdapterPosition(0), false);
     }
 
+    public void setCanLoop(boolean isCanLoop){
+        this.isCanLoop = isCanLoop;
+    }
+
     public boolean isCanLoop() {
-        return mAdapter.isCanLoop();
+        return isCanLoop;
+    }
+
+    public void setAutoTurningTime(long autoTurningTime) {
+        this.autoTurningTime = autoTurningTime;
     }
 
     public void addPageChangeListener(OnPageChangeListener listener) {

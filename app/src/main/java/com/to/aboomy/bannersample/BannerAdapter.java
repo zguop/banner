@@ -19,6 +19,7 @@ public class BannerAdapter extends QyPagerAdapter<Integer> {
         super(data);
     }
 
+
     @Override
     protected View newView(final Context context, final int realPosition) {
         ImageView iv = new ImageView(context);

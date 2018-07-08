@@ -18,8 +18,9 @@ import java.lang.reflect.Field;
 
 public class QyBanner extends RelativeLayout {
 
-    private QyViewPager mViewPager;
-    private boolean     isSetAdapter;
+    private QyViewPager  mViewPager;
+    private IQyIndicator mIndicator;
+    private boolean      isSetAdapter;
 
     public QyBanner(Context context) {
         this(context, null);
@@ -54,21 +55,28 @@ public class QyBanner extends RelativeLayout {
         mViewPager.setPageTransformer(reverseDrawingOrder, transformer);
     }
 
-    public void setAdapter(PagerAdapter adapter) {
-        setAdapter(adapter, null);
+    public void setIndicator(IQyIndicator iQyIndicator) {
+        if (mIndicator != null) {
+            removeView(mIndicator.getView());
+        }
+        mIndicator = iQyIndicator;
     }
 
-    public void setAdapter(PagerAdapter adapter, IQyIndicator iQyIndicator) {
+    public void setAdapter(PagerAdapter adapter) {
         if (mViewPager != null) {
             mViewPager.setAdapter(adapter);
-            if (iQyIndicator != null) {
-                View view = iQyIndicator.getView();
-                view.setLayoutParams(iQyIndicator.getParams());
+            if (mIndicator != null) {
+                View view = mIndicator.getView();
+                view.setLayoutParams(mIndicator.getParams());
+                mIndicator.setViewPager(mViewPager);
                 addView(view);
-                iQyIndicator.setViewPager(mViewPager);
             }
         }
         isSetAdapter = true;
+    }
+
+    public QyViewPager getViewPager() {
+        return mViewPager;
     }
 
     private void initViewPagerScroll() {
