@@ -1,13 +1,13 @@
-# Android图片轮播控件
+# Android轮播控件
 
 banner View，实现无线轮播功能。自定义transformer 内置了ScalePageTransformer，见效果图，
 可以自定义indicator，传入内置了圆形的 QyIndicator ，非常轻量，具体可以观看代码，希望大家觉得有用。
 
 ## 效果图
 
-![效果示例](auto3.gif)|
-![效果示例](auto4.gif)|
-![效果示例](auto5.gif)|
+![效果示例](gif/auto3.gif)|
+![效果示例](gif/auto4.gif)|
+![效果示例](gif/auto5.gif)|
 
 
 ## 使用步骤
