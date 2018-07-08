@@ -48,7 +48,7 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
         }
         if (view == null) {
             view = newView(container.getContext(), realPosition);
-            mViewCache.put(realPosition,view);
+            mViewCache.put(realPosition, view);
         }
         container.addView(view);
         return view;
@@ -59,9 +59,9 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
         View view = (View) object;
         container.removeView(view);
         View cacheView = mViewCache.get(position);
-        if(cacheView != null){
+        if (cacheView != null) {
             mViewCache.remove(position);
-            mViews.put(position,view);
+            mViews.put(position, view);
         }
     }
 
@@ -80,7 +80,7 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
     /**
      * 轮播图启动的位置
      */
-    public int startAdapterPosition(int dataPosition) {
+    int startAdapterPosition(int dataPosition) {
         if (isCanLoop()) {
             return getRealCount() * MULTIPLE_COUNT / 2 + dataPosition;
         }
@@ -90,7 +90,7 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
     /**
      * 控制轮播图的范围
      */
-    public int controlAdapterPosition(int adapterPosition) {
+    int controlAdapterPosition(int adapterPosition) {
         if (isCanLoop()) {
             if (adapterPosition > (getRealCount() * MULTIPLE_COUNT * 0.98) || adapterPosition < (getRealCount() * MULTIPLE_COUNT * 0.02)) {
                 return startAdapterPosition(toRealPosition(adapterPosition));

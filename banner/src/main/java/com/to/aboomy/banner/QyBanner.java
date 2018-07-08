@@ -54,6 +54,10 @@ public class QyBanner extends RelativeLayout {
         mViewPager.setPageTransformer(reverseDrawingOrder, transformer);
     }
 
+    public void setAdapter(PagerAdapter adapter) {
+        setAdapter(adapter, null);
+    }
+
     public void setAdapter(PagerAdapter adapter, IQyIndicator iQyIndicator) {
         if (mViewPager != null) {
             mViewPager.setAdapter(adapter);
