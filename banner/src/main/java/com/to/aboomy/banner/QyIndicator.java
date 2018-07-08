@@ -152,13 +152,13 @@ public class QyIndicator extends View implements IQyIndicator, ViewPager.OnPageC
 
     private float indicatorStartX(int index) {
         float padding = ViewCompat.getPaddingStart(this) + indicatorPadding * index + indicatorRadius;
-        if (gravity == Gravity.START) {
-            return padding + indicatorLeftMargin - indicatorRightMargin;
+        if (gravity == Gravity.END) {
+            return getWidth() - indicatorPadding * (adapterCount - 1) - indicatorRadius * 2 + padding - indicatorRightMargin + indicatorLeftMargin;
         }
         if (gravity == Gravity.CENTER) {
-            return getWidth() / 2.0f - indicatorPadding + padding + indicatorLeftMargin - indicatorRightMargin;
+            return getWidth() / 2.0f + padding + (indicatorLeftMargin - indicatorRightMargin) - (indicatorPadding * (adapterCount - 1) / 2.0f - indicatorRadius);
         }
-        return getWidth() - indicatorPadding * 2.0f - indicatorRadius * 2 + padding - indicatorRightMargin + indicatorLeftMargin;
+        return padding + indicatorLeftMargin - indicatorRightMargin;
     }
 
     private float interpolatedOffset() {

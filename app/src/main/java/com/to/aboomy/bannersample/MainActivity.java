@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
         QyIndicator qyIndicator = new QyIndicator(this)
                 .setIndicatorColor(Color.BLACK)
                 .setIndicatorInColor(Color.WHITE)
-                .setIndicatorPadding(24)
-                .setIndicatorRadius(6)
                 .setGravity(Gravity.CENTER);
         banner.setAdapter(bannerAdpter, qyIndicator);
     }
