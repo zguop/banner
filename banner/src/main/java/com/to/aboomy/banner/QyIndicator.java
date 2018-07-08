@@ -31,6 +31,9 @@ public class QyIndicator extends View implements IQyIndicator, ViewPager.OnPageC
     private float indicatorPadding = dip2px(12);
     private int   gravity          = Gravity.START;
 
+    private int indicatorLeftMargin;
+    private int indicatorRightMargin;
+
     private float                       offset;
     private int                         adapterCount;
     private int                         selectedPage;
@@ -63,6 +66,16 @@ public class QyIndicator extends View implements IQyIndicator, ViewPager.OnPageC
 
     public QyIndicator setGravity(int gravity) {
         this.gravity = gravity;
+        return this;
+    }
+
+    public QyIndicator setIndicatorLeftMargin(int indicatorLeftMargin) {
+        this.indicatorLeftMargin = indicatorLeftMargin;
+        return this;
+    }
+
+    public QyIndicator setIndicatorRightMargin(int indicatorRightMargin) {
+        this.indicatorRightMargin = indicatorRightMargin;
         return this;
     }
 
@@ -140,12 +153,12 @@ public class QyIndicator extends View implements IQyIndicator, ViewPager.OnPageC
     private float indicatorStartX(int index) {
         float padding = ViewCompat.getPaddingStart(this) + indicatorPadding * index + indicatorRadius;
         if (gravity == Gravity.START) {
-            return padding;
+            return padding + indicatorLeftMargin - indicatorRightMargin;
         }
         if (gravity == Gravity.CENTER) {
-            return getWidth() / 2.0f - indicatorPadding + padding;
+            return getWidth() / 2.0f - indicatorPadding + padding + indicatorLeftMargin - indicatorRightMargin;
         }
-        return getWidth() - indicatorPadding * 2.0f - indicatorRadius * 2 + padding;
+        return getWidth() - indicatorPadding * 2.0f - indicatorRadius * 2 + padding - indicatorRightMargin + indicatorLeftMargin;
     }
 
     private float interpolatedOffset() {

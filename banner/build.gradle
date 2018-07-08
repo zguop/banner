@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'//需添加的
 apply plugin: 'com.jfrog.bintray'//需添加的
-version = "1.5.1" // 修改为你的版本号
+version = "1.5.3" // 修改为你的版本号
 
 android {
     compileSdkVersion 27
@@ -33,7 +33,7 @@ install {
                 packaging 'aar'
                 // Add your description here
                 description 'android scan qrcode libary'
-                name 'android statusbarUtil'  // 可默认，项目描述
+                name 'android QyBanner'  // 可默认，项目描述
                 url siteUrl
                 // Set your license
                 licenses {
