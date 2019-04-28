@@ -16,7 +16,8 @@ banner View，实现无线轮播功能。自定义transformer 内置了ScalePage
 Gradle 
 ```groovy
 dependencies{
-    compile 'com.to.aboomy:banner:1.6.0'  //最新版本
+    implementation 'com.to.aboomy:banner:1.6.0'  //最新版本
+    implementation 'com.to.aboomy-x:banner:1.6.0' //androidx 版本
 }
 ```
 或者引用本地lib
