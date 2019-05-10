@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
  * auth aboom
  * date 2018/7/7
  */
-public class QyIndicator extends View implements IQyIndicator, ViewPager.OnPageChangeListener {
+public class IndicatorView extends View implements Indicator, ViewPager.OnPageChangeListener {
 
     private final Interpolator interpolator = new DecelerateInterpolator();
 
@@ -39,57 +39,57 @@ public class QyIndicator extends View implements IQyIndicator, ViewPager.OnPageC
     private int                         selectedPage;
     private RelativeLayout.LayoutParams params;
 
-    public QyIndicator(Context context) {
+    public IndicatorView(Context context) {
         this(context, null);
     }
 
-    public QyIndicator(Context context, @Nullable AttributeSet attrs) {
+    public IndicatorView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public QyIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public IndicatorView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         selectedIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         selectorRect = new RectF();
     }
 
-    public QyIndicator setIndicatorRadius(float indicatorRadius) {
+    public IndicatorView setIndicatorRadius(float indicatorRadius) {
         this.indicatorRadius = indicatorRadius;
         return this;
     }
 
-    public QyIndicator setIndicatorPadding(float indicatorPadding) {
+    public IndicatorView setIndicatorPadding(float indicatorPadding) {
         this.indicatorPadding = indicatorPadding;
         return this;
     }
 
-    public QyIndicator setGravity(int gravity) {
+    public IndicatorView setGravity(int gravity) {
         this.gravity = gravity;
         return this;
     }
 
-    public QyIndicator setIndicatorLeftMargin(int indicatorLeftMargin) {
+    public IndicatorView setIndicatorLeftMargin(int indicatorLeftMargin) {
         this.indicatorLeftMargin = indicatorLeftMargin;
         return this;
     }
 
-    public QyIndicator setIndicatorRightMargin(int indicatorRightMargin) {
+    public IndicatorView setIndicatorRightMargin(int indicatorRightMargin) {
         this.indicatorRightMargin = indicatorRightMargin;
         return this;
     }
 
-    public QyIndicator setIndicatorColor(int indicatorColor) {
+    public IndicatorView setIndicatorColor(int indicatorColor) {
         this.indicatorPaint.setColor(indicatorColor);
         return this;
     }
 
-    public QyIndicator setIndicatorInColor(int indicatorInColor) {
+    public IndicatorView setIndicatorInColor(int indicatorInColor) {
         this.selectedIndicatorPaint.setColor(indicatorInColor);
         return this;
     }
 
-    public QyIndicator setParams(RelativeLayout.LayoutParams params) {
+    public IndicatorView setParams(RelativeLayout.LayoutParams params) {
         this.params = params;
         return this;
     }
@@ -97,8 +97,8 @@ public class QyIndicator extends View implements IQyIndicator, ViewPager.OnPageC
 
     @Override
     public void setViewPager(ViewPager viewPager) {
-        if (viewPager instanceof QyViewPager) {
-            QyViewPager qyViewPager = (QyViewPager) viewPager;
+        if (viewPager instanceof LoopViewPager) {
+            LoopViewPager qyViewPager = (LoopViewPager) viewPager;
             this.adapterCount = qyViewPager.getPageCount();
             qyViewPager.addPageChangeListener(this);
         }

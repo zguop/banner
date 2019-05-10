@@ -1,15 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:background="@color/colorAccent"
-                                             tools:context=".MainActivity">
 
-    <com.to.aboomy.banner.QyBanner
-        android:id="@+id/banner"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+        <com.to.aboomy.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"/>
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:id="@+id/view2"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+
+    </LinearLayout>
+
+</ScrollView>

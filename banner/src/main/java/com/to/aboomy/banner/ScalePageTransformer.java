@@ -24,10 +24,10 @@ public class ScalePageTransformer implements ViewPager.PageTransformer {
                 : ((SCALE_MAX - 1) * position + 1);
         if (position < 0) {
             page.setPivotX(page.getWidth());
-            page.setPivotY(page.getHeight() / 2);
+            page.setPivotY(page.getHeight() >> 1);
         } else {
             page.setPivotX(0);
-            page.setPivotY(page.getHeight() / 2);
+            page.setPivotY(page.getHeight() >> 1);
         }
         page.setScaleX(scale);
         page.setScaleY(scale);

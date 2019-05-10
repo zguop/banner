@@ -6,32 +6,25 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import java.lang.ref.WeakReference;
-
 /**
  * Created by waitou on 17/2/12.
  */
 
-public class QyViewPager extends ViewPager {
+public class LoopViewPager extends ViewPager {
 
     private OnPageChangeListener mOuterPageChangeListener;
 
-    private QyPagerAdapter mAdapter;
+    private LoopPagerAdapter mAdapter;
 
-    private AdSwitchTask mAdSwitchTask;
+    private long    autoTurningTime = 2500;
+    private boolean isCanLoop       = Boolean.TRUE;
 
-    private boolean turning; //是否正在翻页
-    private long autoTurningTime = 2_500;
-    private boolean isCanLoop = Boolean.TRUE;
-
-    public QyViewPager(Context context) {
+    public LoopViewPager(Context context) {
         this(context, null);
     }
 
-    public QyViewPager(Context context, AttributeSet attrs) {
+    public LoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        mAdSwitchTask = new AdSwitchTask(this);
 
         super.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
@@ -75,13 +68,13 @@ public class QyViewPager extends ViewPager {
     }
 
     public void setAdapter(PagerAdapter adapter) {
-        mAdapter = (QyPagerAdapter) adapter;
+        mAdapter = (LoopPagerAdapter) adapter;
         mAdapter.setCanLoop(isCanLoop && mAdapter.getRealCount() != 1);
         super.setAdapter(mAdapter);
         setCurrentItem(mAdapter.startAdapterPosition(0), false);
     }
 
-    public void setCanLoop(boolean isCanLoop){
+    public void setCanLoop(boolean isCanLoop) {
         this.isCanLoop = isCanLoop;
     }
 
@@ -107,6 +100,9 @@ public class QyViewPager extends ViewPager {
         super.onDetachedFromWindow();
         if (isCanLoop()) {
             stopTurning();
+            // 处理 RecyclerView 中从对用户不可见变为可见时卡顿的问题
+            setCurrentItem(getCurrentItem() - 1);
+            setCurrentItem(getCurrentItem() + 1);
         }
     }
 
@@ -119,54 +115,35 @@ public class QyViewPager extends ViewPager {
     }
 
 
-    private void startTurning() {
-        if (turning) {
-            stopTurning();
-        }
-        turning = true;
-        postDelayed(mAdSwitchTask, autoTurningTime);
+    public void startTurning() {
+        stopTurning();
+        postDelayed(task, autoTurningTime);
     }
 
-    private void stopTurning() {
-        turning = false;
-        removeCallbacks(mAdSwitchTask);
+    public void stopTurning() {
+        removeCallbacks(task);
     }
 
-    private static class AdSwitchTask implements Runnable {
-
-        private final WeakReference<QyViewPager> reference;
-
-        AdSwitchTask(QyViewPager qyViewPager) {
-            this.reference = new WeakReference<>(qyViewPager);
-        }
-
+    private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            QyViewPager qyViewPager = reference.get();
-            if (qyViewPager == null) {
-                return;
-            }
-            if (qyViewPager.turning) {
-                int page = qyViewPager.getCurrentItem() + 1;
-                qyViewPager.setCurrentItem(page);
-                qyViewPager.startTurning();
+            if (isCanLoop()) {
+                setCurrentItem(getCurrentItem() + 1, true);
+                postDelayed(task, autoTurningTime);
             }
         }
-    }
-
+    };
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        final int action = ev.getAction();
-        if (isCanLoop() && action == MotionEvent.ACTION_DOWN) {
-            stopTurning();
-        }
-        if (isCanLoop() && action == MotionEvent.ACTION_UP) {
-            startTurning();
-        }
-
-        if (isCanLoop() && action == MotionEvent.ACTION_CANCEL) {
-            startTurning();
+        if (isCanLoop()) {
+            int action = ev.getAction();
+            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL
+                    || action == MotionEvent.ACTION_OUTSIDE) {
+                startTurning();
+            } else if (action == MotionEvent.ACTION_DOWN) {
+                stopTurning();
+            }
         }
         return super.dispatchTouchEvent(ev);
     }

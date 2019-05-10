@@ -16,7 +16,7 @@ banner View，实现无线轮播功能。自定义transformer 内置了ScalePage
 Gradle 
 ```groovy
 dependencies{
-    implementation 'com.to.aboomy:banner:2.1.0'  //最新版本
+    implementation 'com.to.aboomy:banner:2.1.2'  //最新版本
     implementation 'com.to.aboomy:banner:2.1.1' //androidx 版本
 }
 ```
@@ -28,7 +28,7 @@ compile project(':banner')
 
 #### Step 2.在布局文件中添加Banner
 ```xml
-    <com.to.aboomy.banner.QyBanner
+    <com.to.aboomy.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="250dp"/>
@@ -36,8 +36,8 @@ compile project(':banner')
 
 #### Step 3.自定义adapter
 ```java
-//实现 QyPagerAdapter
-public class BannerAdapter extends QyPagerAdapter<Integer> {
+//实现 PagerAdapter
+public class BannerAdapter extends LoopPagerAdapter<Integer> {
 
     public BannerAdapter(List<Integer> data) {
         super(data);
@@ -78,14 +78,14 @@ public class BannerAdapter extends QyPagerAdapter<Integer> {
         banner.setPageTransformer(true, new ScalePageTransformer(0.8f));
         BannerAdapter bannerAdpter = new BannerAdapter(list);
         //内置的qyIndicator 开发可以自定义 Indicator 实现 IQyIndicator 即可
-        QyIndicator qyIndicator = new QyIndicator(this)
+        Indicator indicator = new IndicatorView(this)
                 .setIndicatorColor(Color.BLACK)
                 .setIndicatorInColor(Color.WHITE)
                 .setIndicatorPadding(24)
                 .setIndicatorRadius(6)
                 .setGravity(Gravity.CENTER);
         //设置到banner上 Indicator 传入null 默认不显示
-        banner.setAdapter(bannerAdpter, qyIndicator);
+        banner.setAdapter(bannerAdpter, indicator);
     }
 ```
 

@@ -13,7 +13,7 @@ import java.util.List;
  * Created by waitou on 17/2/12.
  */
 
-public abstract class QyPagerAdapter<T> extends PagerAdapter {
+public abstract class LoopPagerAdapter<T> extends PagerAdapter {
 
     private static final int MULTIPLE_COUNT = 600;
 
@@ -22,7 +22,7 @@ public abstract class QyPagerAdapter<T> extends PagerAdapter {
     private   SparseArray<View> mViewCache;
     private   boolean           isCanLoop;
 
-    public QyPagerAdapter(List<T> data) {
+    public LoopPagerAdapter(List<T> data) {
         mData = data;
         mViews = new SparseArray<>();
         mViewCache = new SparseArray<>();

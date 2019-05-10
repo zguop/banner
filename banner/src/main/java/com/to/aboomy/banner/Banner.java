@@ -16,22 +16,22 @@ import java.lang.reflect.Field;
  * auth aboom by 2018/2/25.
  */
 
-public class QyBanner extends RelativeLayout {
+public class Banner extends RelativeLayout {
 
-    private QyViewPager  mViewPager;
-    private IQyIndicator mIndicator;
-    private boolean      isSetAdapter;
+    private LoopViewPager mViewPager;
+    private Indicator     mIndicator;
+    private boolean       isSetAdapter;
 
-    public QyBanner(Context context) {
+    public Banner(Context context) {
         this(context, null);
     }
 
-    public QyBanner(Context context, AttributeSet attrs) {
+    public Banner(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public QyBanner(Context context, AttributeSet attrs, int defStyleAttr) {
+    public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setClipChildren(Boolean.FALSE);
         initViews(context);
@@ -39,7 +39,7 @@ public class QyBanner extends RelativeLayout {
     }
 
     private void initViews(Context context) {
-        mViewPager = new QyViewPager(context);
+        mViewPager = new LoopViewPager(context);
         mViewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         addView(mViewPager);
     }
@@ -55,11 +55,11 @@ public class QyBanner extends RelativeLayout {
         mViewPager.setPageTransformer(reverseDrawingOrder, transformer);
     }
 
-    public void setIndicator(IQyIndicator iQyIndicator) {
+    public void setIndicator(Indicator indicator) {
         if (mIndicator != null) {
             removeView(mIndicator.getView());
         }
-        mIndicator = iQyIndicator;
+        mIndicator = indicator;
     }
 
     public void setAdapter(PagerAdapter adapter) {
@@ -75,8 +75,12 @@ public class QyBanner extends RelativeLayout {
         isSetAdapter = true;
     }
 
-    public QyViewPager getViewPager() {
+    public LoopViewPager getViewPager() {
         return mViewPager;
+    }
+
+    public boolean isSetAdapter() {
+        return isSetAdapter;
     }
 
     private void initViewPagerScroll() {
@@ -92,9 +96,5 @@ public class QyBanner extends RelativeLayout {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
-
-    public boolean isSetAdapter() {
-        return isSetAdapter;
     }
 }

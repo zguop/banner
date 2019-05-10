@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.to.aboomy.banner.QyPagerAdapter;
+import com.to.aboomy.banner.LoopPagerAdapter;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * auth aboom
  * date 2018/6/21
  */
-public class BannerAdapter extends QyPagerAdapter<Integer> {
+public class BannerAdapter extends LoopPagerAdapter<Integer> {
 
     public BannerAdapter(List<Integer> data) {
         super(data);
