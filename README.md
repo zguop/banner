@@ -1,7 +1,7 @@
 # Android轮播控件
 
 banner View，实现无线轮播功能。自定义transformer 内置了ScalePageTransformer，见效果图，
-可以自定义indicator，传入内置了圆形的 QyIndicator ，非常轻量，具体可以观看代码，希望大家觉得有用。
+可以自定义indicator，传入内置了圆形的 IndicatorView ，非常轻量，具体可以观看代码，希望大家觉得有用。
 
 ## 效果图
 
@@ -77,7 +77,7 @@ public class BannerAdapter extends LoopPagerAdapter<Integer> {
         //使用内置的ScalePageTransformer
         banner.setPageTransformer(true, new ScalePageTransformer(0.8f));
         BannerAdapter bannerAdpter = new BannerAdapter(list);
-        //内置的qyIndicator 开发可以自定义 Indicator 实现 IQyIndicator 即可
+        //内置的qyIndicator 开发可以自定义 Indicator 实现 Indicator接口即可
         Indicator indicator = new IndicatorView(this)
                 .setIndicatorColor(Color.BLACK)
                 .setIndicatorInColor(Color.WHITE)
