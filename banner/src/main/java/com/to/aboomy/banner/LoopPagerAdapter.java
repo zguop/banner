@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -54,7 +53,6 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         int realPosition = toRealPosition(position);
-        Log.e("aa", " position = " + position + " realPosition = " + realPosition);
         currentPostion = realPosition;
         View view = mViews.get(realPosition);
         if (view == null) {
