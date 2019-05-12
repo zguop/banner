@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 
 public class LoopViewPager extends ViewPager {
 
+
     private OnPageChangeListener mOuterPageChangeListener;
 
     private LoopPagerAdapter mAdapter;
@@ -69,7 +70,7 @@ public class LoopViewPager extends ViewPager {
 
     public void setAdapter(PagerAdapter adapter) {
         mAdapter = (LoopPagerAdapter) adapter;
-        mAdapter.setCanLoop(isCanLoop && mAdapter.getRealCount() != 1);
+        mAdapter.setLoopViewPager(this);
         super.setAdapter(mAdapter);
         setCurrentItem(mAdapter.startAdapterPosition(0), false);
     }
@@ -114,7 +115,6 @@ public class LoopViewPager extends ViewPager {
         }
     }
 
-
     public void startTurning() {
         stopTurning();
         postDelayed(task, autoTurningTime);
@@ -146,5 +146,9 @@ public class LoopViewPager extends ViewPager {
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    public long getAutoTurningTime() {
+        return autoTurningTime;
     }
 }

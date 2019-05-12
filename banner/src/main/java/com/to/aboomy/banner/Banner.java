@@ -1,8 +1,6 @@
 package com.to.aboomy.banner;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -30,7 +28,6 @@ public class Banner extends RelativeLayout {
         this(context, attrs, 0);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setClipChildren(Boolean.FALSE);
@@ -41,6 +38,7 @@ public class Banner extends RelativeLayout {
     private void initViews(Context context) {
         mViewPager = new LoopViewPager(context);
         mViewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        mViewPager.setOffscreenPageLimit(1);
         addView(mViewPager);
     }
 
@@ -95,6 +93,15 @@ public class Banner extends RelativeLayout {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void indicatorLoop(){
+        if(mViewPager.getAdapter() != null){
+            View view = mIndicator.getView();
+            view.setLayoutParams(mIndicator.getParams());
+            mIndicator.setViewPager(mViewPager);
+            addView(view);
         }
     }
 }

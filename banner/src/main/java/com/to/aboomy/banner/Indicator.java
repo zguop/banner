@@ -1,6 +1,5 @@
 package com.to.aboomy.banner;
 
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -11,7 +10,7 @@ import android.widget.RelativeLayout;
  */
 public interface Indicator {
 
-    void setViewPager(ViewPager viewPager);
+    void setViewPager(LoopViewPager viewPager);
 
     View getView();
 

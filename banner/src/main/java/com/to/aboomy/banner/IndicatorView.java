@@ -15,6 +15,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 
+import java.lang.ref.WeakReference;
+
 /**
  * auth aboom
  * date 2018/7/7
@@ -34,10 +36,10 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
     private int indicatorLeftMargin;
     private int indicatorRightMargin;
 
-    private float                       offset;
-    private int                         adapterCount;
-    private int                         selectedPage;
-    private RelativeLayout.LayoutParams params;
+    private float                        offset;
+    private int                          selectedPage;
+    private RelativeLayout.LayoutParams  params;
+    private WeakReference<LoopViewPager> loopViewPagerWeakReference;
 
     public IndicatorView(Context context) {
         this(context, null);
@@ -96,13 +98,10 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
 
 
     @Override
-    public void setViewPager(ViewPager viewPager) {
-        if (viewPager instanceof LoopViewPager) {
-            LoopViewPager qyViewPager = (LoopViewPager) viewPager;
-            this.adapterCount = qyViewPager.getPageCount();
-            qyViewPager.addPageChangeListener(this);
-        }
-        setVisibility(adapterCount > 1 ? VISIBLE : GONE);
+    public void setViewPager(LoopViewPager viewPager) {
+        loopViewPagerWeakReference = new WeakReference<>(viewPager);
+        viewPager.addPageChangeListener(this);
+        setVisibility(viewPager.getPageCount() > 1 ? VISIBLE : GONE);
     }
 
     @Override
@@ -129,13 +128,18 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        LoopViewPager loopViewPager = loopViewPagerWeakReference.get();
+        if (loopViewPager == null) {
+            return;
+        }
         float midY = getHeight() / 2f;
+        int adapterCount = loopViewPager.getPageCount();
         for (int i = 0; i < adapterCount; i++) {
-            float startCx = indicatorStartX(i);
+            float startCx = indicatorStartX(adapterCount, i);
             canvas.drawCircle(startCx, midY, indicatorRadius, indicatorPaint);
         }
-        float extStart = indicatorStartX(selectedPage) + Math.max(indicatorPadding * (interpolatedOffset() - 0.5f) * 2, 0);
-        float extenderEnd = indicatorStartX(selectedPage) + Math.min(indicatorPadding * interpolatedOffset() * 2, indicatorPadding);
+        float extStart = indicatorStartX(adapterCount, selectedPage) + Math.max(indicatorPadding * (interpolatedOffset() - 0.5f) * 2, 0);
+        float extenderEnd = indicatorStartX(adapterCount, selectedPage) + Math.min(indicatorPadding * interpolatedOffset() * 2, indicatorPadding);
         selectorRect.set(extStart - indicatorRadius, midY - indicatorRadius, extenderEnd + indicatorRadius, midY + indicatorRadius);
         canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
 //        mPath.reset();
@@ -150,7 +154,7 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
 //        canvas.drawCircle(extStart, midY, indicatorRadius, selectedIndicatorPaint);
     }
 
-    private float indicatorStartX(int index) {
+    private float indicatorStartX(int adapterCount, int index) {
         float padding = ViewCompat.getPaddingStart(this) + indicatorPadding * index + indicatorRadius;
         if (gravity == Gravity.END) {
             return getWidth() - indicatorPadding * (adapterCount - 1) - indicatorRadius * 2 + padding - indicatorRightMargin + indicatorLeftMargin;
