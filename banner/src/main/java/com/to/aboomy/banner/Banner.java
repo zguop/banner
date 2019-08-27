@@ -17,8 +17,8 @@ import java.lang.reflect.Field;
 public class Banner extends RelativeLayout {
 
     private LoopViewPager mViewPager;
-    private Indicator     mIndicator;
-    private boolean       isSetAdapter;
+    private Indicator mIndicator;
+    private boolean isSetAdapter;
 
     public Banner(Context context) {
         this(context, null);
@@ -58,16 +58,19 @@ public class Banner extends RelativeLayout {
             removeView(mIndicator.getView());
         }
         mIndicator = indicator;
+        View view = mIndicator.getView();
+        addView(view, mIndicator.getParams());
     }
 
     public void setAdapter(PagerAdapter adapter) {
+        setAdapter(adapter, true);
+    }
+
+    public void setAdapter(PagerAdapter adapter, boolean isCanLoop) {
         if (mViewPager != null) {
-            mViewPager.setAdapter(adapter);
+            mViewPager.setAdapter(adapter, isCanLoop);
             if (mIndicator != null) {
-                View view = mIndicator.getView();
-                view.setLayoutParams(mIndicator.getParams());
                 mIndicator.setViewPager(mViewPager);
-                addView(view);
             }
         }
         isSetAdapter = true;
@@ -93,15 +96,6 @@ public class Banner extends RelativeLayout {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void indicatorLoop(){
-        if(mViewPager.getAdapter() != null){
-            View view = mIndicator.getView();
-            view.setLayoutParams(mIndicator.getParams());
-            mIndicator.setViewPager(mViewPager);
-            addView(view);
         }
     }
 }

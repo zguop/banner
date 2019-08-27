@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -19,20 +18,10 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
 
     private static final int MULTIPLE_COUNT = 600;
 
-    protected List<T> mData;
-
-    private WeakReference<LoopViewPager> loopViewPagerWeakReference;
+    private List<T> mData;
 
     private SparseArrayCompat<View> mViews;
     private boolean                 isCanLoop;
-
-    private int currentPostion;
-
-    public void setLoopViewPager(LoopViewPager loopViewPager) {
-        isCanLoop = getRealCount() > 1;
-        loopViewPager.setCanLoop(isCanLoop);
-        loopViewPagerWeakReference = new WeakReference<>(loopViewPager);
-    }
 
     public LoopPagerAdapter(List<T> data) {
         mData = data;
@@ -53,7 +42,6 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         int realPosition = toRealPosition(position);
-        currentPostion = realPosition;
         View view = mViews.get(realPosition);
         if (view == null) {
             view = newView(container.getContext(), realPosition, mData.get(realPosition));
@@ -86,29 +74,6 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
         return dataPosition;
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        if (loopViewPagerWeakReference.get() == null) {
-            return;
-        }
-        final LoopViewPager loopViewPager = loopViewPagerWeakReference.get();
-        loopViewPager.stopTurning();
-        isCanLoop = mData.size() > 1;
-        super.notifyDataSetChanged();
-        if (mViews.size() > mData.size()) {
-            mViews.clear();
-        }
-        loopViewPager.setCanLoop(isCanLoop);
-        if (!isCanLoop) {
-            loopViewPager.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    loopViewPager.setCurrentItem(0, false);
-                }
-            }, loopViewPager.getAutoTurningTime());
-        }
-    }
-
     /**
      * 控制轮播图的范围
      */
@@ -119,6 +84,10 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
             }
         }
         return adapterPosition;
+    }
+
+    void setCanLoop(boolean isCanLoop){
+        this.isCanLoop = isCanLoop;
     }
 
     public int toRealPosition(int position) {

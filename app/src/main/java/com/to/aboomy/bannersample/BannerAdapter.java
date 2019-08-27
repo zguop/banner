@@ -1,7 +1,6 @@
 package com.to.aboomy.bannersample;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ public class BannerAdapter extends LoopPagerAdapter<String> {
 
     @Override
     protected View newView(final Context context, final int realPosition, String t) {
-        Log.e("aa" , " newView realPosition" + realPosition + " t = " + t );
         ImageView iv = new ImageView(context);
         iv.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(iv).load(t).into(iv);

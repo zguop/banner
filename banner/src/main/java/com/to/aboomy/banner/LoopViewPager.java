@@ -12,13 +12,11 @@ import android.view.MotionEvent;
 
 public class LoopViewPager extends ViewPager {
 
-
     private OnPageChangeListener mOuterPageChangeListener;
-
     private LoopPagerAdapter mAdapter;
 
-    private long    autoTurningTime = 2500;
-    private boolean isCanLoop       = Boolean.TRUE;
+    private long autoTurningTime = 2500;
+    private boolean isCanLoop;
 
     public LoopViewPager(Context context) {
         this(context, null);
@@ -68,15 +66,13 @@ public class LoopViewPager extends ViewPager {
         });
     }
 
-    public void setAdapter(PagerAdapter adapter) {
+    public void setAdapter(PagerAdapter adapter, boolean isCanLoop) {
         mAdapter = (LoopPagerAdapter) adapter;
-        mAdapter.setLoopViewPager(this);
+        this.isCanLoop = isCanLoop && getPageCount() > 1;
+        mAdapter.setCanLoop(isCanLoop());
+        int dataPosition = mAdapter.toRealPosition(getCurrentItem());
         super.setAdapter(mAdapter);
-        setCurrentItem(mAdapter.startAdapterPosition(0), false);
-    }
-
-    public void setCanLoop(boolean isCanLoop) {
-        this.isCanLoop = isCanLoop;
+        setCurrentItem(mAdapter.startAdapterPosition(dataPosition), false);
     }
 
     public boolean isCanLoop() {
@@ -94,7 +90,6 @@ public class LoopViewPager extends ViewPager {
     public int getPageCount() {
         return mAdapter.getRealCount();
     }
-
 
     @Override
     protected void onDetachedFromWindow() {
