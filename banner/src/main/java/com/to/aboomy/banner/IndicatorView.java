@@ -128,6 +128,9 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (loopViewPagerWeakReference == null) {
+            return;
+        }
         LoopViewPager loopViewPager = loopViewPagerWeakReference.get();
         if (loopViewPager == null) {
             return;

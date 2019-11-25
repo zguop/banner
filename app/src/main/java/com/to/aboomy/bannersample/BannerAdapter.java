@@ -23,6 +23,7 @@ public class BannerAdapter extends LoopPagerAdapter<String> {
     @Override
     protected View newView(final Context context, final int realPosition, String t) {
         ImageView iv = new ImageView(context);
+        iv.setPadding(80,80,80,80);
         iv.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(iv).load(t).into(iv);
         iv.setOnClickListener(new View.OnClickListener() {

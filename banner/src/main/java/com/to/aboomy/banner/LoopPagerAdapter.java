@@ -6,7 +6,6 @@ import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import java.util.List;
 
@@ -21,11 +20,16 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
     private List<T> mData;
 
     private SparseArrayCompat<View> mViews;
-    private boolean                 isCanLoop;
+    private SparseArrayCompat<View> mViewCache;
+
+    private boolean isCanLoop;
 
     public LoopPagerAdapter(List<T> data) {
         mData = data;
         mViews = new SparseArrayCompat<>();
+        if (data.size() == 2) {
+            mViewCache = new SparseArrayCompat<>();
+        }
     }
 
     @Override
@@ -42,14 +46,24 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         int realPosition = toRealPosition(position);
-        View view = mViews.get(realPosition);
-        if (view == null) {
-            view = newView(container.getContext(), realPosition, mData.get(realPosition));
-            mViews.put(realPosition, view);
+        View view = null;
+        if (mViewCache != null) {
+            int i = mViewCache.indexOfKey(realPosition);
+            if (i < 0) {
+                view = newView(container.getContext(), realPosition, mData.get(realPosition));
+                mViewCache.put(realPosition, view);
+            }
         }
-        ViewParent viewParent = view.getParent();
-        if (viewParent != null) {
-            ((ViewGroup) viewParent).removeView(view);
+        if (view == null) {
+            view = mViews.get(realPosition);
+            if (view == null) {
+                view = newView(container.getContext(), realPosition, mData.get(realPosition));
+                mViews.put(realPosition, view);
+            }
+        }
+
+        if (view.getParent() != null) {
+            ((ViewGroup) view.getParent()).removeView(view);
         }
         container.addView(view);
         return view;
@@ -57,8 +71,18 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        if (mViewCache != null) {
+            int realPosition = toRealPosition(position);
+            View view = mViews.get(realPosition);
+            if (view != null) {
+                View cacheView = mViewCache.get(realPosition);
+                if (cacheView != null) {
+                    mViews.put(realPosition, cacheView);
+                    mViewCache.put(realPosition, view);
+                }
+            }
+        }
     }
-
 
     public int getRealCount() {
         return mData.size();
@@ -86,7 +110,7 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
         return adapterPosition;
     }
 
-    void setCanLoop(boolean isCanLoop){
+    void setCanLoop(boolean isCanLoop) {
         this.isCanLoop = isCanLoop;
     }
 

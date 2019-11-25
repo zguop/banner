@@ -2,6 +2,7 @@ package com.to.aboomy.banner;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -13,9 +14,9 @@ import android.view.MotionEvent;
 public class LoopViewPager extends ViewPager {
 
     private OnPageChangeListener mOuterPageChangeListener;
-    private LoopPagerAdapter mAdapter;
+    private LoopPagerAdapter     mAdapter;
 
-    private long autoTurningTime = 2500;
+    private long    autoTurningTime = 2500;
     private boolean isCanLoop;
 
     public LoopViewPager(Context context) {
@@ -73,6 +74,9 @@ public class LoopViewPager extends ViewPager {
         int dataPosition = mAdapter.toRealPosition(getCurrentItem());
         super.setAdapter(mAdapter);
         setCurrentItem(mAdapter.startAdapterPosition(dataPosition), false);
+        if (ViewCompat.isAttachedToWindow(this)) {
+            startTurning();
+        }
     }
 
     public boolean isCanLoop() {
