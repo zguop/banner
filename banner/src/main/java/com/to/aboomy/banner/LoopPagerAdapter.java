@@ -46,22 +46,15 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         int realPosition = toRealPosition(position);
-        View view = null;
-        if (mViewCache != null) {
-            int i = mViewCache.indexOfKey(realPosition);
-            if (i < 0) {
-                view = newView(container.getContext(), realPosition, mData.get(realPosition));
-                mViewCache.put(realPosition, view);
-            }
+        View view = mViews.get(realPosition);
+        if (view != null && mViewCache != null && mViewCache.indexOfKey(realPosition) < 0) {
+            view = newView(container.getContext(), realPosition, mData.get(realPosition));
+            mViewCache.put(realPosition, view);
         }
         if (view == null) {
-            view = mViews.get(realPosition);
-            if (view == null) {
-                view = newView(container.getContext(), realPosition, mData.get(realPosition));
-                mViews.put(realPosition, view);
-            }
+            view = newView(container.getContext(), realPosition, mData.get(realPosition));
+            mViews.put(realPosition, view);
         }
-
         if (view.getParent() != null) {
             ((ViewGroup) view.getParent()).removeView(view);
         }
@@ -73,12 +66,14 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (mViewCache != null) {
             int realPosition = toRealPosition(position);
-            View view = mViews.get(realPosition);
-            if (view != null) {
-                View cacheView = mViewCache.get(realPosition);
-                if (cacheView != null) {
-                    mViews.put(realPosition, cacheView);
-                    mViewCache.put(realPosition, view);
+            if (mViewCache.containsValue((View) object)) {
+                View view = mViews.get(realPosition);
+                if (view != null) {
+                    View cacheView = mViewCache.get(realPosition);
+                    if (cacheView != null) {
+                        mViews.put(realPosition, cacheView);
+                        mViewCache.put(realPosition, view);
+                    }
                 }
             }
         }
