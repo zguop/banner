@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.to.aboomy.banner.LoopPagerAdapter;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
  * auth aboom
  * date 2018/6/21
  */
-public class BannerAdapter extends LoopPagerAdapter<String> {
+public class BannerAdapter extends com.to.aboomy.banner.BannerAdapter<String> {
 
     public BannerAdapter(List<String> data) {
         super(data);

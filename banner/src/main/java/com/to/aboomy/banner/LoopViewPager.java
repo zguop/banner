@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 public class LoopViewPager extends ViewPager {
 
     private OnPageChangeListener mOuterPageChangeListener;
-    private LoopPagerAdapter     mAdapter;
+    private BannerAdapter mAdapter;
 
     private long    autoTurningTime = 2500;
     private boolean isCanLoop;
@@ -68,7 +68,7 @@ public class LoopViewPager extends ViewPager {
     }
 
     public void setAdapter(PagerAdapter adapter, boolean isCanLoop) {
-        mAdapter = (LoopPagerAdapter) adapter;
+        mAdapter = (BannerAdapter) adapter;
         this.isCanLoop = isCanLoop && getPageCount() > 1;
         mAdapter.setCanLoop(isCanLoop());
         int dataPosition = mAdapter.toRealPosition(getCurrentItem());
