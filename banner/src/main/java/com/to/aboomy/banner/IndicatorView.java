@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -15,13 +14,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 
-import java.lang.ref.WeakReference;
-
 /**
  * auth aboom
  * date 2018/7/7
  */
-public class IndicatorView extends View implements Indicator, ViewPager.OnPageChangeListener {
+public class IndicatorView extends View implements Indicator {
 
     private final Interpolator interpolator = new DecelerateInterpolator();
 
@@ -29,17 +26,17 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
     private final Paint indicatorPaint;
     private final RectF selectorRect;
 
-    private float indicatorRadius  = dip2px(3.5f);
+    private float indicatorRadius = dip2px(3.5f);
     private float indicatorPadding = dip2px(12);
-    private int   gravity          = Gravity.START;
+    private int gravity = Gravity.START;
 
     private int indicatorLeftMargin;
     private int indicatorRightMargin;
 
-    private float                        offset;
-    private int                          selectedPage;
-    private RelativeLayout.LayoutParams  params;
-    private WeakReference<LoopViewPager> loopViewPagerWeakReference;
+    private float offset;
+    private int selectedPage;
+    private RelativeLayout.LayoutParams params;
+    private int pagerCount;
 
     public IndicatorView(Context context) {
         this(context, null);
@@ -96,12 +93,11 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
         return this;
     }
 
-
     @Override
-    public void setViewPager(LoopViewPager viewPager) {
-        loopViewPagerWeakReference = new WeakReference<>(viewPager);
-        viewPager.addPageChangeListener(this);
-        setVisibility(viewPager.getPageCount() > 1 ? VISIBLE : GONE);
+    public void initIndicatorCount(int pagerCount) {
+        this.pagerCount = pagerCount;
+        setVisibility(pagerCount > 1 ? VISIBLE : GONE);
+        invalidate();
     }
 
     @Override
@@ -128,15 +124,11 @@ public class IndicatorView extends View implements Indicator, ViewPager.OnPageCh
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (loopViewPagerWeakReference == null) {
-            return;
-        }
-        LoopViewPager loopViewPager = loopViewPagerWeakReference.get();
-        if (loopViewPager == null) {
+        if (pagerCount == 0) {
             return;
         }
         float midY = getHeight() / 2f;
-        int adapterCount = loopViewPager.getPageCount();
+        int adapterCount = pagerCount;
         for (int i = 0; i < adapterCount; i++) {
             float startCx = indicatorStartX(adapterCount, i);
             canvas.drawCircle(startCx, midY, indicatorRadius, indicatorPaint);

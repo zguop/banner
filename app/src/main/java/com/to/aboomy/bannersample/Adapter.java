@@ -62,7 +62,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         itemView.setPageMargins(dp2px(30f), dp2px(10f), dp2px(30f), dp2px(20f), dp2px(10f));
         itemView.setPageTransformer(true, new ScalePageTransformer(0.8f));
         itemView.setIndicator(qyIndicator);
-        itemView.setAdapter(new BannerAdapter(list));
+//        itemView.setAdapter(new BannerAdapter(list));
     }
 
     public static int dp2px(final float dpValue) {
