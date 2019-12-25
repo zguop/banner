@@ -6,6 +6,26 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 public class BannerViewPager extends ViewPager {
+    /**
+     * 最小拖动距离
+     */
+    private final static int SCALED_TOUCH_SLOP = 8;
+    /**
+     * 记录view停止滑动的X位置
+     */
+    private float lastX;
+    /**
+     * 记录view停止滑动的Y位置
+     */
+    private float lastY;
+    /**
+     * 记录拖动初始位置X坐标
+     */
+    private float startX;
+    /**
+     * 记录拖动初始位置Y坐标
+     */
+    private float startY;
 
     private boolean scrollable = true;
 
@@ -22,15 +42,31 @@ public class BannerViewPager extends ViewPager {
         try {
             return this.scrollable && super.onTouchEvent(ev);
         } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         try {
-            return this.scrollable && super.onInterceptTouchEvent(ev);
+            if (scrollable) {
+                return super.onInterceptTouchEvent(ev);
+            }
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startX = lastX = ev.getRawX();
+                    startY = lastY = ev.getRawY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    lastX = ev.getRawX();
+                    lastY = ev.getRawY();
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    return !(Math.abs(lastX - startX) <= SCALED_TOUCH_SLOP) || !(Math.abs(lastY - startY) <= SCALED_TOUCH_SLOP);
+                default:
+                    break;
+            }
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();
         }
@@ -40,5 +76,4 @@ public class BannerViewPager extends ViewPager {
     public void setScrollable(boolean scrollable) {
         this.scrollable = scrollable;
     }
-
 }

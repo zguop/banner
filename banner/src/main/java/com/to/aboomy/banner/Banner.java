@@ -26,9 +26,9 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private ViewPager.OnPageChangeListener mOuterPageChangeListener;
     private HolderCreator holderCreator;
     private BannerViewPager mViewPager;
+    private PagerAdapter mAdapter;
     private List<View> mViews;
     private Indicator mIndicator;
-    private PagerAdapter mAdapter;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
     private boolean isCanLoop;
 
