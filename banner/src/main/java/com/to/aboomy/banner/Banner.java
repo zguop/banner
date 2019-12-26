@@ -23,14 +23,14 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private static final int NORMAL_COUNT = 2;
     private static final int MULTIPLE_COUNT = 4;
 
-    private ViewPager.OnPageChangeListener mOuterPageChangeListener;
+    private ViewPager.OnPageChangeListener outerPageChangeListener;
     private HolderCreator holderCreator;
-    private BannerViewPager mViewPager;
-    private PagerAdapter mAdapter;
-    private List<View> mViews;
-    private Indicator mIndicator;
-    private long autoTurningTime = DEFAULT_AUTO_TIME;
+    private BannerViewPager viewPager;
+    private PagerAdapter adapter;
+    private List<View> views;
+    private Indicator indicator;
     private boolean isCanLoop;
+    private long autoTurningTime = DEFAULT_AUTO_TIME;
 
     /**
      * 实际数量
@@ -55,44 +55,49 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mViews = new ArrayList<>();
+        views = new ArrayList<>();
         setClipChildren(Boolean.FALSE);
         initViews(context);
         initViewPagerScroll();
     }
 
     private void initViews(Context context) {
-        mViewPager = new BannerViewPager(context);
-        mViewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mViewPager.setClipChildren(Boolean.FALSE);
-        mViewPager.addOnPageChangeListener(this);
-        addView(mViewPager);
+        viewPager = new BannerViewPager(context);
+        viewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        viewPager.setClipChildren(Boolean.FALSE);
+        viewPager.addOnPageChangeListener(this);
+        addView(viewPager);
     }
 
     public void setPageMargins(int left, int top, int right, int bottom, int pageMargin) {
-        LayoutParams layoutParams = (LayoutParams) mViewPager.getLayoutParams();
+        LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
         layoutParams.setMargins(left, top, right, bottom);
-        mViewPager.setPageMargin(pageMargin);
-        mViewPager.setOffscreenPageLimit(3);
+        viewPager.setPageMargin(pageMargin);
+        viewPager.setOffscreenPageLimit(3);
     }
 
     public Banner setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
-        mViewPager.setPageTransformer(reverseDrawingOrder, transformer);
+        viewPager.setPageTransformer(reverseDrawingOrder, transformer);
+        return this;
+    }
+
+    public Banner setAutoTurningTime(long autoTurningTime) {
+        this.autoTurningTime = autoTurningTime;
         return this;
     }
 
     public Banner setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener) {
-        this.mOuterPageChangeListener = outerPageChangeListener;
+        this.outerPageChangeListener = outerPageChangeListener;
         return this;
     }
 
     public Banner setIndicator(Indicator indicator) {
-        if (mIndicator != null) {
-            removeView(mIndicator.getView());
+        if (this.indicator != null) {
+            removeView(this.indicator.getView());
         }
         if (indicator != null) {
-            mIndicator = indicator;
-            addView(mIndicator.getView(), mIndicator.getParams());
+            this.indicator = indicator;
+            addView(this.indicator.getView(), this.indicator.getParams());
         }
         return this;
     }
@@ -116,21 +121,21 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     private void startPager(int startPosition) {
-        if (mAdapter == null) {
-            mAdapter = new BannerAdapter();
+        if (adapter == null) {
+            adapter = new BannerAdapter();
         }
-        mViewPager.setAdapter(mAdapter);
+        viewPager.setAdapter(adapter);
         currentPage = toRealPosition(startPosition + NORMAL_COUNT);
-        mViewPager.setScrollable(isCanLoop);
-        mViewPager.setCurrentItem(currentPage);
-        mIndicator.initIndicatorCount(realCount);
+        viewPager.setScrollable(isCanLoop);
+        viewPager.setCurrentItem(currentPage);
+        indicator.initIndicatorCount(realCount);
         if (isCanLoop) {
             startTurning();
         }
     }
 
     private void createImages(List<?> items) {
-        mViews.clear();
+        views.clear();
         if (items == null || items.size() == 0 || holderCreator == null) {
             realCount = 0;
             isCanLoop = false;
@@ -143,7 +148,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         for (int i = 0; i < needCount; i++) {
             int position = toRealPosition(i);
             View view = holderCreator.createView(getContext(), position, items.get(position));
-            mViews.add(view);
+            views.add(view);
         }
     }
 
@@ -184,19 +189,35 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (isCanLoop) {
+            startTurning();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (isCanLoop) {
+            stopTurning();
+        }
+    }
+
+    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         int realPosition = toRealPosition(position);
-        if (mOuterPageChangeListener != null) {
-            mOuterPageChangeListener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
+        if (outerPageChangeListener != null) {
+            outerPageChangeListener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
         }
-        if (mIndicator != null) {
+        if (indicator != null) {
             if (realPosition != realCount - 1) {
-                mIndicator.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
+                indicator.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
             } else {
                 if (positionOffset > .5) {
-                    mIndicator.onPageScrolled(0, 0, 0);
+                    indicator.onPageScrolled(0, 0, 0);
                 } else {
-                    mIndicator.onPageScrolled(realPosition, 0, 0);
+                    indicator.onPageScrolled(realPosition, 0, 0);
                 }
             }
         }
@@ -206,11 +227,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     public void onPageSelected(int position) {
         currentPage = position;
         int realPosition = toRealPosition(position);
-        if (mOuterPageChangeListener != null) {
-            mOuterPageChangeListener.onPageSelected(realPosition);
+        if (outerPageChangeListener != null) {
+            outerPageChangeListener.onPageSelected(realPosition);
         }
-        if (mIndicator != null) {
-            mIndicator.onPageSelected(realPosition);
+        if (indicator != null) {
+            indicator.onPageSelected(realPosition);
         }
     }
 
@@ -219,18 +240,18 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         if (state == ViewPager.SCROLL_STATE_DRAGGING) {
             //如果是第一页，也就是真实数据的最后一页，直接设置到真实的最后一页
             if (currentPage == 0) {
-                mViewPager.setCurrentItem(realCount, false);
+                viewPager.setCurrentItem(realCount, false);
             }
             //如果是最后一页，那么真实数据的第一页，直接设置到真实数据的第一页
             else if (currentPage == needCount - 1) {
-                mViewPager.setCurrentItem(1, false);
+                viewPager.setCurrentItem(1, false);
             }
         }
-        if (mOuterPageChangeListener != null) {
-            mOuterPageChangeListener.onPageScrollStateChanged(state);
+        if (outerPageChangeListener != null) {
+            outerPageChangeListener.onPageScrollStateChanged(state);
         }
-        if (mIndicator != null) {
-            mIndicator.onPageScrollStateChanged(state);
+        if (indicator != null) {
+            indicator.onPageScrollStateChanged(state);
         }
     }
 
@@ -240,10 +261,10 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             if (isCanLoop) {
                 currentPage++;
                 if (currentPage == needCount) {
-                    mViewPager.setCurrentItem(1, false);
+                    viewPager.setCurrentItem(1, false);
                     post(task);
                 } else {
-                    mViewPager.setCurrentItem(currentPage);
+                    viewPager.setCurrentItem(currentPage);
                     postDelayed(task, autoTurningTime);
                 }
             }
@@ -265,7 +286,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            View view = mViews.get(position);
+            View view = views.get(position);
             container.addView(view);
             return view;
         }
@@ -275,7 +296,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             container.removeView((View) object);
         }
     }
-
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -297,8 +317,8 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             ViewPagerScroller scroller = new ViewPagerScroller(
-                    mViewPager.getContext());
-            mScroller.set(mViewPager, scroller);
+                    viewPager.getContext());
+            mScroller.set(viewPager, scroller);
         } catch (NoSuchFieldException | IllegalArgumentException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

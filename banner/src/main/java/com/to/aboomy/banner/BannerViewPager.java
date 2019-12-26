@@ -76,4 +76,5 @@ public class BannerViewPager extends ViewPager {
     public void setScrollable(boolean scrollable) {
         this.scrollable = scrollable;
     }
+
 }

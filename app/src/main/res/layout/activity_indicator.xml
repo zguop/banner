@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.to.aboomy.banner.Banner
+            android:id="@+id/banner1"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+        <com.to.aboomy.banner.Banner
+            android:id="@+id/banner2"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp" />
+
+        <com.to.aboomy.banner.Banner
+            android:id="@+id/banner3"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp" />
+
+        <com.to.aboomy.banner.Banner
+            android:id="@+id/banner4"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+</ScrollView>
