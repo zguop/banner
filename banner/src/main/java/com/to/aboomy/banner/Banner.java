@@ -261,7 +261,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             if (isCanLoop) {
                 currentPage++;
                 if (currentPage == needCount) {
-                    viewPager.setCurrentItem(1, false);
+                    viewPager.setCurrentItem(currentPage = 1, false);
                     post(task);
                 } else {
                     viewPager.setCurrentItem(currentPage);

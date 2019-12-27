@@ -2,7 +2,6 @@ package com.to.aboomy.bannersample;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.view.Gravity;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -31,8 +30,7 @@ public class Adapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseView
             Banner itemView = (Banner) helper.itemView;
             IndicatorView qyIndicator = new IndicatorView(itemView.getContext())
                     .setIndicatorColor(Color.BLACK)
-                    .setIndicatorInColor(Color.WHITE)
-                    .setGravity(Gravity.CENTER);
+                    .setIndicatorSelectorColor(Color.WHITE);
             itemView.setIndicator(qyIndicator)
                     .setHolderCreator(new ImageHolderCreator())
                     .setPages(bannerBean.urls, itemView.getCurrentPosition());

@@ -3,7 +3,6 @@ package com.to.aboomy.bannersample;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private List<String> list = new ArrayList<>();
     private Banner banner;
 
-
-
+    int style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
 
     public int getListRandom() {
         return new Random().nextInt(list.size());
@@ -37,10 +35,9 @@ public class MainActivity extends AppCompatActivity {
         list.add(Utils.getRandom());
         list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
-        IndicatorView qyIndicator = new IndicatorView(this)
+        final IndicatorView qyIndicator = new IndicatorView(this)
                 .setIndicatorColor(Color.DKGRAY)
-                .setIndicatorInColor(Color.WHITE)
-                .setGravity(Gravity.CENTER);
+                .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(qyIndicator).setHolderCreator(new ImageHolderCreator()).setPages(list);
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
@@ -75,6 +72,20 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 banner.setPages(list, banner.getCurrentPosition());
+            }
+        });
+
+        findViewById(R.id.updateStyle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (style == 0) {
+                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT;
+                } else if (style == 1) {
+                    style = IndicatorView.IndicatorStyle.INDICATOR_BEZIER;
+                } else if (style == 2) {
+                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
+                }
+                qyIndicator.setIndicatorStyle(style);
             }
         });
     }

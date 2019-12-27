@@ -3,16 +3,21 @@ package com.to.aboomy.banner;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * auth aboom
@@ -21,26 +26,36 @@ import android.widget.RelativeLayout;
 public class IndicatorView extends View implements Indicator {
 
     private final Interpolator interpolator = new DecelerateInterpolator();
+    private Interpolator accelerateInterpolator;
+    private RectF selectorRect;
+    private Path path;
+    private float offset;
+    private int selectedPage;
+    private int pagerCount;
 
     private final Paint selectedIndicatorPaint;
     private final Paint indicatorPaint;
-    private final RectF selectorRect;
+    /**
+     * 控制在banner中的位置
+     */
+    private RelativeLayout.LayoutParams params;
+    /**
+     * indicator样式 目前支持三种样式
+     */
+    private int indicatorStyle;
 
     private float indicatorRadius = dip2px(3.5f);
-    private float indicatorPadding = dip2px(12);
-    private int gravity = Gravity.START;
+    private float indicatorSpacing = dip2px(10);
 
-    private int indicatorLeftMargin;
-    private int indicatorRightMargin;
-
-    private float offset;
-    private int selectedPage;
-    private RelativeLayout.LayoutParams params;
-    private int pagerCount;
-
-    public IndicatorView(Context context) {
-        this(context, null);
+    @IntDef({IndicatorStyle.INDICATOR_CIRCLE, IndicatorStyle.INDICATOR_CIRCLE_RECT, IndicatorStyle.INDICATOR_BEZIER})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface IndicatorStyle {
+        int INDICATOR_CIRCLE = 0;
+        int INDICATOR_CIRCLE_RECT = 1;
+        int INDICATOR_BEZIER = 2;
     }
+
+    public IndicatorView(Context context) { this(context, null); }
 
     public IndicatorView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
@@ -50,7 +65,6 @@ public class IndicatorView extends View implements Indicator {
         super(context, attrs, defStyleAttr);
         selectedIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        selectorRect = new RectF();
     }
 
     public IndicatorView setIndicatorRadius(float indicatorRadius) {
@@ -58,33 +72,23 @@ public class IndicatorView extends View implements Indicator {
         return this;
     }
 
-    public IndicatorView setIndicatorPadding(float indicatorPadding) {
-        this.indicatorPadding = indicatorPadding;
+    public IndicatorView setIndicatorSpacing(float indicatorSpacing) {
+        this.indicatorSpacing = indicatorSpacing;
         return this;
     }
 
-    public IndicatorView setGravity(int gravity) {
-        this.gravity = gravity;
+    public IndicatorView setIndicatorStyle(@IndicatorStyle int indicatorStyle) {
+        this.indicatorStyle = indicatorStyle;
         return this;
     }
 
-    public IndicatorView setIndicatorLeftMargin(int indicatorLeftMargin) {
-        this.indicatorLeftMargin = indicatorLeftMargin;
-        return this;
-    }
-
-    public IndicatorView setIndicatorRightMargin(int indicatorRightMargin) {
-        this.indicatorRightMargin = indicatorRightMargin;
-        return this;
-    }
-
-    public IndicatorView setIndicatorColor(int indicatorColor) {
+    public IndicatorView setIndicatorColor(@ColorInt int indicatorColor) {
         this.indicatorPaint.setColor(indicatorColor);
         return this;
     }
 
-    public IndicatorView setIndicatorInColor(int indicatorInColor) {
-        this.selectedIndicatorPaint.setColor(indicatorInColor);
+    public IndicatorView setIndicatorSelectorColor(@ColorInt int indicatorSelectorColor) {
+        this.selectedIndicatorPaint.setColor(indicatorSelectorColor);
         return this;
     }
 
@@ -97,7 +101,7 @@ public class IndicatorView extends View implements Indicator {
     public void initIndicatorCount(int pagerCount) {
         this.pagerCount = pagerCount;
         setVisibility(pagerCount > 1 ? VISIBLE : GONE);
-        invalidate();
+        requestLayout();
     }
 
     @Override
@@ -110,6 +114,7 @@ public class IndicatorView extends View implements Indicator {
         if (params == null) {
             params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
             params.bottomMargin = dip2px(10);
         }
         return params;
@@ -118,7 +123,43 @@ public class IndicatorView extends View implements Indicator {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), getSuggestedMinimumHeight());
+        setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+    }
+
+    private int measureWidth(int widthMeasureSpec) {
+        int mode = MeasureSpec.getMode(widthMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int result = 0;
+        switch (mode) {
+            case MeasureSpec.EXACTLY:
+                result = width;
+                break;
+            case MeasureSpec.AT_MOST:
+            case MeasureSpec.UNSPECIFIED:
+                result = (int) (pagerCount * indicatorRadius * 2 + (pagerCount - 1) * indicatorSpacing + getPaddingLeft() + getPaddingRight());
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+
+    private int measureHeight(int heightMeasureSpec) {
+        int mode = MeasureSpec.getMode(heightMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        int result = 0;
+        switch (mode) {
+            case MeasureSpec.EXACTLY:
+                result = height;
+                break;
+            case MeasureSpec.AT_MOST:
+            case MeasureSpec.UNSPECIFIED:
+                result = (int) (indicatorRadius * 2 + getPaddingTop() + getPaddingBottom());
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 
     @Override
@@ -127,37 +168,62 @@ public class IndicatorView extends View implements Indicator {
         if (pagerCount == 0) {
             return;
         }
-        float midY = getHeight() / 2f;
+        float midY = getHeight() / 2.0f + 0.5f;
         int adapterCount = pagerCount;
         for (int i = 0; i < adapterCount; i++) {
-            float startCx = indicatorStartX(adapterCount, i);
+            float startCx = indicatorStartX(i);
             canvas.drawCircle(startCx, midY, indicatorRadius, indicatorPaint);
         }
-        float extStart = indicatorStartX(adapterCount, selectedPage) + Math.max(indicatorPadding * (interpolatedOffset() - 0.5f) * 2, 0);
-        float extenderEnd = indicatorStartX(adapterCount, selectedPage) + Math.min(indicatorPadding * interpolatedOffset() * 2, indicatorPadding);
-        selectorRect.set(extStart - indicatorRadius, midY - indicatorRadius, extenderEnd + indicatorRadius, midY + indicatorRadius);
-        canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
-//        mPath.reset();
-//        float middleX = (indicatorStartX(selectedPage) - indicatorRadius + extStart) / 2;
-//        mPath.moveTo(indicatorStartX(selectedPage), midY + indicatorRadius);
-//        mPath.quadTo(middleX, midY, extStart, midY + indicatorRadius);
-//        mPath.lineTo(extStart, midY - indicatorRadius);
-//        mPath.quadTo(middleX, midY, indicatorStartX(selectedPage), midY - indicatorRadius);
-//        mPath.lineTo(indicatorStartX(selectedPage), midY + indicatorRadius);
-//        mPath.close();  // 闭合
-//        canvas.drawPath(mPath, selectedIndicatorPaint);
-//        canvas.drawCircle(extStart, midY, indicatorRadius, selectedIndicatorPaint);
+        if (indicatorStyle == IndicatorStyle.INDICATOR_CIRCLE) {
+            drawCircle(canvas, midY);
+        } else if (indicatorStyle == IndicatorStyle.INDICATOR_CIRCLE_RECT) {
+            drawCircleRect(canvas, midY);
+        } else if (indicatorStyle == IndicatorStyle.INDICATOR_BEZIER) {
+            drawBezier(canvas, midY);
+        }
     }
 
-    private float indicatorStartX(int adapterCount, int index) {
-        float padding = ViewCompat.getPaddingStart(this) + indicatorPadding * index + indicatorRadius;
-        if (gravity == Gravity.END) {
-            return getWidth() - indicatorPadding * (adapterCount - 1) - indicatorRadius * 2 + padding - indicatorRightMargin + indicatorLeftMargin;
-        }
-        if (gravity == Gravity.CENTER) {
-            return getWidth() / 2.0f + padding + (indicatorLeftMargin - indicatorRightMargin) - (indicatorPadding * (adapterCount - 1) / 2.0f - indicatorRadius);
-        }
-        return padding + indicatorLeftMargin - indicatorRightMargin;
+    private void drawBezier(Canvas canvas, float midY) {
+        if (path == null) path = new Path();
+        if (accelerateInterpolator == null) accelerateInterpolator = new AccelerateInterpolator();
+        float indicatorStartX = indicatorStartX(selectedPage);
+        float nextIndicatorStartX = indicatorStartX(selectedPage + 1);
+        float leftX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * accelerateInterpolator.getInterpolation(offset);
+        float rightX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * interpolatedOffset();
+        float minRadius = indicatorRadius * 0.57f;
+        float leftRadius = indicatorRadius + (minRadius - indicatorRadius) * interpolatedOffset();
+        float rightRadius = minRadius + (indicatorRadius - minRadius) * accelerateInterpolator.getInterpolation(offset);
+        canvas.drawCircle(leftX, midY, leftRadius, selectedIndicatorPaint);
+        canvas.drawCircle(rightX, midY, rightRadius, selectedIndicatorPaint);
+        path.reset();
+        path.moveTo(rightX, midY);
+        path.lineTo(rightX, midY - rightRadius);
+        path.quadTo(rightX + (leftX - rightX) / 2.0f, midY, leftX, midY - leftRadius);
+        path.lineTo(leftX, midY + leftRadius);
+        path.quadTo(rightX + (leftX - rightX) / 2.0f, midY, rightX, midY + rightRadius);
+        path.close();
+        canvas.drawPath(path, selectedIndicatorPaint);
+    }
+
+    private void drawCircleRect(Canvas canvas, float midY) {
+        float indicatorStartX = indicatorStartX(selectedPage);
+        float extStart = indicatorStartX + Math.max((indicatorSpacing + indicatorRadius * 2) * (interpolatedOffset() - 0.5f) * 2.0f, 0);
+        float extenderEnd = indicatorStartX + Math.min(((indicatorSpacing + indicatorRadius * 2) * interpolatedOffset() * 2), indicatorSpacing + indicatorRadius * 2);
+        if (selectorRect == null) selectorRect = new RectF();
+        selectorRect.set(extStart - indicatorRadius, midY - indicatorRadius, extenderEnd + indicatorRadius, midY + indicatorRadius);
+        canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
+    }
+
+    private void drawCircle(Canvas canvas, float midY) {
+        float indicatorStartX = indicatorStartX(selectedPage);
+        float nextIndicatorStartX = indicatorStartX(selectedPage + 1);
+        float indicatorX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * interpolatedOffset();
+        canvas.drawCircle(indicatorX, midY, indicatorRadius, selectedIndicatorPaint);
+    }
+
+    private float indicatorStartX(int index) {
+        float centerSpacing = indicatorRadius * 2.0f + indicatorSpacing;
+        return indicatorRadius + getPaddingLeft() + centerSpacing * index;
     }
 
     private float interpolatedOffset() {
