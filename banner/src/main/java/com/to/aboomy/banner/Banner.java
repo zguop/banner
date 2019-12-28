@@ -14,10 +14,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * auth aboom by 2018/2/25.
- */
-
 public class Banner extends RelativeLayout implements ViewPager.OnPageChangeListener {
     public static final long DEFAULT_AUTO_TIME = 2500;
     private static final int NORMAL_COUNT = 2;
@@ -29,7 +25,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private PagerAdapter adapter;
     private List<View> views;
     private Indicator indicator;
-    private boolean isCanLoop;
+    private boolean isAutoPlay = true;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
 
     /**
@@ -91,6 +87,20 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         return this;
     }
 
+    /**
+     * 是否自动轮播 大于1页轮播才生效
+     */
+    public Banner setAutoPlay(boolean autoPlay) {
+        if (autoPlay) {
+            autoPlay = realCount > 1;
+        }
+        isAutoPlay = autoPlay;
+        if (isAutoPlay) {
+            startTurning();
+        }
+        return this;
+    }
+
     public Banner setIndicator(Indicator indicator) {
         if (this.indicator != null) {
             removeView(this.indicator.getView());
@@ -126,10 +136,10 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         }
         viewPager.setAdapter(adapter);
         currentPage = toRealPosition(startPosition + NORMAL_COUNT);
-        viewPager.setScrollable(isCanLoop);
+        viewPager.setScrollable(realCount > 1);
         viewPager.setCurrentItem(currentPage);
         indicator.initIndicatorCount(realCount);
-        if (isCanLoop) {
+        if (isAutoPlay) {
             startTurning();
         }
     }
@@ -138,12 +148,12 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         views.clear();
         if (items == null || items.size() == 0 || holderCreator == null) {
             realCount = 0;
-            isCanLoop = false;
+            isAutoPlay = false;
             needCount = 0;
             return;
         }
         realCount = items.size();
-        isCanLoop = realCount > 1;
+        isAutoPlay = isAutoPlay && realCount > 1;
         needCount = realCount + NORMAL_COUNT;
         for (int i = 0; i < needCount; i++) {
             int position = toRealPosition(i);
@@ -152,8 +162,8 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         }
     }
 
-    public boolean isCanLoop() {
-        return isCanLoop;
+    public boolean isAutoPlay() {
+        return isAutoPlay;
     }
 
     /**
@@ -191,7 +201,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (isCanLoop) {
+        if (isAutoPlay) {
             startTurning();
         }
     }
@@ -199,7 +209,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (isCanLoop) {
+        if (isAutoPlay) {
             stopTurning();
         }
     }
@@ -258,7 +268,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (isCanLoop) {
+            if (isAutoPlay) {
                 currentPage++;
                 if (currentPage == needCount) {
                     viewPager.setCurrentItem(currentPage = 1, false);
@@ -299,7 +309,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (isCanLoop()) {
+        if (isAutoPlay) {
             int action = ev.getAction();
             if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL
                     || action == MotionEvent.ACTION_OUTSIDE) {

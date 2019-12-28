@@ -19,10 +19,6 @@ import android.widget.RelativeLayout;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/**
- * auth aboom
- * date 2018/7/7
- */
 public class IndicatorView extends View implements Indicator {
 
     private final Interpolator interpolator = new DecelerateInterpolator();

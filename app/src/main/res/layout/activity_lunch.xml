@@ -29,7 +29,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/lib_pub_select_btn_main"
         android:gravity="center"
-        android:text="indicator样式，集成网红库MagicIndicator"
+        android:text="更多的indicator样式MagicIndicator"
         android:textAllCaps="false"
         android:textColor="@color/lib_pub_color_select_btn_main"
         android:textSize="15dp" />

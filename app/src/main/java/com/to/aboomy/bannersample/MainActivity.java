@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.to.aboomy.banner.Banner;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Banner banner;
 
     int style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
+    private TextView noLoop;
 
     public int getListRandom() {
         return new Random().nextInt(list.size());
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 list.add(Utils.getRandom());
                 banner.setPages(list, banner.getCurrentPosition());
+
+                updateLoopText();
             }
         });
 
@@ -58,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "删除第" + listRandom + " 张", Toast.LENGTH_SHORT).show();
                 list.remove(listRandom);
                 banner.setPages(list, banner.getCurrentPosition());
+
+                updateLoopText();
             }
         });
 
@@ -72,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 banner.setPages(list, banner.getCurrentPosition());
+
+                updateLoopText();
             }
         });
 
@@ -88,5 +96,31 @@ public class MainActivity extends AppCompatActivity {
                 qyIndicator.setIndicatorStyle(style);
             }
         });
+
+        noLoop = findViewById(R.id.noLoop);
+
+        findViewById(R.id.noLoop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (banner.isAutoPlay()) {
+                    banner.setAutoPlay(false);
+                    updateLoopText();
+                } else {
+                    banner.setAutoPlay(true);
+                    if(!banner.isAutoPlay()){
+                        Toast.makeText(MainActivity.this, "轮播页数需要大于1", Toast.LENGTH_SHORT).show();
+                    }
+                    updateLoopText();
+                }
+            }
+        });
+    }
+
+    private void  updateLoopText(){
+        if(banner.isAutoPlay()){
+            noLoop.setText("停止自动轮播");
+        }else {
+            noLoop.setText("开始自动轮播");
+        }
     }
 }
