@@ -23,6 +23,7 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".RecyclerActivity"/>
         <activity android:name=".IndicatorStyleActivity"/>
+        <activity android:name=".FragmentViewPagerActivity"/>
     </application>
 
 </manifest>

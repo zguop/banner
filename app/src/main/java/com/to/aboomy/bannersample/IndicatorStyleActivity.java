@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.to.aboomy.banner.Banner;
+import com.to.aboomy.bannersample.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.indicator.BezierIndicatorView;
 import com.to.aboomy.bannersample.indicator.CircleIndicatorView;
 import com.to.aboomy.bannersample.indicator.CustomIndicatorView;

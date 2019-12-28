@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample;
+package com.to.aboomy.bannersample.adapter;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
+import com.to.aboomy.bannersample.creator.ImageHolderCreator;
+import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.bean.BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;
 

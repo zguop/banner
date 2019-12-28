@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample;
+package com.to.aboomy.bannersample.creator;
 
 import android.content.Context;
 import android.view.View;

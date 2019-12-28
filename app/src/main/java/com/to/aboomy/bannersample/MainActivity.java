@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
+import com.to.aboomy.bannersample.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
@@ -40,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         final IndicatorView qyIndicator = new IndicatorView(this)
                 .setIndicatorColor(Color.DKGRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
-        banner.setIndicator(qyIndicator).setHolderCreator(new ImageHolderCreator()).setPages(list);
+        banner.setIndicator(qyIndicator)
+                .setHolderCreator(new ImageHolderCreator())
+                .setPages(list);
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override

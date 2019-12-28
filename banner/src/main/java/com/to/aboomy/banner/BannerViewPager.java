@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import java.lang.reflect.Field;
+
 public class BannerViewPager extends ViewPager {
     /**
      * 最小拖动距离
@@ -28,13 +30,16 @@ public class BannerViewPager extends ViewPager {
     private float startY;
 
     private boolean scrollable = true;
+    private ViewPagerScroller scroller;
 
     public BannerViewPager(Context context) {
-        super(context);
+        this(context,null);
     }
 
     public BannerViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        scroller = new ViewPagerScroller(getContext());
+        initViewPagerScroll();
     }
 
     @Override
@@ -77,4 +82,19 @@ public class BannerViewPager extends ViewPager {
         this.scrollable = scrollable;
     }
 
+    private void initViewPagerScroll() {
+        try {
+            Field scrollerField = ViewPager.class.getDeclaredField("mScroller");
+            scrollerField.setAccessible(true);
+            scrollerField.set(this, scroller);
+        } catch (NoSuchFieldException | IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPagerScrollDuration(int duration) {
+        scroller.setScrollDuration(duration);
+    }
 }

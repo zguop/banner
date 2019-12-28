@@ -44,5 +44,13 @@ public class LunchActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        findViewById(R.id.view4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LunchActivity.this, FragmentViewPagerActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

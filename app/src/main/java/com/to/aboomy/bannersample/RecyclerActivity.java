@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.to.aboomy.bannersample.adapter.Adapter;
 import com.to.aboomy.bannersample.bean.BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;
 import com.to.aboomy.bannersample.util.Utils;

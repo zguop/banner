@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,12 +53,12 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         views = new ArrayList<>();
         setClipChildren(Boolean.FALSE);
         initViews(context);
-        initViewPagerScroll();
     }
 
     private void initViews(Context context) {
         viewPager = new BannerViewPager(context);
         viewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setClipChildren(Boolean.FALSE);
         viewPager.addOnPageChangeListener(this);
         addView(viewPager);
@@ -84,6 +83,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     public Banner setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener) {
         this.outerPageChangeListener = outerPageChangeListener;
+        return this;
+    }
+
+    public Banner setPagerScrollDuration(int pagerScrollDuration) {
+        viewPager.setPagerScrollDuration(pagerScrollDuration);
         return this;
     }
 
@@ -137,8 +141,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         viewPager.setAdapter(adapter);
         currentPage = toRealPosition(startPosition + NORMAL_COUNT);
         viewPager.setScrollable(realCount > 1);
+        viewPager.setFocusable(true);
         viewPager.setCurrentItem(currentPage);
-        indicator.initIndicatorCount(realCount);
+        if (indicator != null) {
+            indicator.initIndicatorCount(realCount);
+        }
         if (isAutoPlay) {
             startTurning();
         }
@@ -319,20 +326,5 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             }
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-    private void initViewPagerScroll() {
-        try {
-            Field mScroller;
-            mScroller = ViewPager.class.getDeclaredField("mScroller");
-            mScroller.setAccessible(true);
-            ViewPagerScroller scroller = new ViewPagerScroller(
-                    viewPager.getContext());
-            mScroller.set(viewPager, scroller);
-        } catch (NoSuchFieldException | IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 }
