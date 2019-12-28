@@ -8,32 +8,18 @@ import android.view.MotionEvent;
 import java.lang.reflect.Field;
 
 public class BannerViewPager extends ViewPager {
-    /**
-     * 最小拖动距离
-     */
     private final static int SCALED_TOUCH_SLOP = 8;
-    /**
-     * 记录view停止滑动的X位置
-     */
+
     private float lastX;
-    /**
-     * 记录view停止滑动的Y位置
-     */
     private float lastY;
-    /**
-     * 记录拖动初始位置X坐标
-     */
     private float startX;
-    /**
-     * 记录拖动初始位置Y坐标
-     */
     private float startY;
 
     private boolean scrollable = true;
     private ViewPagerScroller scroller;
 
     public BannerViewPager(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public BannerViewPager(Context context, AttributeSet attrs) {
@@ -54,23 +40,22 @@ public class BannerViewPager extends ViewPager {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         try {
+            int action = ev.getAction();
+            if (action == MotionEvent.ACTION_DOWN) {
+                startX = lastX = ev.getRawX();
+                startY = lastY = ev.getRawY();
+            } else if (action == MotionEvent.ACTION_MOVE) {
+                lastX = ev.getRawX();
+                lastY = ev.getRawY();
+                float distanceX = Math.abs(lastX - startX);
+                float distanceY = Math.abs(lastY - startY);
+                getParent().requestDisallowInterceptTouchEvent(distanceX > SCALED_TOUCH_SLOP && distanceX > distanceY);
+            }
             if (scrollable) {
                 return super.onInterceptTouchEvent(ev);
             }
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    startX = lastX = ev.getRawX();
-                    startY = lastY = ev.getRawY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    lastX = ev.getRawX();
-                    lastY = ev.getRawY();
-                    break;
-                case MotionEvent.ACTION_CANCEL:
-                case MotionEvent.ACTION_UP:
-                    return !(Math.abs(lastX - startX) <= SCALED_TOUCH_SLOP) || !(Math.abs(lastY - startY) <= SCALED_TOUCH_SLOP);
-                default:
-                    break;
+            if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+                return !(Math.abs(lastX - startX) <= SCALED_TOUCH_SLOP) || !(Math.abs(lastY - startY) <= SCALED_TOUCH_SLOP);
             }
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();
