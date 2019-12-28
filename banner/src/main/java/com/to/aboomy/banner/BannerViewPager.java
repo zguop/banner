@@ -1,5 +1,6 @@
 package com.to.aboomy.banner;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -28,6 +29,7 @@ public class BannerViewPager extends ViewPager {
         initViewPagerScroll();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         try {
