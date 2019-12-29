@@ -52,13 +52,6 @@ public class Test1ChildFragment extends Fragment {
         }
         list.add(bannerBean);
 
-        BannerBean2 bannerBean2 = new BannerBean2();
-        bannerBean2.urls = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            bannerBean2.urls.add(Utils.getRandom());
-        }
-        list.add(bannerBean2);
-
         for (int i = 0; i < 200; i++) {
             TextBean textBean = new TextBean();
             textBean.text = "--- " + i;

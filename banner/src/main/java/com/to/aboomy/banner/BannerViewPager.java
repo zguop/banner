@@ -57,7 +57,7 @@ public class BannerViewPager extends ViewPager {
                 return super.onInterceptTouchEvent(ev);
             }
             if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
-                return !(Math.abs(lastX - startX) <= SCALED_TOUCH_SLOP) || !(Math.abs(lastY - startY) <= SCALED_TOUCH_SLOP);
+                return Math.abs(lastX - startX) > SCALED_TOUCH_SLOP || Math.abs(lastY - startY) > SCALED_TOUCH_SLOP;
             }
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();

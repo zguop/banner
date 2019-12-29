@@ -35,7 +35,7 @@ public class Adapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseView
                     .setIndicatorSelectorColor(Color.WHITE);
             itemView.setIndicator(qyIndicator)
                     .setHolderCreator(new ImageHolderCreator())
-                    .setPages(bannerBean.urls, itemView.getCurrentPosition());
+                    .setPages(bannerBean.urls, itemView.getCurrentPager());
         } else {
             TextBean textBean = (TextBean) item;
             helper.setText(R.id.text, textBean.text);

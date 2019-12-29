@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 list.add(Utils.getRandom());
-                banner.setPages(list, banner.getCurrentPosition());
+                banner.setPages(list, banner.getCurrentPager());
 
                 updateLoopText();
             }
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 int listRandom = getListRandom();
                 Toast.makeText(MainActivity.this, "删除第" + listRandom + " 张", Toast.LENGTH_SHORT).show();
                 list.remove(listRandom);
-                banner.setPages(list, banner.getCurrentPosition());
+                banner.setPages(list, banner.getCurrentPager());
 
                 updateLoopText();
             }
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     list.add(Utils.getRandom());
                 }
 
-                banner.setPages(list, banner.getCurrentPosition());
+                banner.setPages(list, banner.getCurrentPager());
 
                 updateLoopText();
             }

@@ -176,12 +176,9 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     /**
      * 返回真实位置
      */
-    public int getCurrentPosition() {
+    public int getCurrentPager() {
         int position = toRealPosition(currentPage);
-        if (position < 0) {
-            position = 0;
-        }
-        return position;
+        return Math.max(position, 0);
     }
 
     public void startTurning() {
