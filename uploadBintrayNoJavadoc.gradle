@@ -1,0 +1,154 @@
+// bintray插件
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+// 包的GroupId
+def pkgGroupId = BINTRAY_PKG_GROUP_ID
+// 包的ArtifactId
+def pkgArtifactId = BINTRAY_PKG_ARTIFACT_ID
+// 包的版本号，下次更新是只需要更改版本号即可
+def pkgVersion = BINTRAY_PKG_VERSION
+// 包的打包方式 aar/jar
+def pkgPackaging = BINTRAY_PKG_PACKAGING
+
+// bintray上的仓库名
+def pkgRepo = BINTRAY_PKG_REPO
+// 组织名 不填默认为用户
+def pkgUserOrg = BINTRA_PKG_USER_ORG
+// 发布到JCenter上的项目名字
+def pkgName = BINTRAY_PKG_NAME
+// 项目主页
+def pkgWebsiteUrl = BINTRAY_PKG_WEBSITE_URL
+// 项目的版本控制地址（git/svn等）
+def pkgVcsUrl = BINTRAY_PKG_VCSURL
+// 项目描述
+def pkgDesc = BINTRAY_PKG_DESC
+
+// 开发者Id
+def pkgDeveloperId = BINTRAY_PKG_DEVELOPER_ID
+// 开发者名字
+def pkgDeveloperName = BINTRAY_PKG_DEVELOPER_NAME
+// 开发者邮箱
+def pkgDeveloperEmail = BINTRAY_PKG_DEVELOPER_EMAIL
+
+group = pkgGroupId
+// VCS Tag
+version = pkgVersion
+
+// 生成源文件
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            // 开源协议
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        }
+    }
+    developers {
+        developer {
+            // 开发者的个人信息
+            id pkgDeveloperId
+            name pkgDeveloperName
+            email pkgDeveloperEmail
+        }
+    }
+    scm {
+        connection pkgVcsUrl
+        developerConnection pkgVcsUrl
+        url pkgWebsiteUrl
+    }
+}
+
+publishing {
+    publications {
+        Production(MavenPublication) {
+            // 上传到JCenter所需要的源码文件
+            artifact sourcesJar
+            groupId pkgGroupId
+            artifactId pkgArtifactId
+            version pkgVersion
+
+            pom.packaging = pkgPackaging
+            // The publication doesn't know about our dependencies, so
+            // we have to manually add them to the pom
+            pom.withXml {
+                def root = asNode()
+                root.children().last() + pomConfig
+
+                def dependenciesNode = asNode().appendNode('dependencies')
+                // Iterate over the implementation dependencies (we don't want the
+                // test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+        Sandbox(MavenPublication) {
+            // 上传到JCenter所需要的源码文件
+            artifact sourcesJar
+            groupId pkgGroupId
+            artifactId pkgArtifactId
+            version pkgVersion
+
+            pom.packaging = pkgPackaging
+            // The publication doesn't know about our dependencies, so
+            // we have to manually add them to the pom
+            pom.withXml {
+                def root = asNode()
+                root.children().last() + pomConfig
+
+                def dependenciesNode = asNode().appendNode('dependencies')
+                // Iterate over the implementation dependencies (we don't want the
+                // test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 上传到JCenter
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    // 读取 项目根目录下local.properties 文件里面的 BINTRAY_USER
+    user = properties.getProperty("BINTRAY_USER")
+    // 读取 项目根目录下local.properties 文件里面的 BINTRAY_APIKEY
+    key = properties.getProperty("BINTRAY_APIKEY")
+    configurations = ['archives']
+    pkg {
+        // 这里的repo值必须要和你创建Maven仓库的时候的名字一样
+        repo = pkgRepo
+        // 组织名 不填默认为用户
+        userOrg = pkgUserOrg
+        // 发布到JCenter上的项目名字
+        name = pkgName
+        // 项目描述
+        desc = pkgDesc
+        websiteUrl = pkgWebsiteUrl
+        vcsUrl = pkgVcsUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+    publications = ['Production', 'Sandbox']
+}
