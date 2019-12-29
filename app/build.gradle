@@ -31,8 +31,6 @@ dependencies {
     api 'com.to.aboomy:statusbar_lib:1.2.1'
     api 'com.github.hackware1993:MagicIndicator:1.6.0'
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
-    implementation 'com.youth.banner:banner:1.4.10'  //最新版本
-
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
