@@ -24,6 +24,7 @@
         <activity android:name=".RecyclerActivity"/>
         <activity android:name=".IndicatorStyleActivity"/>
         <activity android:name=".FragmentViewPagerActivity"/>
+        <activity android:name=".MultBannerActivity"/>
     </application>
 
 </manifest>

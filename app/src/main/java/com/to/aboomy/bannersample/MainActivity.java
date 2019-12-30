@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         list.add(Utils.getRandom());
         list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
-        final IndicatorView qyIndicator = new IndicatorView(this)
+        final IndicatorView indicatorView = new IndicatorView(this)
                 .setIndicatorColor(Color.DKGRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
-        banner.setIndicator(qyIndicator)
+        banner.setIndicator(indicatorView)
                 .setHolderCreator(new ImageHolderCreator())
                 .setPages(list);
 
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (style == 2) {
                     style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
                 }
-                qyIndicator.setIndicatorStyle(style);
+                indicatorView.setIndicatorStyle(style);
             }
         });
 

@@ -4,5 +4,5 @@ import android.content.Context;
 import android.view.View;
 
 public interface HolderCreator {
-    View createView(final Context context,final int index, Object o);
+    View createView(Context context, int index, Object o);
 }

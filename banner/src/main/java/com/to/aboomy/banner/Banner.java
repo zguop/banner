@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Banner extends RelativeLayout implements ViewPager.OnPageChangeListener {
-    public static final long DEFAULT_AUTO_TIME = 2500;
+    private static final long DEFAULT_AUTO_TIME = 2500;
     private static final int NORMAL_COUNT = 2;
-    private static final int MULTIPLE_COUNT = 4;
 
     private ViewPager.OnPageChangeListener outerPageChangeListener;
     private HolderCreator holderCreator;
@@ -28,6 +28,10 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private long autoTurningTime = DEFAULT_AUTO_TIME;
 
     /**
+     * 虚拟当前页 1表示真实页数的第一页
+     */
+    private int currentPage;
+    /**
      * 实际数量
      */
     private int realCount;
@@ -36,9 +40,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      */
     private int needCount;
     /**
-     * 虚拟当前页 1表示真实页数的第一页
+     * 额外的页数
      */
-    private int currentPage;
+    private int needPage = NORMAL_COUNT;
+    private int sidePage;
+
 
     public Banner(Context context) {
         this(context, null);
@@ -64,15 +70,43 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         addView(viewPager);
     }
 
-    public void setPageMargins(int left, int top, int right, int bottom, int pageMargin) {
-        LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
-        layoutParams.setMargins(left, top, right, bottom);
-        viewPager.setPageMargin(pageMargin);
-        viewPager.setOffscreenPageLimit(3);
+    /**
+     * 设置一屏多页
+     *
+     * @param multiWidth 左右页面露出来的宽度一致
+     * @param pageMargin 设置Item与Item直接的间距
+     */
+    public Banner setPageMargin(int multiWidth, int pageMargin) {
+        return setPageMargin(multiWidth, multiWidth, pageMargin);
+    }
+
+    /**
+     * 设置一屏多页
+     *
+     * @param leftWidth  左边页面显露出来的宽度
+     * @param rightWidth 右边页面露出来的宽度
+     * @param pageMargin 设置Item与Item直接的间距
+     */
+    public Banner setPageMargin(int leftWidth, int rightWidth, int pageMargin) {
+        if (viewPager != null) {
+            if (pageMargin > 0) {
+                viewPager.setPageMargin(pageMargin);
+            }
+            if (leftWidth > 0 && rightWidth > 0) {
+                LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
+                layoutParams.leftMargin = leftWidth + viewPager.getPageMargin();
+                layoutParams.rightMargin = rightWidth + viewPager.getPageMargin();
+                viewPager.setOffscreenPageLimit(2);
+                needPage += NORMAL_COUNT;
+            }
+        }
+        return this;
     }
 
     public Banner setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
-        viewPager.setPageTransformer(reverseDrawingOrder, transformer);
+        if (viewPager != null) {
+            viewPager.setPageTransformer(reverseDrawingOrder, transformer);
+        }
         return this;
     }
 
@@ -87,7 +121,9 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     public Banner setPagerScrollDuration(int pagerScrollDuration) {
-        viewPager.setPagerScrollDuration(pagerScrollDuration);
+        if (viewPager != null) {
+            viewPager.setPagerScrollDuration(pagerScrollDuration);
+        }
         return this;
     }
 
@@ -139,7 +175,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             adapter = new BannerAdapter();
         }
         viewPager.setAdapter(adapter);
-        currentPage = toRealPosition(startPosition + NORMAL_COUNT);
+        currentPage = toRealPosition(startPosition + needPage);
         viewPager.setScrollable(realCount > 1);
         viewPager.setFocusable(true);
         viewPager.setCurrentItem(currentPage);
@@ -161,7 +197,8 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         }
         realCount = items.size();
         isAutoPlay = isAutoPlay && realCount > 1;
-        needCount = realCount + NORMAL_COUNT;
+        sidePage = needPage / NORMAL_COUNT;
+        needCount = realCount + needPage;
         for (int i = 0; i < needCount; i++) {
             int position = toRealPosition(i);
             View view = holderCreator.createView(getContext(), position, items.get(position));
@@ -191,15 +228,14 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     private int toRealPosition(int position) {
-        if (position == 0) {
-            //last page
-            return realCount - 1;
-        } else if (position == needCount - 1) {
-            //first page
-            return 0;
-        } else {
-            return position - 1;
+        int realPosition = 0;
+        if (realCount != 0) {
+            realPosition = (position - sidePage) % realCount;
         }
+        if (realPosition < 0) {
+            realPosition += realCount;
+        }
+        return realPosition;
     }
 
     @Override
@@ -240,7 +276,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     @Override
     public void onPageSelected(int position) {
         currentPage = position;
+        Log.e("aa", "onPageSelected   " + currentPage);
         int realPosition = toRealPosition(position);
+
+        Log.e("aa", " realPosition " + realPosition);
+
         if (outerPageChangeListener != null) {
             outerPageChangeListener.onPageSelected(realPosition);
         }
@@ -253,12 +293,12 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     public void onPageScrollStateChanged(int state) {
         if (state == ViewPager.SCROLL_STATE_DRAGGING) {
             //如果是第一页，也就是真实数据的最后一页，直接设置到真实的最后一页
-            if (currentPage == 0) {
+            if (currentPage == sidePage - 1) {
                 viewPager.setCurrentItem(realCount, false);
             }
             //如果是最后一页，那么真实数据的第一页，直接设置到真实数据的第一页
-            else if (currentPage == needCount - 1) {
-                viewPager.setCurrentItem(1, false);
+            else if (currentPage == needCount - sidePage) {
+                viewPager.setCurrentItem(sidePage, false);
             }
         }
         if (outerPageChangeListener != null) {
@@ -274,13 +314,30 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         public void run() {
             if (isAutoPlay) {
                 currentPage++;
-                if (currentPage == needCount) {
-                    viewPager.setCurrentItem(currentPage = 1, false);
+
+                Log.e("aa" , " needCount " + needCount);
+                Log.e("aa" , " realCount " + realCount);
+                Log.e("aa" , " sidePage " + sidePage);
+
+                if(currentPage == realCount + sidePage + 1){
+                    viewPager.setCurrentItem(sidePage,false);
                     post(task);
-                } else {
+                }else {
                     viewPager.setCurrentItem(currentPage);
                     postDelayed(task, autoTurningTime);
+
                 }
+
+//                int i = currentPage % (realCount + sidePage);
+//                currentPage = i +
+//                        i == 0 ? sidePage : 1;
+//                if (currentPage == sidePage) {
+//                    viewPager.setCurrentItem(currentPage, false);
+//                    post(task);
+//                } else {
+//                    viewPager.setCurrentItem(currentPage);
+//                    postDelayed(task, autoTurningTime);
+//                }
             }
         }
     };

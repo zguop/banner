@@ -49,7 +49,6 @@
         android:textColor="@color/lib_pub_color_select_btn_main"
         android:textSize="15dp" />
 
-
     <Button
         android:id="@+id/view4"
         android:layout_width="match_parent"
@@ -63,4 +62,20 @@
         android:textAllCaps="false"
         android:textColor="@color/lib_pub_color_select_btn_main"
         android:textSize="15dp" />
+
+
+    <Button
+        android:id="@+id/view5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/lib_pub_select_btn_main"
+        android:gravity="center"
+        android:text="一屏三页"
+        android:textAllCaps="false"
+        android:textColor="@color/lib_pub_color_select_btn_main"
+        android:textSize="15dp" />
+
 </LinearLayout>
