@@ -15,7 +15,7 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 ## 效果图
 
 ##### 基本使用的功能，请下载demo体验
-![tu1](gif/tu1.jpg)
+![tu1](gif/tu1.png)
 
 ##### 使用了MagicIndicator
 ![效果示例](gif/tu2.gif)
@@ -190,7 +190,7 @@ public class IndicatorView extends View implements Indicator{
  |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部20dp，请参考demo|
  
 ### 感谢
-[banner](https://github.com/youth5201314/banner) banner的思想非常棒，参考banner实现
+[banner](https://github.com/youth5201314/banner) 感谢大神实现的banner，站在前人的经验上，使其实现简单了许多
 
 
 ###总结
