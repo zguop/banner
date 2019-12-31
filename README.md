@@ -90,23 +90,10 @@ public class ImageHolderCreator implements HolderCreator {
 ### 简单设置一屏三页效果
 ```java
 
- @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        banner = findViewById(R.id.banner);
-        //使用内置Indicator
-        IndicatorView qyIndicator = new IndicatorView(this)
-              .setIndicatorColor(Color.DKGRAY)
-              .setIndicatorSelectorColor(Color.WHITE);
-        banner.setIndicator(qyIndicator)
-              .setHolderCreator(new ImageHolderCreator())
-              //设置左右页面露出来的宽度及item与item之间的宽度
-              .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
-              //设置切换缩放动画
-              .setPageTransformer(true, new ScalePageTransformer())
-              .setPages(list);
-    }
+//设置左右页面露出来的宽度及item与item之间的宽度
+.setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
+//内置ScalePageTransformer，设置切换缩放动画
+.setPageTransformer(true, new ScalePageTransformer())
     
 ```
 
