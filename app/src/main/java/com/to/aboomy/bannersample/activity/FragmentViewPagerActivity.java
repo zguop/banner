@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample;
+package com.to.aboomy.bannersample.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.fragment.Test1Fragment;
 import com.to.aboomy.bannersample.fragment.Test2Fragment;
 import com.to.aboomy.bannersample.fragment.Test3Fragment;

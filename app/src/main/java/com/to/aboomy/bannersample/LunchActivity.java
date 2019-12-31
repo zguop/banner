@@ -7,6 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.to.aboomy.bannersample.activity.FragmentViewPagerActivity;
+import com.to.aboomy.bannersample.activity.IndicatorStyleActivity;
+import com.to.aboomy.bannersample.activity.MainActivity;
+import com.to.aboomy.bannersample.activity.MultBannerActivity;
+import com.to.aboomy.bannersample.activity.RecyclerActivity;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 /**

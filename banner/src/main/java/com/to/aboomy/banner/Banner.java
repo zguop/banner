@@ -144,12 +144,23 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     public Banner setIndicator(Indicator indicator) {
+        return setIndicator(indicator, true);
+    }
+
+    /**
+     * 设置indicator，支持在xml中创建
+     *
+     * @param attachToRoot true 添加到banner布局中
+     */
+    public Banner setIndicator(Indicator indicator, boolean attachToRoot) {
         if (this.indicator != null) {
             removeView(this.indicator.getView());
         }
         if (indicator != null) {
             this.indicator = indicator;
-            addView(this.indicator.getView(), this.indicator.getParams());
+            if (attachToRoot) {
+                addView(this.indicator.getView(), this.indicator.getParams());
+            }
         }
         return this;
     }

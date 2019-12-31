@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample;
+package com.to.aboomy.bannersample.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.to.aboomy.banner.Banner;
+import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.indicator.BezierIndicatorView;
 import com.to.aboomy.bannersample.indicator.CircleIndicatorView;

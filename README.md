@@ -2,9 +2,9 @@
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持三种动画切换。
 无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考demo。
-项目参考了[banner](https://github.com/youth5201314/banner)轮播思想。
+项目参考了[banner](https://github.com/youth5201314/banner)count+2的轮播思想。
 
-* banner支持一屏三页
+* 支持一屏三页
 * 支持自定义Indicator
 * 支持自定义view
 * 支持数据刷新
@@ -179,6 +179,7 @@ public class IndicatorView extends View implements Indicator{
  |setPagerScrollDuration(int pagerScrollDuration)|设置viewpager的切换时长
  |setAutoPlay(boolean autoPlay)|设置是否自动轮播，大于1页可以轮播
  |setIndicator(Indicator indicator)|设置indicator
+ |setIndicator(Indicator indicator, boolean attachToRoot)|设置indicator
  |HolderCreator(HolderCreator holderCreator))|设置view创建接口
  |setPages(List<?> items)|加载数据，此方法时开始轮播的方法，请再最后调用
  |setPages(List<?> items, int startPosition)|重载方法，设置轮播的起始位置
@@ -189,7 +190,7 @@ public class IndicatorView extends View implements Indicator{
  |setPageMargin(int multiWidth, int pageMargin)|设置一屏多页
  |setPageMargin(int leftWidth, int rightWidth, int pageMargin)|设置一屏多页,方法重载
 
-### 内置IndicatorView使用方法介绍，一般都是通过new关键字创建，设置到banner中，因此也没有提供任何自定义属性
+### 内置IndicatorView使用方法介绍，没有提供任何自定义属性
  |方法名|描述
  |---|---|
  |setIndicatorRadius(float indicatorRadius)|设置圆点半径|
@@ -200,11 +201,16 @@ public class IndicatorView extends View implements Indicator{
  |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部20dp，请参考demo|
  
 ### 感谢
-[banner](https://github.com/youth5201314/banner) 感谢大神实现的banner，站在前人的经验上，使其实现简单了许多
+[banner](https://github.com/youth5201314/banner)
+
+[ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
+
+[MagicViewPager](https://github.com/hongyangAndroid/MagicViewPager)
 
 
-###总结
+### 总结
 -
 xiexie ni de guāng gù ！ 喜欢的朋友轻轻右上角赏个star，您的鼓励会给我持续更新的动力。
+
 
 

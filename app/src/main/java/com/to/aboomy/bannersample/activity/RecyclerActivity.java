@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample;
+package com.to.aboomy.bannersample.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.adapter.Adapter;
 import com.to.aboomy.bannersample.bean.BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;

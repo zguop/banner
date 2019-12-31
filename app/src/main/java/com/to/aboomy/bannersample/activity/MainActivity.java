@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample;
+package com.to.aboomy.bannersample.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
+import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;

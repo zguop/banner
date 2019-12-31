@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".RecyclerActivity"/>
-        <activity android:name=".IndicatorStyleActivity"/>
-        <activity android:name=".FragmentViewPagerActivity"/>
-        <activity android:name=".MultBannerActivity"/>
+        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.RecyclerActivity"/>
+        <activity android:name=".activity.IndicatorStyleActivity"/>
+        <activity android:name=".activity.FragmentViewPagerActivity"/>
+        <activity android:name=".activity.MultBannerActivity"/>
     </application>
 
 </manifest>

@@ -31,6 +31,8 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
 
+    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
+    implementation 'com.zhy:magic-viewpager:1.0.1'
 
 
     implementation project(":banner")
