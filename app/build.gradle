@@ -21,12 +21,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(":banner")
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-
+    implementation 'com.android.support:cardview-v7:28.0.0'
     api "com.github.bumptech.glide:glide:4.9.0"
     api 'com.to.aboomy:statusbar_lib:1.2.1'
     api 'com.github.hackware1993:MagicIndicator:1.6.0'
@@ -34,6 +30,9 @@ dependencies {
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
-    implementation 'org.jetbrains:annotations-java5:15.0'
+
+
+
+    implementation project(":banner")
 
 }

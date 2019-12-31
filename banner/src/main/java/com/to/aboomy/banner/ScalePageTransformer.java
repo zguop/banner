@@ -4,12 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+/**
+ * page切换缩放动画
+ */
 public class ScalePageTransformer implements ViewPager.PageTransformer {
 
-    private float scaleMax;
+    private float scaleMax = 0.8f;
 
-    public ScalePageTransformer(float scale) {
-        this.scaleMax = scale;
+    public ScalePageTransformer() { }
+
+    public ScalePageTransformer(float scaleMax) {
+        this.scaleMax = scaleMax;
     }
 
     @Override

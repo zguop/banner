@@ -2,13 +2,23 @@
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持三种动画切换。
 无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考demo。
+项目参考了[banner](https://github.com/youth5201314/banner)轮播思想。
 
+* banner支持一屏三页
+* 支持自定义Indicator
+* 支持自定义view
+* 支持数据刷新
+* 解决下拉刷新等滑动冲突问题，如嵌套SwipeRefreshLayout
+* 解决多次重复回调onPageSelected问题
+* 更多优化请参考代码实现。
 
 ## 效果图
 
-![效果示例](gif/auto3.gif)|
-![效果示例](gif/auto4.gif)|
-![效果示例](gif/auto5.gif)|
+##### 基本使用的功能，请下载demo体验
+![tu1](gif/tu1.jpg)
+
+##### 使用了MagicIndicator
+![效果示例](gif/tu2.gif)
 
 
 ## 使用步骤
@@ -179,5 +189,12 @@ public class IndicatorView extends View implements Indicator{
  |setIndicatorSelectorColor(@ColorInt int indicatorSelectorColor) |设置选中的圆点颜色|
  |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部20dp，请参考demo|
  
-## 感谢
-[banner](https://github.com/youth5201314/banner)
+### 感谢
+[banner](https://github.com/youth5201314/banner) banner的思想非常棒，参考banner实现
+
+
+###总结
+-
+xiexie ni de guāng gù ！ 喜欢的朋友轻轻右上角赏个star，您的鼓励会给我持续更新的动力。
+
+

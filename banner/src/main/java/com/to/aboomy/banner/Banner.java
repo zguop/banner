@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +42,9 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      * 额外的页数
      */
     private int needPage = NORMAL_COUNT;
+    /**
+     * 额外的页数是往最左边添加和最右边添加，该变量记录一边添加的数量
+     */
     private int sidePage;
 
 
@@ -175,7 +177,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             adapter = new BannerAdapter();
         }
         viewPager.setAdapter(adapter);
-        currentPage = toRealPosition(startPosition + needPage);
+        currentPage = startPosition + sidePage;
         viewPager.setScrollable(realCount > 1);
         viewPager.setFocusable(true);
         viewPager.setCurrentItem(currentPage);
@@ -275,12 +277,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     @Override
     public void onPageSelected(int position) {
+        //解决多次重复回调onPageSelected问题
+        boolean resetItem = currentPage == sidePage - 1 || currentPage == needCount - (sidePage - 1);
         currentPage = position;
-        Log.e("aa", "onPageSelected   " + currentPage);
+        if (resetItem) return;
         int realPosition = toRealPosition(position);
-
-        Log.e("aa", " realPosition " + realPosition);
-
         if (outerPageChangeListener != null) {
             outerPageChangeListener.onPageSelected(realPosition);
         }
@@ -291,21 +292,21 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-            //如果是第一页，也就是真实数据的最后一页，直接设置到真实的最后一页
-            if (currentPage == sidePage - 1) {
-                viewPager.setCurrentItem(realCount, false);
-            }
-            //如果是最后一页，那么真实数据的第一页，直接设置到真实数据的第一页
-            else if (currentPage == needCount - sidePage) {
-                viewPager.setCurrentItem(sidePage, false);
-            }
-        }
         if (outerPageChangeListener != null) {
             outerPageChangeListener.onPageScrollStateChanged(state);
         }
         if (indicator != null) {
             indicator.onPageScrollStateChanged(state);
+        }
+        if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+            //一屏一页0是真实数据的最后一页，一屏三页1是真实数据的最后一页，实际数量 + 虚拟当前页 = 实际最后一页索引
+            if (currentPage == sidePage - 1) {
+                viewPager.setCurrentItem(realCount + currentPage, false);
+            }
+            //如果是最后一页，那么真实数据的第一页，直接设置到真实数据的第一页
+            else if (currentPage == needCount - sidePage) {
+                viewPager.setCurrentItem(sidePage, false);
+            }
         }
     }
 
@@ -314,30 +315,13 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         public void run() {
             if (isAutoPlay) {
                 currentPage++;
-
-                Log.e("aa" , " needCount " + needCount);
-                Log.e("aa" , " realCount " + realCount);
-                Log.e("aa" , " sidePage " + sidePage);
-
-                if(currentPage == realCount + sidePage + 1){
-                    viewPager.setCurrentItem(sidePage,false);
+                if (currentPage == realCount + sidePage + 1) {
+                    viewPager.setCurrentItem(sidePage, false);
                     post(task);
-                }else {
+                } else {
                     viewPager.setCurrentItem(currentPage);
                     postDelayed(task, autoTurningTime);
-
                 }
-
-//                int i = currentPage % (realCount + sidePage);
-//                currentPage = i +
-//                        i == 0 ? sidePage : 1;
-//                if (currentPage == sidePage) {
-//                    viewPager.setCurrentItem(currentPage, false);
-//                    post(task);
-//                } else {
-//                    viewPager.setCurrentItem(currentPage);
-//                    postDelayed(task, autoTurningTime);
-//                }
             }
         }
     };

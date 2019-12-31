@@ -2,7 +2,9 @@ package com.to.aboomy.bannersample;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +41,28 @@ public class MainActivity extends AppCompatActivity {
         list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
-                .setIndicatorColor(Color.DKGRAY)
+                .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(indicatorView)
                 .setHolderCreator(new ImageHolderCreator())
+                .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                        Log.e("aa" , "onPageScrolled "  + position);
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        Log.e("aa" , "onPageSelected "  + position);
+
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+//                        Log.e("aa" , "onPageScrollStateChanged "  + state);
+
+                    }
+                })
                 .setPages(list);
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
