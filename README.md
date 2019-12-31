@@ -13,13 +13,11 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 * 更多优化请参考代码实现。
 
 ## 效果图
-
-##### 基本使用的功能，请下载demo体验
-![tu1](gif/tu1.png)
-
-##### 使用了MagicIndicator
-![效果示例](gif/tu2.gif)
-
+|描述|图片
+|---|---|
+|**基本使用的功能，请下载demo体验**|![tu1](gif/tu1.png)|
+|**使用了MagicIndicator**|![tu2](gif/tu2.gif)|
+|**一屏三页**|![tu3](gif/tu3.gif)|
 
 ## 使用步骤
 
@@ -87,6 +85,29 @@ public class ImageHolderCreator implements HolderCreator {
               .setHolderCreator(new ImageHolderCreator())
               .setPages(list);
     }
+```
+
+### 简单设置一屏三页效果
+```java
+
+ @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        banner = findViewById(R.id.banner);
+        //使用内置Indicator
+        IndicatorView qyIndicator = new IndicatorView(this)
+              .setIndicatorColor(Color.DKGRAY)
+              .setIndicatorSelectorColor(Color.WHITE);
+        banner.setIndicator(qyIndicator)
+              .setHolderCreator(new ImageHolderCreator())
+              //设置左右页面露出来的宽度及item与item之间的宽度
+              .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
+              //设置切换缩放动画
+              .setPageTransformer(true, new ScalePageTransformer())
+              .setPages(list);
+    }
+    
 ```
 
 ### 如何自定义Indicator
@@ -174,10 +195,12 @@ public class IndicatorView extends View implements Indicator{
  |HolderCreator(HolderCreator holderCreator))|设置view创建接口
  |setPages(List<?> items)|加载数据，此方法时开始轮播的方法，请再最后调用
  |setPages(List<?> items, int startPosition)|重载方法，设置轮播的起始位置
- |boolean isAutoPlay()|是否无限轮播
- |int getCurrentPager()|获取viewPager位置
- |void startTurning()|开始轮播
- |void stopTurning()|停止轮播
+ |isAutoPlay()|是否无限轮播
+ |getCurrentPager()|获取viewPager位置
+ |startTurning()|开始轮播
+ |stopTurning()|停止轮播
+ |setPageMargin(int multiWidth, int pageMargin)|设置一屏多页
+ |setPageMargin(int leftWidth, int rightWidth, int pageMargin)|设置一屏多页,方法重载
 
 ### 内置IndicatorView使用方法介绍，一般都是通过new关键字创建，设置到banner中，因此也没有提供任何自定义属性
  |方法名|描述
