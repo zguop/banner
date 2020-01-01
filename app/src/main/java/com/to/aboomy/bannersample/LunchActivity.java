@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.to.aboomy.bannersample.activity.AnimActivity;
 import com.to.aboomy.bannersample.activity.FragmentViewPagerActivity;
+import com.to.aboomy.bannersample.activity.Indicator2Activity;
 import com.to.aboomy.bannersample.activity.IndicatorStyleActivity;
 import com.to.aboomy.bannersample.activity.MainActivity;
 import com.to.aboomy.bannersample.activity.MultBannerActivity;
@@ -73,6 +74,14 @@ public class LunchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LunchActivity.this, AnimActivity.class);
+                startActivity(i);
+            }
+        });
+
+        findViewById(R.id.view7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LunchActivity.this, Indicator2Activity.class);
                 startActivity(i);
             }
         });

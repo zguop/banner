@@ -18,6 +18,7 @@ import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * auth aboom
@@ -58,13 +59,8 @@ public class RecyclerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BannerBean b = (BannerBean) adapter.getItem(0);
                 b.urls.clear();
-                int randomNum = Utils.getRandomNum();
-                if(randomNum == 0){
-                    randomNum = 1;
-                }
-                for (int i = 0; i < randomNum; i++) {
-                    b.urls.add(Utils.getRandom());
-                }
+                List<String> data = Utils.getData(new Random().nextInt(10));
+                b.urls.addAll(data);
                 adapter.setData(0, b);
             }
         });
