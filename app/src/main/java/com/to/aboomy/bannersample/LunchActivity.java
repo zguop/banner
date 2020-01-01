@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.to.aboomy.bannersample.activity.AnimActivity;
 import com.to.aboomy.bannersample.activity.FragmentViewPagerActivity;
 import com.to.aboomy.bannersample.activity.IndicatorStyleActivity;
 import com.to.aboomy.bannersample.activity.MainActivity;
@@ -68,15 +69,13 @@ public class LunchActivity extends AppCompatActivity {
             }
         });
 
-
-        SparseArray<Integer> childIndex = new SparseArray<>();
-        childIndex.put(1, 574);
-        childIndex.put(4, 574);
-
-        Log.e("aa" , childIndex.indexOfKey(1) + "");
-        Log.e("aa" , childIndex.indexOfKey(2) + "");
-        Log.e("aa" , childIndex.indexOfKey(6) + "");
-        Log.e("aa" , childIndex.indexOfKey(7) + "");
+        findViewById(R.id.view6).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LunchActivity.this, AnimActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }

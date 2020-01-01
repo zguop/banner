@@ -1,7 +1,7 @@
 # Android轮播控件
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持三种动画切换。
-无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考demo。
+无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考Sample。
 项目参考了[banner](https://github.com/youth5201314/banner) count+2的轮播思想。
 
 * 支持一屏三页
@@ -16,7 +16,7 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 ## 效果图
 |描述|图片
 |---|---|
-|**基本使用的功能，请下载demo体验**|![tu1](gif/tu1.png)|
+|**基本使用的功能，请下载Sample体验**|![tu1](gif/tu1.png)|
 |**使用了MagicIndicator**|![tu2](gif/tu2.gif)|
 |**一屏三页**|![tu3](gif/tu3.gif)|
 
@@ -97,6 +97,14 @@ public class ImageHolderCreator implements HolderCreator {
 .setPageTransformer(true, new ScaleInTransformer())
     
 ```
+
+### 关于ViewPager切换动画
+
+Sample中集成了以下两个ViewPager切换动画，请运行Sample查看动画效果，参考需要的ViewPagerTransform放到项目中，或者根据需求进行自定义。
+
+[ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
+
+[MagicViewPager](https://github.com/hongyangAndroid/MagicViewPager)
 
 ### 如何自定义Indicator
 ```java
@@ -196,18 +204,13 @@ public class IndicatorView extends View implements Indicator{
  |---|---|
  |setIndicatorRadius(float indicatorRadius)|设置圆点半径|
  |setIndicatorSpacing(float indicatorSpacing)|设置圆点间距|
- |setIndicatorStyle(@IndicatorStyle int indicatorStyle)|设置圆点切换动画，内置三种切换动画，请参考demo|
+ |setIndicatorStyle(@IndicatorStyle int indicatorStyle)|设置圆点切换动画，内置三种切换动画，请参考Sample|
  |setIndicatorColor(@ColorInt int indicatorColor)|设置默认的圆点颜色|
  |setIndicatorSelectorColor(@ColorInt int indicatorSelectorColor) |设置选中的圆点颜色|
- |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部20dp，请参考demo|
+ |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部20dp，请参考Sample|
  
 ### 感谢
 [banner](https://github.com/youth5201314/banner)
-
-[ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
-
-[MagicViewPager](https://github.com/hongyangAndroid/MagicViewPager)
-
 
 ### 总结
 -

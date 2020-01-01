@@ -18,4 +18,10 @@
         <item name="android:paddingTop">6dp</item>
     </style>
 
+    <!--底部弹出的动画-->
+    <style name="dl_anim_slide_share_from_bottom">
+        <item name="android:windowEnterAnimation">@anim/dl_slide_share_from_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dl_slide_share_from_bottom_out</item>
+    </style>
+
 </resources>
