@@ -2,7 +2,7 @@
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持三种动画切换。
 无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考Sample。
-项目参考了[banner](https://github.com/youth5201314/banner) count+2的轮播思想。
+
 
 * 支持一屏三页
 * 支持魅族效果
@@ -11,7 +11,7 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 * 支持数据刷新
 * 解决下拉刷新等滑动冲突问题，如嵌套SwipeRefreshLayout
 * 解决多次重复回调onPageSelected问题
-* 更多优化请参考代码实现。
+* 良好的代码封装，更多优化请参考代码实现。
 
 ## 效果图
 |描述|图片
@@ -210,7 +210,7 @@ public class IndicatorView extends View implements Indicator{
  |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部20dp，请参考Sample|
  
 ### 感谢
-[banner](https://github.com/youth5201314/banner)
+项目参考了[banner](https://github.com/youth5201314/banner) count+2的轮播思想。
 
 ### 总结
 -
