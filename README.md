@@ -93,8 +93,8 @@ public class ImageHolderCreator implements HolderCreator {
 
 //设置左右页面露出来的宽度及item与item之间的宽度
 .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
-//内置ScalePageTransformer，设置切换缩放动画
-.setPageTransformer(true, new ScalePageTransformer())
+//内置ScaleInTransformer，设置切换缩放动画
+.setPageTransformer(true, new ScaleInTransformer())
     
 ```
 
