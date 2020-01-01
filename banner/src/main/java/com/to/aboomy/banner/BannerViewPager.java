@@ -4,9 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.SparseIntArray;
 import android.view.MotionEvent;
+import android.view.View;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BannerViewPager extends ViewPager {
     private final static int SCALED_TOUCH_SLOP = 8;
@@ -18,6 +23,9 @@ public class BannerViewPager extends ViewPager {
 
     private boolean scrollable = true;
     private ViewPagerScroller scroller;
+    private boolean overlapStyle;
+    private List<Integer> childCenterXAbs;
+    private SparseIntArray childIndex;
 
     public BannerViewPager(Context context) {
         this(context, null);
@@ -67,6 +75,49 @@ public class BannerViewPager extends ViewPager {
 
     public void setScrollable(boolean scrollable) {
         this.scrollable = scrollable;
+    }
+
+    @Override
+    protected int getChildDrawingOrder(int childCount, int n) {
+        if (overlapStyle) {
+            if (n == 0 || childIndex.size() != childCount) {
+                childCenterXAbs.clear();
+                childIndex.clear();
+                int viewCenterX = getViewCenterX(this);
+                for (int i = 0; i < childCount; ++i) {
+                    int viewCenterX1 = getViewCenterX(getChildAt(i));
+                    int indexAbs = Math.abs(viewCenterX - viewCenterX1);
+                    //两个距离相同，后来的那个做自增，从而保持abs不同
+                    if (childIndex.indexOfKey(indexAbs) >= 0) {
+                        ++indexAbs;
+                    }
+                    childCenterXAbs.add(indexAbs);
+                    childIndex.append(indexAbs, i);
+                }
+                Collections.sort(childCenterXAbs);//1,0,2  0,1,2
+            }
+            //那个item距离中心点远一些，就先draw它。（最近的就是中间放大的item,最后draw）
+            return childIndex.get(childCenterXAbs.get(childCount - 1 - n));
+        } else {
+            return super.getChildDrawingOrder(childCount, n);
+        }
+    }
+
+    public void setOverlapStyle(boolean overlapStyle) {
+        this.overlapStyle = overlapStyle;
+        if (overlapStyle) {
+            childCenterXAbs = new ArrayList<>();
+            childIndex = new SparseIntArray();
+        } else {
+            childCenterXAbs = null;
+            childIndex = null;
+        }
+    }
+
+    private int getViewCenterX(View view) {
+        int[] array = new int[2];
+        view.getLocationOnScreen(array);
+        return array[0] + view.getWidth() / 2;
     }
 
     private void initViewPagerScroll() {

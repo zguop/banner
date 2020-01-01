@@ -2,9 +2,10 @@
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持三种动画切换。
 无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考demo。
-项目参考了[banner](https://github.com/youth5201314/banner)count+2的轮播思想。
+项目参考了[banner](https://github.com/youth5201314/banner) count+2的轮播思想。
 
 * 支持一屏三页
+* 支持魅族效果
 * 支持自定义Indicator
 * 支持自定义view
 * 支持数据刷新

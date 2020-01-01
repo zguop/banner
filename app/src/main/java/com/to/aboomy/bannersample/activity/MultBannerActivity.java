@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.HolderCreator;
 import com.to.aboomy.banner.IndicatorView;
-import com.to.aboomy.banner.ScalePageTransformer;
+import com.to.aboomy.banner.ScaleInTransformer;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
@@ -54,22 +54,6 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
                 .setIndicator(new IndicatorView(this)
                         .setIndicatorColor(Color.DKGRAY)
                         .setIndicatorSelectorColor(Color.WHITE))
-                .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        Log.e("aa", "onPageSelected " + position);
-
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-
-                    }
-                })
                 .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
                 .setPages(list);
     }
@@ -81,29 +65,13 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
         list.add(Utils.getRandom());
         Banner banner = findViewById(R.id.banner2);
         banner.setHolderCreator(this)
-                .setAutoTurningTime(4000)
+                .setAutoTurningTime(3000)
                 .setIndicator(((IndicatorView) findViewById(R.id.indicator2))
                         .setIndicatorColor(Color.DKGRAY)
                         .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BEZIER)
                         .setIndicatorSelectorColor(Color.RED), false)
-                .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        Log.e("aa", "onPageSelected " + position);
-
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-
-                    }
-                })
                 .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
-                .setPageTransformer(true, new ScalePageTransformer())
+                .setPageTransformer(true, new ScaleInTransformer())
                 .setPages(list);
     }
 
@@ -115,9 +83,14 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
         Banner banner = findViewById(R.id.banner3);
 
 
+        banner.setAutoTurningTime(3500);
+        banner.setIndicator(new IndicatorView(this)
+                .setIndicatorColor(Color.DKGRAY)
+                .setIndicatorSelectorColor(Color.WHITE)
+                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT));
         banner.setHolderCreator(this);
-        banner.setPageMargin(UIUtil.dip2px(this,40),0);
-        banner.setPageTransformer(true,new ScalePageTransformer());
+        banner.setPageMargin(UIUtil.dip2px(this,10),-UIUtil.dip2px(this,14));
+        banner.setPageTransformer(true,new ScaleInTransformer());
 
 
         banner.setPages(list);

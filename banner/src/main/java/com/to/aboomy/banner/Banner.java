@@ -76,7 +76,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      * 设置一屏多页
      *
      * @param multiWidth 左右页面露出来的宽度一致
-     * @param pageMargin 设置Item与Item直接的间距
+     * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度，小于0 魅族效果banner效果
      */
     public Banner setPageMargin(int multiWidth, int pageMargin) {
         return setPageMargin(multiWidth, multiWidth, pageMargin);
@@ -87,17 +87,18 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      *
      * @param leftWidth  左边页面显露出来的宽度
      * @param rightWidth 右边页面露出来的宽度
-     * @param pageMargin 设置Item与Item直接的间距
+     * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度
      */
     public Banner setPageMargin(int leftWidth, int rightWidth, int pageMargin) {
         if (viewPager != null) {
-            if (pageMargin > 0) {
+            if (pageMargin != 0) {
                 viewPager.setPageMargin(pageMargin);
+                viewPager.setOverlapStyle(pageMargin < 0);
             }
             if (leftWidth > 0 && rightWidth > 0) {
                 LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
-                layoutParams.leftMargin = leftWidth + viewPager.getPageMargin();
-                layoutParams.rightMargin = rightWidth + viewPager.getPageMargin();
+                layoutParams.leftMargin = leftWidth + Math.abs(pageMargin);
+                layoutParams.rightMargin = rightWidth + Math.abs(pageMargin);
                 viewPager.setOffscreenPageLimit(2);
                 needPage += NORMAL_COUNT;
             }

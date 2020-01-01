@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 
 import com.to.aboomy.bannersample.activity.FragmentViewPagerActivity;
@@ -65,5 +67,16 @@ public class LunchActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+        SparseArray<Integer> childIndex = new SparseArray<>();
+        childIndex.put(1, 574);
+        childIndex.put(4, 574);
+
+        Log.e("aa" , childIndex.indexOfKey(1) + "");
+        Log.e("aa" , childIndex.indexOfKey(2) + "");
+        Log.e("aa" , childIndex.indexOfKey(6) + "");
+        Log.e("aa" , childIndex.indexOfKey(7) + "");
+
     }
 }
