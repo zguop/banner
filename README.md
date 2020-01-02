@@ -18,13 +18,14 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 |---|---|
 |**基本使用的功能，请下载Sample体验**|![tu1](gif/tu1.png)|
 
-|描述|1|
-|**Indicator查看simple代码**|![tu2](gif/tu2.gif)|
-
 |描述|普通样式|两边缩放|魅族样式|
 |---|---|---|---|
-|**一屏三页**|![http://i1.fuimg.com/707200/1740413bfd7e3090.gif](gif/tu4.gif)|![http://i1.fuimg.com/707200/409343f30c8f8b11.gif](http://i1.fuimg.com/707200/409343f30c8f8b11.gif)|![http://i1.fuimg.com/707200/f723f3929e38f407.gif](http://i1.fuimg.com/707200/f723f3929e38f407.gif)|
+|**一屏三页**|![https://img-blog.csdnimg.cn/20200102193308276.gif](https://img-blog.csdnimg.cn/20200102193308276.gif)|![https://img-blog.csdnimg.cn/20200102193350824.gif](https://img-blog.csdnimg.cn/20200102193350824.gif)|![https://img-blog.csdnimg.cn/20200102193414824.gif](https://img-blog.csdnimg.cn/20200102193414824.gif)|
 
+|效果图|1|2|
+|---|---|---|
+|**Indicator查看simple代码** |![https://img-blog.csdnimg.cn/20200102194459852.gif](https://img-blog.csdnimg.cn/20200102194459852.gif)|![https://img-blog.csdnimg.cn/20200102194542140.gif](https://img-blog.csdnimg.cn/20200102194542140.gif)|
+|![https://img-blog.csdnimg.cn/20200102194843393.gif](https://img-blog.csdnimg.cn/20200102194843393.gif)|![https://img-blog.csdnimg.cn/20200102195247747.gif](https://img-blog.csdnimg.cn/20200102195247747.gif)|![https://img-blog.csdnimg.cn/202001021953167.gif](https://img-blog.csdnimg.cn/202001021953167.gif)|
 
 ## 使用步骤
 
