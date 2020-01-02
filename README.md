@@ -14,14 +14,16 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 * 良好的代码封装，更多优化请参考代码实现。
 
 ## 效果图
-|描述|图片|描述|图片|
-|---|---|---|---|
+|描述|图片|
+|---|---|
 |**基本使用的功能，请下载Sample体验**|![tu1](gif/tu1.png)|
-|**使用了MagicIndicator**|![tu2](gif/tu2.gif)|
+
+|描述|1|
+|**Indicator查看simple代码**|![tu2](gif/tu2.gif)|
 
 |描述|普通样式|两边缩放|魅族样式|
 |---|---|---|---|
-|**一屏三页**|![Markdown](http://i1.fuimg.com/707200/1740413bfd7e3090.gif)|![Markdown](http://i1.fuimg.com/707200/409343f30c8f8b11.gif)|![Markdown](http://i1.fuimg.com/707200/f723f3929e38f407.gif)|
+|**一屏三页**|![http://i1.fuimg.com/707200/1740413bfd7e3090.gif](gif/tu4.gif)|![http://i1.fuimg.com/707200/409343f30c8f8b11.gif](http://i1.fuimg.com/707200/409343f30c8f8b11.gif)|![http://i1.fuimg.com/707200/f723f3929e38f407.gif](http://i1.fuimg.com/707200/f723f3929e38f407.gif)|
 
 
 ## 使用步骤
@@ -30,7 +32,7 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 Gradle 
 ```groovy
 dependencies{
-    implementation 'com.to.aboomy:banner:3.0.4'  //最新版本
+    implementation 'com.waitou:banner:3.0.4'  //最新版本
 }
 ```
 或者引用本地lib
