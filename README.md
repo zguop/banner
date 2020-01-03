@@ -1,5 +1,5 @@
 # Android轮播控件
-[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg?version=3.0.5) ](https://bintray.com/a13706649811/maven/banner/3.0.5/link) [ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg?version=3.0.5-x) ](https://bintray.com/a13706649811/maven/banner/3.0.5-x/link)
+[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg?version=3.0.6) ](https://bintray.com/a13706649811/maven/banner/3.0.6/link)[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg) ](https://bintray.com/a13706649811/maven/banner/_latestVersion)
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持三种动画切换。
 无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考Sample。
@@ -41,8 +41,8 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 Gradle 
 ```groovy
 dependencies{
-    implementation 'com.to.aboomy:banner:3.0.5'  //最新版本
-    implementation 'com.to.aboomy:banner:3.0.5-x' //androidx版本
+    implementation 'com.to.aboomy:banner:3.0.6'  //最新版本
+    implementation 'com.to.aboomy:banner:3.0.6-x' //androidx版本
 }
 ```
 或者引用本地lib
