@@ -35,6 +35,6 @@ dependencies {
     implementation 'com.zhy:magic-viewpager:1.0.1'
 
 
-    implementation project(":banner")
-
+//    implementation project(":banner")
+    implementation 'com.waitou:banner:3.0.5'
 }
