@@ -1,8 +1,9 @@
 package com.to.aboomy.banner;
 
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * 可以实现该接口，自定义Indicator 可参考内置的{@link IndicatorView}

@@ -1,7 +1,8 @@
 package com.to.aboomy.bannersample.adapter;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

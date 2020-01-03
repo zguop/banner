@@ -5,12 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
-import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
+import androidx.fragment.app.FragmentActivity;
 
 import com.to.aboomy.bannersample.R;
 

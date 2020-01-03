@@ -2,11 +2,12 @@ package com.to.aboomy.bannersample.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
@@ -28,7 +29,6 @@ import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
-import com.to.aboomy.bannersample.creator.ImageTest1ChildHolderCreator;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
