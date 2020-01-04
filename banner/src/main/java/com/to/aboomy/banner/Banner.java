@@ -130,6 +130,13 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         return this;
     }
 
+    public Banner setOffscreenPageLimit(int limit) {
+        if (viewPager != null) {
+            viewPager.setOffscreenPageLimit(limit);
+        }
+        return this;
+    }
+
     /**
      * 是否自动轮播 大于1页轮播才生效
      */

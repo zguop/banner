@@ -214,6 +214,7 @@ public class IndicatorView extends View implements Indicator{
  |stopTurning()|停止轮播
  |setPageMargin(int multiWidth, int pageMargin)|设置一屏多页
  |setPageMargin(int leftWidth, int rightWidth, int pageMargin)|设置一屏多页,方法重载
+ |setOffscreenPageLimit(int limit)|
 
 ### 内置IndicatorView使用方法介绍，没有提供任何自定义属性
  |方法名|描述
