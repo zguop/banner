@@ -7,7 +7,7 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 ![logo](gif/logo.png)
 
 * 支持一屏三页
-* 支持魅族效果
+* 支持仿魅族效果
 * 支持自定义Indicator
 * 支持自定义view
 * 支持数据刷新
@@ -223,7 +223,7 @@ public class IndicatorView extends View implements Indicator{
  |setIndicatorStyle(@IndicatorStyle int indicatorStyle)|设置圆点切换动画，内置三种切换动画，请参考Sample|
  |setIndicatorColor(@ColorInt int indicatorColor)|设置默认的圆点颜色|
  |setIndicatorSelectorColor(@ColorInt int indicatorSelectorColor) |设置选中的圆点颜色|
- |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部20dp，请参考Sample|
+ |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部10dp，请参考Sample|
  
 ### 感谢
 项目参考了[banner](https://github.com/youth5201314/banner) count+2的轮播思想。

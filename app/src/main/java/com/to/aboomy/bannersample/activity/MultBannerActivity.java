@@ -49,8 +49,25 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
         list.add(Utils.getRandom());
         list.add(Utils.getRandom());
         list.add(Utils.getRandom());
+        list.add(Utils.getRandom());
         Banner banner = findViewById(R.id.banner1);
         banner.setHolderCreator(this)
+                .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int i, float v, int i1) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int i) {
+                        Log.e("aa" , " onPageSelected " + i);
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int i) {
+
+                    }
+                })
                 .setIndicator(new IndicatorView(this)
                         .setIndicatorColor(Color.DKGRAY)
                         .setIndicatorSelectorColor(Color.WHITE))
