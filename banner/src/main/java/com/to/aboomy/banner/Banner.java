@@ -131,6 +131,13 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         return this;
     }
 
+    public Banner setOffscreenPageLimit(int limit) {
+        if (viewPager != null) {
+            viewPager.setOffscreenPageLimit(limit);
+        }
+        return this;
+    }
+
     /**
      * 是否自动轮播 大于1页轮播才生效
      */
@@ -259,6 +266,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         if (isAutoPlay) {
             startTurning();
         }
+
     }
 
     @Override
@@ -290,8 +298,8 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     @Override
     public void onPageSelected(int position) {
-        //解决多次重复回调onPageSelected问题
-        boolean resetItem = currentPage == sidePage - 1 || currentPage == needCount - (sidePage - 1);
+        //解决多次重复回调onPageSelected问题,暂时这么处理
+        boolean resetItem = currentPage == sidePage - 1 || currentPage == needCount - (sidePage - 1) || (position != currentPage && needCount - currentPage == sidePage);
         currentPage = position;
         if (resetItem) return;
         int realPosition = toRealPosition(position);

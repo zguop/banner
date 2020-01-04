@@ -136,4 +136,24 @@ public class BannerViewPager extends ViewPager {
     public void setPagerScrollDuration(int duration) {
         scroller.setScrollDuration(duration);
     }
+
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        onAttachedToRestFirstLayout();
+    }
+
+    private void onAttachedToRestFirstLayout() {
+        try {
+            //解决在RecyclerView中使用的bug,当viewPager画出屏幕时，并执行了onDetachedFromWindow，再回来时，第一次滑动时没有动画效果
+            Field firstLayout = ViewPager.class.getDeclaredField("mFirstLayout");
+            firstLayout.setAccessible(true);
+            firstLayout.set(this, false);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 }

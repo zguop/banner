@@ -30,13 +30,14 @@ public class Adapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseView
     protected void convert(@NonNull BaseViewHolder helper, MultiItemEntity item) {
         if (item.getItemType() == 1) {
             BannerBean bannerBean = (BannerBean) item;
-            Banner itemView = (Banner) helper.itemView;
+            Banner itemView = helper.getView(R.id.banner);
             IndicatorView qyIndicator = new IndicatorView(itemView.getContext())
                     .setIndicatorColor(Color.BLACK)
                     .setIndicatorSelectorColor(Color.WHITE);
             itemView.setIndicator(qyIndicator)
                     .setHolderCreator(new ImageHolderCreator())
                     .setPages(bannerBean.urls, itemView.getCurrentPager());
+            helper.setText(R.id.text, "我是recyclerView的一个item");
         } else {
             TextBean textBean = (TextBean) item;
             helper.setText(R.id.text, textBean.text);

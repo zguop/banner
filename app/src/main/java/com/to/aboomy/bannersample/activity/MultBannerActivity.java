@@ -3,12 +3,14 @@ package com.to.aboomy.bannersample.activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.to.aboomy.banner.Banner;
@@ -48,8 +50,25 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
         list.add(Utils.getRandom());
         list.add(Utils.getRandom());
         list.add(Utils.getRandom());
+        list.add(Utils.getRandom());
         Banner banner = findViewById(R.id.banner1);
         banner.setHolderCreator(this)
+                .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int i, float v, int i1) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int i) {
+                        Log.e("aa" , " onPageSelected " + i);
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int i) {
+
+                    }
+                })
                 .setIndicator(new IndicatorView(this)
                         .setIndicatorColor(Color.DKGRAY)
                         .setIndicatorSelectorColor(Color.WHITE))
