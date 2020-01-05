@@ -265,7 +265,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         if (isAutoPlay) {
             startTurning();
         }
-
     }
 
     @Override

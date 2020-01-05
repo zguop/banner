@@ -43,8 +43,10 @@ public class MainActivity extends AppCompatActivity {
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
                 .setIndicatorColor(Color.GRAY)
+                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_DASH)
                 .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(indicatorView)
+                .setAutoPlay(false)
                 .setHolderCreator(new ImageHolderCreator())
                 .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
@@ -115,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (style == 1) {
                     style = IndicatorView.IndicatorStyle.INDICATOR_BEZIER;
                 } else if (style == 2) {
-                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
+                    style = IndicatorView.IndicatorStyle.INDICATOR_DASH;
+                }else if(style == 3){
+                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT;
                 }
                 indicatorView.setIndicatorStyle(style);
             }
