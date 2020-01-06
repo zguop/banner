@@ -183,7 +183,7 @@ public class IndicatorView extends View implements Indicator {
     private void drawCircle(Canvas canvas, float midY) {
         drawPagerCountCircle(canvas, midY);
         float indicatorStartX = indicatorStartX(selectedPage);
-        float nextIndicatorStartX = indicatorStartX(selectedPage + 1);
+        float nextIndicatorStartX = indicatorStartX((selectedPage + 1) % pagerCount);
         float indicatorX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * interpolatedOffset();
         canvas.drawCircle(indicatorX, midY, indicatorRadius, selectedIndicatorPaint);
     }
@@ -191,10 +191,20 @@ public class IndicatorView extends View implements Indicator {
     private void drawCircleRect(Canvas canvas, float midY) {
         drawPagerCountCircle(canvas, midY);
         float indicatorStartX = indicatorStartX(selectedPage);
-        float extStart = indicatorStartX + Math.max((indicatorSpacing + indicatorRadius * 2) * (interpolatedOffset() - 0.5f) * 2.0f, 0);
-        float extenderEnd = indicatorStartX + Math.min(((indicatorSpacing + indicatorRadius * 2) * interpolatedOffset() * 2), indicatorSpacing + indicatorRadius * 2);
+        float offset = interpolatedOffset();
+        float distance = indicatorSpacing + indicatorRadius * 2;
+        float leftX;
+        float rightX;
+        if ((selectedPage + 1) % pagerCount == 0) {
+            distance *= -selectedPage;
+            leftX = indicatorStartX + Math.max((distance * offset * 2), distance);
+            rightX = indicatorStartX + Math.min(distance * (offset - 0.5f) * 2.0f, 0);
+        } else {
+            leftX = indicatorStartX + Math.max(distance * (offset - 0.5f) * 2.0f, 0);
+            rightX = indicatorStartX + Math.min((distance * offset * 2), distance);
+        }
         if (selectorRect == null) selectorRect = new RectF();
-        selectorRect.set(extStart - indicatorRadius, midY - indicatorRadius, extenderEnd + indicatorRadius, midY + indicatorRadius);
+        selectorRect.set(leftX - indicatorRadius, midY - indicatorRadius, rightX + indicatorRadius, midY + indicatorRadius);
         canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
     }
 
@@ -203,7 +213,7 @@ public class IndicatorView extends View implements Indicator {
         if (path == null) path = new Path();
         if (accelerateInterpolator == null) accelerateInterpolator = new AccelerateInterpolator();
         float indicatorStartX = indicatorStartX(selectedPage);
-        float nextIndicatorStartX = indicatorStartX(selectedPage + 1);
+        float nextIndicatorStartX = indicatorStartX((selectedPage + 1) % pagerCount);
         float leftX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * accelerateInterpolator.getInterpolation(offset);
         float rightX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * interpolatedOffset();
         float minRadius = indicatorRadius * 0.57f;
@@ -223,23 +233,27 @@ public class IndicatorView extends View implements Indicator {
 
     private void drawDash(Canvas canvas, float midY) {
         if (selectorRect == null) selectorRect = new RectF();
+        float offset = indicatorSpacing * interpolatedOffset();
+        int nextPage = (selectedPage + 1) % pagerCount;
+        boolean isNextFirst = nextPage == 0;
         for (int i = 0; i < pagerCount; i++) {
             float startCx = indicatorStartX(i);
+            if (isNextFirst) startCx += offset;
             if (selectedPage + 1 <= i) {
                 canvas.drawCircle(startCx + indicatorSpacing, midY, indicatorRadius, indicatorPaint);
             } else {
                 canvas.drawCircle(startCx, midY, indicatorRadius, indicatorPaint);
             }
         }
-        float offset = (indicatorSpacing * interpolatedOffset());
-        float leftX = indicatorStartX(selectedPage) - indicatorRadius;
-        float rightX = leftX + indicatorRadius * 2 + indicatorSpacing - offset;
-        selectorRect.set(leftX, midY - indicatorRadius, rightX, midY + indicatorRadius);
-        if(offset < indicatorSpacing - 1f){
+        if (offset < indicatorSpacing - 1f) {
+            float leftX = indicatorStartX(selectedPage) - indicatorRadius;
+            if (isNextFirst) leftX += offset;
+            float rightX = leftX + indicatorRadius * 2 + indicatorSpacing - offset;
+            selectorRect.set(leftX, midY - indicatorRadius, rightX, midY + indicatorRadius);
             canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
         }
         if (offset > 1f) {
-            float nextRightX = indicatorStartX((selectedPage + 1) % pagerCount) + indicatorRadius + indicatorSpacing;
+            float nextRightX = indicatorStartX(nextPage) + indicatorRadius + (isNextFirst ? offset : indicatorSpacing);
             float nextLeftX = nextRightX - indicatorRadius * 2 - offset;
             selectorRect.set(nextLeftX, midY - indicatorRadius, nextRightX, midY + indicatorRadius);
             canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
@@ -266,6 +280,7 @@ public class IndicatorView extends View implements Indicator {
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         selectedPage = position;
         offset = positionOffset;
+        Log.e("aa", " offset " + offset + " selectedPage " + selectedPage);
         invalidate();
     }
 

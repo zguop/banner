@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
                 .setIndicatorColor(Color.GRAY)
-                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_DASH)
+                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT)
                 .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setPages(list);
+
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (style == 2) {
                     style = IndicatorView.IndicatorStyle.INDICATOR_DASH;
                 }else if(style == 3){
-                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT;
+                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
                 }
                 indicatorView.setIndicatorStyle(style);
             }
@@ -142,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        updateLoopText();
+
+
     }
 
     private void  updateLoopText(){

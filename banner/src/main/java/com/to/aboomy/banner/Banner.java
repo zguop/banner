@@ -282,15 +282,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             outerPageChangeListener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
         }
         if (indicator != null) {
-            if (realPosition != realCount - 1) {
-                indicator.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
-            } else {
-                if (positionOffset > .5) {
-                    indicator.onPageScrolled(0, 0, 0);
-                } else {
-                    indicator.onPageScrolled(realPosition, 0, 0);
-                }
-            }
+            indicator.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
         }
     }
 
