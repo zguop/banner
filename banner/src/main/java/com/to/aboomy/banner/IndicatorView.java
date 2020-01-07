@@ -44,13 +44,14 @@ public class IndicatorView extends View implements Indicator {
     private float indicatorRadius = dip2px(3.5f);
     private float indicatorSpacing = dip2px(10);
 
-    @IntDef({IndicatorStyle.INDICATOR_CIRCLE, IndicatorStyle.INDICATOR_CIRCLE_RECT, IndicatorStyle.INDICATOR_BEZIER, IndicatorStyle.INDICATOR_DASH})
+    @IntDef({IndicatorStyle.INDICATOR_CIRCLE, IndicatorStyle.INDICATOR_CIRCLE_RECT, IndicatorStyle.INDICATOR_BEZIER, IndicatorStyle.INDICATOR_DASH, IndicatorStyle.INDICATOR_BIG_CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface IndicatorStyle {
         int INDICATOR_CIRCLE = 0;
         int INDICATOR_CIRCLE_RECT = 1;
         int INDICATOR_BEZIER = 2;
         int INDICATOR_DASH = 3;
+        int INDICATOR_BIG_CIRCLE = 4;
     }
 
     public IndicatorView(Context context) {
@@ -177,6 +178,8 @@ public class IndicatorView extends View implements Indicator {
             drawBezier(canvas, midY);
         } else if (indicatorStyle == IndicatorStyle.INDICATOR_DASH) {
             drawDash(canvas, midY);
+        } else if (indicatorStyle == IndicatorStyle.INDICATOR_BIG_CIRCLE) {
+            drawBigCircle(canvas, midY);
         }
     }
 
@@ -257,6 +260,20 @@ public class IndicatorView extends View implements Indicator {
             float nextLeftX = nextRightX - indicatorRadius * 2 - offset;
             selectorRect.set(nextLeftX, midY - indicatorRadius, nextRightX, midY + indicatorRadius);
             canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
+        }
+    }
+
+    private void drawBigCircle(Canvas canvas, float midY) {
+        drawPagerCountCircle(canvas, midY);
+        float offset = interpolatedOffset();
+        float indicatorStartX = indicatorStartX(selectedPage);
+        float nextIndicatorStartX = indicatorStartX((selectedPage + 1) % pagerCount);
+        float maxRadius = indicatorRadius * 1.5f;
+        float leftRadius = maxRadius - ((maxRadius - indicatorRadius) * offset);
+        float rightRadius = indicatorRadius + ((maxRadius - indicatorRadius) * interpolatedOffset());
+        canvas.drawCircle(indicatorStartX, midY, leftRadius, selectedIndicatorPaint);
+        if(offset > 1f){
+            canvas.drawCircle(nextIndicatorStartX, midY, rightRadius, selectedIndicatorPaint);
         }
     }
 
