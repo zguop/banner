@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
                 .setIndicatorColor(Color.GRAY)
-                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE)
                 .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onPageSelected(int position) {
-                        Log.e("aa" , "onPageSelected "  + position);
+                        Log.e("aa", "onPageSelected " + position);
 
                     }
 
@@ -119,7 +118,9 @@ public class MainActivity extends AppCompatActivity {
                     style = IndicatorView.IndicatorStyle.INDICATOR_BEZIER;
                 } else if (style == 2) {
                     style = IndicatorView.IndicatorStyle.INDICATOR_DASH;
-                }else if(style == 3){
+                } else if (style == 3) {
+                    style = IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE;
+                } else if (style == 4) {
                     style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
                 }
                 indicatorView.setIndicatorStyle(style);
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     updateLoopText();
                 } else {
                     banner.setAutoPlay(true);
-                    if(!banner.isAutoPlay()){
+                    if (!banner.isAutoPlay()) {
                         Toast.makeText(MainActivity.this, "轮播页数需要大于1", Toast.LENGTH_SHORT).show();
                     }
                     updateLoopText();
@@ -149,10 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void  updateLoopText(){
-        if(banner.isAutoPlay()){
+    private void updateLoopText() {
+        if (banner.isAutoPlay()) {
             noLoop.setText("停止自动轮播");
-        }else {
+        } else {
             noLoop.setText("开始自动轮播");
         }
     }

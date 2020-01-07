@@ -44,7 +44,11 @@ public class IndicatorView extends View implements Indicator {
     private float indicatorRadius = dip2px(3.5f);
     private float indicatorSpacing = dip2px(10);
 
-    @IntDef({IndicatorStyle.INDICATOR_CIRCLE, IndicatorStyle.INDICATOR_CIRCLE_RECT, IndicatorStyle.INDICATOR_BEZIER, IndicatorStyle.INDICATOR_DASH, IndicatorStyle.INDICATOR_BIG_CIRCLE})
+    @IntDef({IndicatorStyle.INDICATOR_CIRCLE,
+            IndicatorStyle.INDICATOR_CIRCLE_RECT,
+            IndicatorStyle.INDICATOR_BEZIER,
+            IndicatorStyle.INDICATOR_DASH,
+            IndicatorStyle.INDICATOR_BIG_CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface IndicatorStyle {
         int INDICATOR_CIRCLE = 0;
@@ -266,13 +270,16 @@ public class IndicatorView extends View implements Indicator {
     private void drawBigCircle(Canvas canvas, float midY) {
         drawPagerCountCircle(canvas, midY);
         float offset = interpolatedOffset();
+        int nextPage = (selectedPage + 1) % pagerCount;
         float indicatorStartX = indicatorStartX(selectedPage);
-        float nextIndicatorStartX = indicatorStartX((selectedPage + 1) % pagerCount);
+        float nextIndicatorStartX = indicatorStartX(nextPage);
         float maxRadius = indicatorRadius * 1.5f;
         float leftRadius = maxRadius - ((maxRadius - indicatorRadius) * offset);
-        float rightRadius = indicatorRadius + ((maxRadius - indicatorRadius) * interpolatedOffset());
-        canvas.drawCircle(indicatorStartX, midY, leftRadius, selectedIndicatorPaint);
-        if(offset > 1f){
+        float rightRadius = indicatorRadius + ((maxRadius - indicatorRadius) * offset);
+        if (offset < 0.9) {
+            canvas.drawCircle(indicatorStartX, midY, leftRadius, selectedIndicatorPaint);
+        }
+        if (offset > 0.1f) {
             canvas.drawCircle(nextIndicatorStartX, midY, rightRadius, selectedIndicatorPaint);
         }
     }

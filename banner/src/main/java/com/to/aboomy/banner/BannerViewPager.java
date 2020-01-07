@@ -22,8 +22,9 @@ public class BannerViewPager extends ViewPager {
     private float startY;
 
     private boolean scrollable = true;
-    private ViewPagerScroller scroller;
+    private boolean isFirstLayoutToField;
     private boolean overlapStyle;
+    private ViewPagerScroller scroller;
     private List<Integer> childCenterXAbs;
     private SparseIntArray childIndex;
 
@@ -136,11 +137,14 @@ public class BannerViewPager extends ViewPager {
         scroller.setScrollDuration(duration);
     }
 
-
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        onAttachedToRestFirstLayout();
+        if (isFirstLayoutToField) {
+            onAttachedToRestFirstLayout();
+            return;
+        }
+        isFirstLayoutToField = true;
     }
 
     private void onAttachedToRestFirstLayout() {
