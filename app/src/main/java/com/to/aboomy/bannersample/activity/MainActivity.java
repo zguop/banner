@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
                 .setIndicatorColor(Color.GRAY)
-                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT)
+                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE)
                 .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)

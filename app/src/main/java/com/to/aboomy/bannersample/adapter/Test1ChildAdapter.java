@@ -30,7 +30,7 @@ public class Test1ChildAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
     protected void convert(@NonNull BaseViewHolder helper, MultiItemEntity item) {
         if (item.getItemType() == 1) {
             BannerBean bannerBean = (BannerBean) item;
-            Banner itemView = (Banner) helper.itemView;
+            Banner itemView = helper.getView(R.id.banner);
             IndicatorView qyIndicator = new IndicatorView(itemView.getContext())
                     .setIndicatorColor(Color.BLACK)
                     .setIndicatorSelectorColor(Color.WHITE);
