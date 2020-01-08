@@ -5,14 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
 
 import com.to.aboomy.bannersample.activity.AnimActivity;
 import com.to.aboomy.bannersample.activity.FragmentViewPagerActivity;
 import com.to.aboomy.bannersample.activity.Indicator2Activity;
-import com.to.aboomy.bannersample.activity.IndicatorStyleActivity;
 import com.to.aboomy.bannersample.activity.MainActivity;
 import com.to.aboomy.bannersample.activity.MultBannerActivity;
 import com.to.aboomy.bannersample.activity.RecyclerActivity;
@@ -34,14 +31,6 @@ public class LunchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LunchActivity.this, MainActivity.class);
-                startActivity(i);
-            }
-        });
-
-        findViewById(R.id.view2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, IndicatorStyleActivity.class);
                 startActivity(i);
             }
         });

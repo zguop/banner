@@ -46,10 +46,14 @@ public class LinePagerTitleIndicatorView extends MagicIndicator implements Indic
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if(position != pagerCount - 1){
+        if (position != pagerCount - 1) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-        }else {
-            super.onPageScrolled(position, 0, 0);
+        } else {
+            if (positionOffset > .5) {
+                super.onPageScrolled(0, 0, 0);
+            } else {
+                super.onPageScrolled(position, 0, 0);
+            }
         }
     }
 
@@ -99,7 +103,7 @@ public class LinePagerTitleIndicatorView extends MagicIndicator implements Indic
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, UIUtil.dip2px(getContext(), 45));
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        params.bottomMargin = UIUtil.dip2px(getContext(), 10);
+        params.bottomMargin = UIUtil.dip2px(getContext(), 20);
         return params;
     }
 }

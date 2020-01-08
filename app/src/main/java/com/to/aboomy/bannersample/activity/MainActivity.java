@@ -13,19 +13,30 @@ import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
+import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
+import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String[] INDICATOR_STR = {
+            "INDICATOR_CIRCLE",
+            "INDICATOR_CIRCLE_RECT",
+            "INDICATOR_BEZIER",
+            "INDICATOR_DASH",
+            "INDICATOR_BIG_CIRCLE",
+    };
+
 
     private List<String> list = new ArrayList<>();
     private Banner banner;
 
-    int style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
+    int style;
     private TextView noLoop;
 
     public int getListRandom() {
@@ -37,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         StatusBarUtil.setStatusBarColor(this, Color.WHITE);
-//        list.add(Utils.getRandom());
-//        list.add(Utils.getRandom());
+        list.add(Utils.getRandom());
+        list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
                 .setIndicatorColor(Color.GRAY)
@@ -70,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                list.add(Utils.getRandom());
+                list.add(Utils.getRandom());
                 banner.setPages(list, banner.getCurrentPager());
 
                 updateLoopText();
@@ -97,32 +108,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final int size = list.size();
                 list.clear();
-
                 for (int i = 0; i < size; i++) {
-//                    list.add(Utils.getRandom());
+                    list.add(Utils.getRandom());
                 }
-
                 banner.setPages(list, banner.getCurrentPager());
 
                 updateLoopText();
             }
         });
 
-        findViewById(R.id.updateStyle).setOnClickListener(new View.OnClickListener() {
+        final TextView updateStyle = findViewById(R.id.updateStyle);
+        updateStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (style == 0) {
-                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT;
-                } else if (style == 1) {
-                    style = IndicatorView.IndicatorStyle.INDICATOR_BEZIER;
-                } else if (style == 2) {
-                    style = IndicatorView.IndicatorStyle.INDICATOR_DASH;
-                } else if (style == 3) {
-                    style = IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE;
-                } else if (style == 4) {
-                    style = IndicatorView.IndicatorStyle.INDICATOR_CIRCLE;
-                }
-                indicatorView.setIndicatorStyle(style);
+                new ArrayStringItemSelectDialog(MainActivity.this)
+                        .setValueStrings(Arrays.asList(INDICATOR_STR))
+                        .setChoose(style)
+                        .setOnItemClickListener(new ArrayStringItemSelectDialog.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position, String value) {
+                                updateStyle.setText(value);
+                                style = position;
+                                indicatorView.setIndicatorStyle(style);
+                            }
+                        }).show();
             }
         });
 

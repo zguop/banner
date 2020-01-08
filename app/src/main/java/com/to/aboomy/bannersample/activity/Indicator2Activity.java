@@ -12,7 +12,7 @@ import com.to.aboomy.banner.Indicator;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageTest1ChildHolderCreator;
-import com.to.aboomy.bannersample.indicator.BezierIndicatorView;
+import com.to.aboomy.bannersample.indicator.LineIndicatorView;
 import com.to.aboomy.bannersample.indicator.CircleIndicatorView;
 import com.to.aboomy.bannersample.indicator.DashPointView;
 import com.to.aboomy.bannersample.indicator.DashReverseView;
@@ -32,7 +32,7 @@ public class Indicator2Activity extends AppCompatActivity {
             "CircleIndicatorView",
             "CircleIndicatorView-FollowTouch",
             "LinePagerTitleIndicatorView",
-            "BezierIndicatorView"
+            "LineIndicatorView"
     };
     private int choose;
 
@@ -89,7 +89,7 @@ public class Indicator2Activity extends AppCompatActivity {
             case 4:
                 return new LinePagerTitleIndicatorView(this);
             case 5:
-                return new BezierIndicatorView(this);
+                return new LineIndicatorView(this);
             default:
                 return new IndicatorView(this);
         }
