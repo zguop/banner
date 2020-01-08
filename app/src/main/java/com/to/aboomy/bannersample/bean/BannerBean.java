@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class BannerBean implements MultiItemEntity {
 
-    public List<String> urls;
+    public List<Integer> urls;
 
     @Override
     public int getItemType() {

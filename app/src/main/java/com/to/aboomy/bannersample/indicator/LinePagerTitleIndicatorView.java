@@ -27,23 +27,35 @@ import java.util.List;
  * auth aboom
  * date 2019-12-26
  */
-public class CustomIndicatorView extends MagicIndicator implements Indicator {
+public class LinePagerTitleIndicatorView extends MagicIndicator implements Indicator {
     private static final String[] CHANNELS = new String[]{"CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "HONEYCOMB", "ICE_CREAM_SANDWICH", "JELLY_BEAN", "KITKAT", "LOLLIPOP", "M", "NOUGAT"};
     private List<String> mDataList = Arrays.asList(CHANNELS);
 
     private CommonNavigator commonNavigator;
 
-    public CustomIndicatorView(Context context) {
+    private int pagerCount;
+
+    public LinePagerTitleIndicatorView(Context context) {
         this(context, null);
     }
 
-    public CustomIndicatorView(Context context, AttributeSet attrs) {
+    public LinePagerTitleIndicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
         commonNavigator = new CommonNavigator(context);
     }
 
     @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if(position != pagerCount - 1){
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        }else {
+            super.onPageScrolled(position, 0, 0);
+        }
+    }
+
+    @Override
     public void initIndicatorCount(final int pagerCount) {
+        this.pagerCount = pagerCount;
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
             @Override

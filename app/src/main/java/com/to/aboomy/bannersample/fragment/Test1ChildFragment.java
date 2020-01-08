@@ -14,7 +14,6 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.adapter.Test1ChildAdapter;
 import com.to.aboomy.bannersample.bean.BannerBean;
-import com.to.aboomy.bannersample.bean.BannerBean2;
 import com.to.aboomy.bannersample.bean.TextBean;
 import com.to.aboomy.bannersample.util.Utils;
 
@@ -48,7 +47,7 @@ public class Test1ChildFragment extends Fragment {
         BannerBean bannerBean = new BannerBean();
         bannerBean.urls = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            bannerBean.urls.add(Utils.getRandom());
+            bannerBean.urls.add(Utils.getRandomImage());
         }
         list.add(bannerBean);
 

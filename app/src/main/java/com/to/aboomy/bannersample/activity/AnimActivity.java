@@ -28,7 +28,6 @@ import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
-import com.to.aboomy.bannersample.creator.ImageTest1ChildHolderCreator;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
@@ -41,7 +40,6 @@ import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -120,18 +118,13 @@ public class AnimActivity extends AppCompatActivity {
 
 
     private void initBanner() {
-        List<String> list = new ArrayList<>();
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
+        List<Integer> image = Utils.getImage(5);
         final Banner banner = findViewById(R.id.banner);
         banner.setHolderCreator(new ImageHolderCreator())
                 .setIndicator(new IndicatorView(this)
                         .setIndicatorColor(Color.GRAY)
                         .setIndicatorSelectorColor(Color.WHITE))
-                .setPages(list);
+                .setPages(image);
 
         final TextView selectAnim = findViewById(R.id.selectAnim);
         selectAnim.setOnClickListener(new View.OnClickListener() {
@@ -154,19 +147,14 @@ public class AnimActivity extends AppCompatActivity {
     }
 
     private void initBanner2() {
-        final List<String> list = new ArrayList<>();
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
+        final List<Integer> image = Utils.getImage(5);
         final Banner banner = findViewById(R.id.banner2);
         banner.setHolderCreator(new ImageHolderCreator())
                 .setIndicator(new IndicatorView(this)
                         .setIndicatorColor(Color.GRAY)
                         .setIndicatorSelectorColor(Color.WHITE))
                 .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
-                .setPages(list);
+                .setPages(image);
 
         final TextView selectAnim = findViewById(R.id.selectAnim2);
         selectAnim.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +170,7 @@ public class AnimActivity extends AppCompatActivity {
                                 choose2 = position;
                                 banner.setPageTransformer(true, TRANSFORMERS2[position]);
 
-                                banner.setPages(list,banner.getCurrentPager());
+                                banner.setPages(image,banner.getCurrentPager());
                             }
                         }).show();
             }

@@ -10,7 +10,7 @@ import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.indicator.BezierIndicatorView;
 import com.to.aboomy.bannersample.indicator.CircleIndicatorView;
-import com.to.aboomy.bannersample.indicator.CustomIndicatorView;
+import com.to.aboomy.bannersample.indicator.LinePagerTitleIndicatorView;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
@@ -37,7 +37,7 @@ public class IndicatorStyleActivity extends AppCompatActivity {
 
 
     private void initBanner1() {
-        List<String> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             list.add(Utils.getRandom());
         }
@@ -50,7 +50,7 @@ public class IndicatorStyleActivity extends AppCompatActivity {
     }
 
     private void initBanner2() {
-        List<String> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             list.add(Utils.getRandom());
         }
@@ -64,11 +64,11 @@ public class IndicatorStyleActivity extends AppCompatActivity {
     }
 
     private void initBanner3() {
-        List<String> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             list.add(Utils.getRandom());
         }
-        CustomIndicatorView indicatorView = new CustomIndicatorView(this);
+        LinePagerTitleIndicatorView indicatorView = new LinePagerTitleIndicatorView(this);
         Banner banner3 = findViewById(R.id.banner3);
         banner3.setIndicator(indicatorView);
         banner3.setHolderCreator(new ImageHolderCreator())
@@ -76,7 +76,7 @@ public class IndicatorStyleActivity extends AppCompatActivity {
     }
 
     private void initBanner4() {
-        List<String> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             list.add(Utils.getRandom());
         }

@@ -33,6 +33,7 @@ dependencies {
 
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
     implementation 'com.zhy:magic-viewpager:1.0.1'
+    implementation 'com.github.lihangleo2:ShadowLayout:2.1.5'
 
 
     implementation project(":banner")

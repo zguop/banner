@@ -49,7 +49,7 @@ public class RecyclerActivity extends AppCompatActivity {
         Banner banner = inflate.findViewById(R.id.banner);
         banner.setHolderCreator(new ImageHolderCreator());
         banner.setIndicator(new IndicatorView(this).setIndicatorColor(Color.GRAY).setIndicatorSelectorColor(Color.WHITE));
-        banner.setPages(Utils.getData(4));
+        banner.setPages(Utils.getImage(4));
 
 
         List<MultiItemEntity> list = new ArrayList<>();
@@ -57,7 +57,7 @@ public class RecyclerActivity extends AppCompatActivity {
         BannerBean bannerBean = new BannerBean();
         bannerBean.urls = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            bannerBean.urls.add(Utils.getRandom());
+            bannerBean.urls.add(Utils.getRandomImage());
         }
         list.add(bannerBean);
 
@@ -78,7 +78,7 @@ public class RecyclerActivity extends AppCompatActivity {
                 if(i == 0){
                     i = 3;
                 }
-                List<String> data = Utils.getData(i);
+                List<Integer> data = Utils.getImage(i);
                 b.urls.addAll(data);
                 adapter.setData(0, b);
             }

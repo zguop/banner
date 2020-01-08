@@ -13,7 +13,6 @@ import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
-import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -38,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         StatusBarUtil.setStatusBarColor(this, Color.WHITE);
-        list.add(Utils.getRandom());
-        list.add(Utils.getRandom());
+//        list.add(Utils.getRandom());
+//        list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
                 .setIndicatorColor(Color.GRAY)
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.add(Utils.getRandom());
+//                list.add(Utils.getRandom());
                 banner.setPages(list, banner.getCurrentPager());
 
                 updateLoopText();
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 list.clear();
 
                 for (int i = 0; i < size; i++) {
-                    list.add(Utils.getRandom());
+//                    list.add(Utils.getRandom());
                 }
 
                 banner.setPages(list, banner.getCurrentPager());
