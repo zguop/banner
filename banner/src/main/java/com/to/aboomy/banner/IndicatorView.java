@@ -44,15 +44,23 @@ public class IndicatorView extends View implements Indicator {
     private float indicatorRadius = dip2px(3.5f);
     private float indicatorSpacing = dip2px(10);
 
-    @IntDef({IndicatorStyle.INDICATOR_CIRCLE, IndicatorStyle.INDICATOR_CIRCLE_RECT, IndicatorStyle.INDICATOR_BEZIER})
+    @IntDef({IndicatorStyle.INDICATOR_CIRCLE,
+            IndicatorStyle.INDICATOR_CIRCLE_RECT,
+            IndicatorStyle.INDICATOR_BEZIER,
+            IndicatorStyle.INDICATOR_DASH,
+            IndicatorStyle.INDICATOR_BIG_CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface IndicatorStyle {
         int INDICATOR_CIRCLE = 0;
         int INDICATOR_CIRCLE_RECT = 1;
         int INDICATOR_BEZIER = 2;
+        int INDICATOR_DASH = 3;
+        int INDICATOR_BIG_CIRCLE = 4;
     }
 
-    public IndicatorView(Context context) { this(context, null); }
+    public IndicatorView(Context context) {
+        this(context, null);
+    }
 
     public IndicatorView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
@@ -166,25 +174,53 @@ public class IndicatorView extends View implements Indicator {
             return;
         }
         float midY = getHeight() / 2.0f + 0.5f;
-        int adapterCount = pagerCount;
-        for (int i = 0; i < adapterCount; i++) {
-            float startCx = indicatorStartX(i);
-            canvas.drawCircle(startCx, midY, indicatorRadius, indicatorPaint);
-        }
         if (indicatorStyle == IndicatorStyle.INDICATOR_CIRCLE) {
             drawCircle(canvas, midY);
         } else if (indicatorStyle == IndicatorStyle.INDICATOR_CIRCLE_RECT) {
             drawCircleRect(canvas, midY);
         } else if (indicatorStyle == IndicatorStyle.INDICATOR_BEZIER) {
             drawBezier(canvas, midY);
+        } else if (indicatorStyle == IndicatorStyle.INDICATOR_DASH) {
+            drawDash(canvas, midY);
+        } else if (indicatorStyle == IndicatorStyle.INDICATOR_BIG_CIRCLE) {
+            drawBigCircle(canvas, midY);
         }
     }
 
+    private void drawCircle(Canvas canvas, float midY) {
+        drawPagerCountCircle(canvas, midY);
+        float indicatorStartX = indicatorStartX(selectedPage);
+        float nextIndicatorStartX = indicatorStartX((selectedPage + 1) % pagerCount);
+        float indicatorX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * interpolatedOffset();
+        canvas.drawCircle(indicatorX, midY, indicatorRadius, selectedIndicatorPaint);
+    }
+
+    private void drawCircleRect(Canvas canvas, float midY) {
+        drawPagerCountCircle(canvas, midY);
+        float indicatorStartX = indicatorStartX(selectedPage);
+        float offset = interpolatedOffset();
+        float distance = indicatorSpacing + indicatorRadius * 2;
+        float leftX;
+        float rightX;
+        if ((selectedPage + 1) % pagerCount == 0) {
+            distance *= -selectedPage;
+            leftX = indicatorStartX + Math.max((distance * offset * 2), distance);
+            rightX = indicatorStartX + Math.min(distance * (offset - 0.5f) * 2.0f, 0);
+        } else {
+            leftX = indicatorStartX + Math.max(distance * (offset - 0.5f) * 2.0f, 0);
+            rightX = indicatorStartX + Math.min((distance * offset * 2), distance);
+        }
+        if (selectorRect == null) selectorRect = new RectF();
+        selectorRect.set(leftX - indicatorRadius, midY - indicatorRadius, rightX + indicatorRadius, midY + indicatorRadius);
+        canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
+    }
+
     private void drawBezier(Canvas canvas, float midY) {
+        drawPagerCountCircle(canvas, midY);
         if (path == null) path = new Path();
         if (accelerateInterpolator == null) accelerateInterpolator = new AccelerateInterpolator();
         float indicatorStartX = indicatorStartX(selectedPage);
-        float nextIndicatorStartX = indicatorStartX(selectedPage + 1);
+        float nextIndicatorStartX = indicatorStartX((selectedPage + 1) % pagerCount);
         float leftX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * accelerateInterpolator.getInterpolation(offset);
         float rightX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * interpolatedOffset();
         float minRadius = indicatorRadius * 0.57f;
@@ -202,20 +238,57 @@ public class IndicatorView extends View implements Indicator {
         canvas.drawPath(path, selectedIndicatorPaint);
     }
 
-    private void drawCircleRect(Canvas canvas, float midY) {
-        float indicatorStartX = indicatorStartX(selectedPage);
-        float extStart = indicatorStartX + Math.max((indicatorSpacing + indicatorRadius * 2) * (interpolatedOffset() - 0.5f) * 2.0f, 0);
-        float extenderEnd = indicatorStartX + Math.min(((indicatorSpacing + indicatorRadius * 2) * interpolatedOffset() * 2), indicatorSpacing + indicatorRadius * 2);
+    private void drawDash(Canvas canvas, float midY) {
         if (selectorRect == null) selectorRect = new RectF();
-        selectorRect.set(extStart - indicatorRadius, midY - indicatorRadius, extenderEnd + indicatorRadius, midY + indicatorRadius);
-        canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
+        float offset = indicatorSpacing * interpolatedOffset();
+        int nextPage = (selectedPage + 1) % pagerCount;
+        boolean isNextFirst = nextPage == 0;
+        for (int i = 0; i < pagerCount; i++) {
+            float startCx = indicatorStartX(i);
+            if (isNextFirst) startCx += offset;
+            if (selectedPage + 1 <= i) {
+                canvas.drawCircle(startCx + indicatorSpacing, midY, indicatorRadius, indicatorPaint);
+            } else {
+                canvas.drawCircle(startCx, midY, indicatorRadius, indicatorPaint);
+            }
+        }
+        if (offset < indicatorSpacing - 1f) {
+            float leftX = indicatorStartX(selectedPage) - indicatorRadius;
+            if (isNextFirst) leftX += offset;
+            float rightX = leftX + indicatorRadius * 2 + indicatorSpacing - offset;
+            selectorRect.set(leftX, midY - indicatorRadius, rightX, midY + indicatorRadius);
+            canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
+        }
+        if (offset > 1f) {
+            float nextRightX = indicatorStartX(nextPage) + indicatorRadius + (isNextFirst ? offset : indicatorSpacing);
+            float nextLeftX = nextRightX - indicatorRadius * 2 - offset;
+            selectorRect.set(nextLeftX, midY - indicatorRadius, nextRightX, midY + indicatorRadius);
+            canvas.drawRoundRect(selectorRect, indicatorRadius, indicatorRadius, selectedIndicatorPaint);
+        }
     }
 
-    private void drawCircle(Canvas canvas, float midY) {
+    private void drawBigCircle(Canvas canvas, float midY) {
+        drawPagerCountCircle(canvas, midY);
+        float offset = interpolatedOffset();
+        int nextPage = (selectedPage + 1) % pagerCount;
         float indicatorStartX = indicatorStartX(selectedPage);
-        float nextIndicatorStartX = indicatorStartX(selectedPage + 1);
-        float indicatorX = indicatorStartX + (nextIndicatorStartX - indicatorStartX) * interpolatedOffset();
-        canvas.drawCircle(indicatorX, midY, indicatorRadius, selectedIndicatorPaint);
+        float nextIndicatorStartX = indicatorStartX(nextPage);
+        float maxRadius = indicatorRadius * 1.5f;
+        float leftRadius = maxRadius - ((maxRadius - indicatorRadius) * offset);
+        float rightRadius = indicatorRadius + ((maxRadius - indicatorRadius) * offset);
+        if (offset < 0.9) {
+            canvas.drawCircle(indicatorStartX, midY, leftRadius, selectedIndicatorPaint);
+        }
+        if (offset > 0.1f) {
+            canvas.drawCircle(nextIndicatorStartX, midY, rightRadius, selectedIndicatorPaint);
+        }
+    }
+
+    private void drawPagerCountCircle(Canvas canvas, float midY) {
+        for (int i = 0; i < pagerCount; i++) {
+            float startCx = indicatorStartX(i);
+            canvas.drawCircle(startCx, midY, indicatorRadius, indicatorPaint);
+        }
     }
 
     private float indicatorStartX(int index) {

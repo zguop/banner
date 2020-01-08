@@ -38,5 +38,5 @@ dependencies {
 
 
 //    implementation project(":banner")
-    implementation  'com.waitou:banner:3.0.5-x'
+    implementation 'com.to.aboomy:banner:3.0.8-x'
 }
