@@ -9,7 +9,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -304,7 +303,6 @@ public class IndicatorView extends View implements Indicator {
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         selectedPage = position;
         offset = positionOffset;
-        Log.e("aa", " offset " + offset + " selectedPage " + selectedPage);
         invalidate();
     }
 
