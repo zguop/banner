@@ -6,6 +6,7 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 
 ![logo](gif/logo.png)
 
+* 支持自动轮播
 * 支持一屏三页
 * 支持仿魅族效果
 * 支持自定义Indicator
@@ -13,6 +14,7 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 * 支持数据刷新
 * 解决下拉刷新等滑动冲突问题，如嵌套SwipeRefreshLayout
 * 解决多次重复回调onPageSelected问题
+* 解决添加到RecyclerView头部的滑动问题
 * 良好的代码封装，更多优化请参考代码实现。
 
 
