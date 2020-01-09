@@ -22,18 +22,29 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 
 ------
 
-|描述|图片|
-|---|---|
-|**基本使用的功能，请下载apk体验更流畅**|![tu1](gif/tu1.png)|
+|基本使用的功能，请下载apk体验更流畅|
+|---|
+|![tu1](gif/tu1.png)|
 
 |描述|普通样式|两边缩放|魅族样式|
 |---|---|---|---|
-|**一屏三页**|![https://img-blog.csdnimg.cn/20200102193308276.gif](https://img-blog.csdnimg.cn/20200102193308276.gif)|![https://img-blog.csdnimg.cn/20200102193350824.gif](https://img-blog.csdnimg.cn/20200102193350824.gif)|![https://img-blog.csdnimg.cn/20200102193414824.gif](https://img-blog.csdnimg.cn/20200102193414824.gif)|
+|**一屏三页**|![img6](gif/img6.gif)|![img7](gif/img7.gif)|![img8](gif/img8.gif)|
+
+
+|IndicatorStyle|IndicatorView|IndicatorStyle|IndicatorView|
+|---|---|---|---|
+|**INDICATOR_CIRCLE**|![img1](gif/img1.gif)|**INDICATOR_CIRCLE_RECT**|![img2](gif/img2.gif)|
+|**INDICATOR_BEZIER**|![img3](gif/img3.gif)|**INDICATOR_DASH**|![img4](gif/img4.gif)|
+|**INDICATOR_BIG_CIRCLE**|![img5](gif/img5.gif)|||
 
 |效果图|1|2|
 |---|---|---|
-|**Indicator查看simple代码** |![https://img-blog.csdnimg.cn/20200102194459852.gif](https://img-blog.csdnimg.cn/20200102194459852.gif)|![https://img-blog.csdnimg.cn/20200102194542140.gif](https://img-blog.csdnimg.cn/20200102194542140.gif)|
-|![https://img-blog.csdnimg.cn/20200102194843393.gif](https://img-blog.csdnimg.cn/20200102194843393.gif)|![https://img-blog.csdnimg.cn/20200102195247747.gif](https://img-blog.csdnimg.cn/20200102195247747.gif)|![https://img-blog.csdnimg.cn/202001021953167.gif](https://img-blog.csdnimg.cn/202001021953167.gif)|
+|**收集更多的效果**|![img12](gif/img12.gif)|![img13](gif/img13.gif)
+|**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
+
+|切换动画|切换动画|
+|---|---|
+|![img9](gif/img9.gif)|![img10](gif/img10.gif)|
 
 ## 使用步骤
 
