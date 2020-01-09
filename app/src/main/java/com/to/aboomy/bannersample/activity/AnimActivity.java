@@ -116,9 +116,8 @@ public class AnimActivity extends AppCompatActivity {
     }
 
 
-
     private void initBanner() {
-        List<Integer> image = Utils.getImage(5);
+        final List<Integer> image = Utils.getImage(5);
         final Banner banner = findViewById(R.id.banner);
         banner.setHolderCreator(new ImageHolderCreator())
                 .setIndicator(new IndicatorView(this)
@@ -139,6 +138,8 @@ public class AnimActivity extends AppCompatActivity {
                                 selectAnim.setText(value);
                                 choose = position;
                                 banner.setPageTransformer(true, TRANSFORMERS[position]);
+                                banner.setPages(image, banner.getCurrentPager());
+
                             }
                         }).show();
             }
@@ -170,7 +171,7 @@ public class AnimActivity extends AppCompatActivity {
                                 choose2 = position;
                                 banner.setPageTransformer(true, TRANSFORMERS2[position]);
 
-                                banner.setPages(image,banner.getCurrentPager());
+                                banner.setPages(image, banner.getCurrentPager());
                             }
                         }).show();
             }

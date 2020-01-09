@@ -3,6 +3,7 @@ package com.to.aboomy.bannersample;
 import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.to.aboomy.bannersample.util.AlertToast;
 
 /**
  * auth aboom
@@ -13,6 +14,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AlertToast.init(this);
         initLeakCanary(this);
     }
 
