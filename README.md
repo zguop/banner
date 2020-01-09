@@ -30,12 +30,14 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 |---|---|---|---|
 |**一屏三页**|![img6](gif/img6.gif)|![img7](gif/img7.gif)|![img8](gif/img8.gif)|
 
-
-|IndicatorStyle|IndicatorView|IndicatorStyle|IndicatorView|
-|---|---|---|---|
-|**INDICATOR_CIRCLE**|![img1](gif/img1.gif)|**INDICATOR_CIRCLE_RECT**|![img2](gif/img2.gif)|
-|**INDICATOR_BEZIER**|![img3](gif/img3.gif)|**INDICATOR_DASH**|![img4](gif/img4.gif)|
-|**INDICATOR_BIG_CIRCLE**|![img5](gif/img5.gif)|||
+|IndicatorView|IndicatorStyle|
+|---|---|
+|INDICATOR_CIRCLE|INDICATOR_CIRCLE_RECT|
+|![img1](gif/img1.gif)|![img2](gif/img2.gif)|
+|INDICATOR_BEZIER|INDICATOR_DASH|
+|![img3](gif/img3.gif)|![img4](gif/img4.gif)|
+|INDICATOR_BIG_CIRCLE||
+|![img5](gif/img5.gif)||
 
 |效果图|1|2|
 |---|---|---|
