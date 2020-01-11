@@ -3,6 +3,8 @@ package com.to.aboomy.bannersample;
 import android.app.Application;
 
 import com.blankj.utilcode.util.Utils;
+import com.kk.taurus.playerbase.config.PlayerConfig;
+import com.kk.taurus.playerbase.config.PlayerLibrary;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -16,6 +18,10 @@ public class App extends Application {
         super.onCreate();
         Utils.init(this);
         initLeakCanary(this);
+
+        //初始化播放器
+        PlayerConfig.setUseDefaultNetworkEventProducer(true);
+        PlayerLibrary.init(this);
     }
 
     private void initLeakCanary(Application application) {

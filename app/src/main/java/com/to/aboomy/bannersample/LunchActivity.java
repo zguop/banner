@@ -14,6 +14,7 @@ import com.to.aboomy.bannersample.activity.MainActivity;
 import com.to.aboomy.bannersample.activity.MultBannerActivity;
 import com.to.aboomy.bannersample.activity.RecyclerActivity;
 import com.to.aboomy.bannersample.activity.RevealBannerActivity;
+import com.to.aboomy.bannersample.activity.VideoActivity;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 /**
@@ -32,6 +33,14 @@ public class LunchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LunchActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+
+        findViewById(R.id.view2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LunchActivity.this, VideoActivity.class);
                 startActivity(i);
             }
         });

@@ -37,6 +37,10 @@ dependencies {
     implementation 'com.blankj:utilcode:1.25.9'
 
 
+    implementation 'com.kk.taurus.playerbase:playerbase:3.3.5'
+
+
+
     implementation project(":banner")
 
 //    implementation 'com.waitou:banner:3.0.6'
