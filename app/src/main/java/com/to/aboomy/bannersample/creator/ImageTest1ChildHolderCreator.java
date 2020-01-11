@@ -4,12 +4,12 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.to.aboomy.banner.HolderCreator;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.bannersample.util.AlertToast;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -29,7 +29,7 @@ public class ImageTest1ChildHolderCreator implements HolderCreator {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertToast.show(index + "");
+                ToastUtils.showShort(index + "");
             }
         });
         return inflate;

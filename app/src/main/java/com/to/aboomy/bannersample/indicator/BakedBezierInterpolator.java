@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample.util;
+package com.to.aboomy.bannersample.indicator;
 
 import android.view.animation.Interpolator;
 

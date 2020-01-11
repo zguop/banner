@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.to.aboomy.banner.HolderCreator;
-import com.to.aboomy.bannersample.util.AlertToast;
 
 /**
  * auth aboom
@@ -21,7 +21,7 @@ public class ImageHolderCreator implements HolderCreator {
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertToast.show(index + "");
+                ToastUtils.showShort(index + "");
             }
         });
         return iv;

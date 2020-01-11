@@ -26,7 +26,7 @@
         <activity android:name=".activity.MultBannerActivity"/>
         <activity android:name=".activity.AnimActivity"/>
         <activity android:name=".activity.Indicator2Activity"/>
-        <activity android:name=".activity.ZhuanZhuanBannerActivity"/>
+        <activity android:name=".activity.RevealBannerActivity"/>
     </application>
 
 </manifest>

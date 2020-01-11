@@ -141,10 +141,10 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      * 是否自动轮播 大于1页轮播才生效
      */
     public Banner setAutoPlay(boolean autoPlay) {
-        if (autoPlay) {
-            autoPlay = realCount > 1;
-        }
         isAutoPlay = autoPlay;
+        if (isAutoPlay && adapter != null) {
+            isAutoPlay = realCount > 1;
+        }
         if (isAutoPlay) {
             startTurning();
         }

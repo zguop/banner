@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
-        <com.to.aboomy.bannersample.util.BannerBgContainer
+        <com.to.aboomy.bannersample.indicator.BannerBgContainer
             android:id="@+id/bg"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="150dp"/>
 
         <com.to.aboomy.banner.Banner
             android:id="@+id/banner"
@@ -22,6 +22,5 @@
 
 
     </FrameLayout>
-
 
 </LinearLayout>

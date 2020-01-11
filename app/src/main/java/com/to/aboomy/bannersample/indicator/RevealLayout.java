@@ -1,10 +1,8 @@
-package com.to.aboomy.bannersample.util;
+package com.to.aboomy.bannersample.indicator;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -18,25 +16,23 @@ import android.widget.FrameLayout;
 public class RevealLayout extends FrameLayout {
 
     private static final int DEFAULT_DURATION = 600;
-    private Path mClipPath;
+    private Path mClipPath = new Path();
     private int mClipCenterX, mClipCenterY = 0;
     private Animation mAnimation;
 
     private float mClipRadius = 0;
     private boolean mIsContentShown = true;
 
-    public RevealLayout(Context context) {
+    public RevealLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public RevealLayout(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+    public RevealLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs, 0);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public RevealLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RevealLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mClipPath = new Path();
     }
 
     @Override
@@ -105,7 +101,7 @@ public class RevealLayout extends FrameLayout {
 
 
     public void showClipAnimation(float changeValue) {
-        showClipAnimation(getWidth(), getHeight()/2 , changeValue);
+        showClipAnimation(getWidth(), getHeight() / 2, changeValue);
     }
 
     public void showClipAnimation(int x, int y, float changeValue) {
@@ -120,7 +116,7 @@ public class RevealLayout extends FrameLayout {
 
 
     public void hideClipAnimation(float changeValue) {
-        hideClipAnimation(getWidth(), getHeight()/2 , changeValue);
+        hideClipAnimation(getWidth(), getHeight() / 2, changeValue);
     }
 
     public void hideClipAnimation(int x, int y, float changeValue) {
@@ -154,7 +150,7 @@ public class RevealLayout extends FrameLayout {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 setClipRadius(interpolatedTime * maxRadius);
-                Log.i("applayTransformation", "interpolatedTime"+ interpolatedTime);
+                Log.i("applayTransformation", "interpolatedTime" + interpolatedTime);
             }
         };
         mAnimation.setInterpolator(new BakedBezierInterpolator());
@@ -314,8 +310,6 @@ public class RevealLayout extends FrameLayout {
             boolean result;
             mClipPath.reset();
             mClipPath.addCircle(mClipCenterX, mClipCenterY, mClipRadius, Path.Direction.CW);
-
-//            Log.d("RevealLayout", "ClipRadius: " + mClipRadius);
             canvas.save();
             canvas.clipPath(mClipPath);
             result = super.drawChild(canvas, child, drawingTime);

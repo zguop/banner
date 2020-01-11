@@ -74,7 +74,7 @@ public class RecyclerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BannerBean b = (BannerBean) adapter.getItem(0);
                 b.urls.clear();
-                int i = new Random().nextInt(10);
+                int i = new Random().nextInt(5);
                 if(i == 0){
                     i = 3;
                 }
