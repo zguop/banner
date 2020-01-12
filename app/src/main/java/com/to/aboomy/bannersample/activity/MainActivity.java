@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.to.aboomy.banner.Banner;
+import com.to.aboomy.banner.HolderRestLoader;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
@@ -57,22 +58,24 @@ public class MainActivity extends AppCompatActivity {
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
                 .setHolderCreator(new ImageHolderCreator())
+                .setHolderReLoader(new HolderRestLoader() {
+                    @Override
+                    public void onItemRestLoader(View view, int position, Object o, boolean isRestItem) {
+                        Log.e("aa", " position " + position + " isRestItem " + isRestItem );
+                    }
+                })
                 .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                        Log.e("aa" , "onPageScrolled "  + position);
                     }
 
                     @Override
                     public void onPageSelected(int position) {
                         Log.e("aa", "onPageSelected " + position);
-
                     }
 
                     @Override
                     public void onPageScrollStateChanged(int state) {
-//                        Log.e("aa" , "onPageScrollStateChanged "  + state);
-
                     }
                 })
                 .setPages(list);

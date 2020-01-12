@@ -19,9 +19,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     private ViewPager.OnPageChangeListener outerPageChangeListener;
     private HolderCreator holderCreator;
+    private HolderRestLoader holderReLoader;
     private BannerViewPager viewPager;
     private PagerAdapter adapter;
     private List<View> views;
+    private List<?> items;
     private Indicator indicator;
     private boolean isAutoPlay = true;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
@@ -66,7 +68,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private void initViews(Context context) {
         viewPager = new BannerViewPager(context);
         viewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        viewPager.setOffscreenPageLimit(1);
         viewPager.setClipChildren(Boolean.FALSE);
         viewPager.addOnPageChangeListener(this);
         addView(viewPager);
@@ -178,12 +179,18 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         return this;
     }
 
+    public Banner setHolderReLoader(HolderRestLoader holderReLoader) {
+        this.holderReLoader = holderReLoader;
+        return this;
+    }
+
     /**
      * @param items         数据集
      * @param startPosition 开始位置 真实索引
      */
     public void setPages(List<?> items, int startPosition) {
-        createImages(items);
+        this.items = items;
+        createImages();
         startPager(startPosition);
     }
 
@@ -208,7 +215,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         }
     }
 
-    private void createImages(List<?> items) {
+    private void createImages() {
         views.clear();
         if (items == null || items.size() == 0 || holderCreator == null) {
             realCount = 0;
@@ -291,8 +298,11 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         //解决多次重复回调onPageSelected问题,暂时这么处理
         boolean resetItem = currentPage == sidePage - 1 || currentPage == needCount - (sidePage - 1) || (position != currentPage && needCount - currentPage == sidePage);
         currentPage = position;
-        if (resetItem) return;
         int realPosition = toRealPosition(position);
+        if (holderReLoader != null) {
+            holderReLoader.onItemRestLoader(views.get(position), realPosition, items.get(realPosition), resetItem);
+        }
+        if (resetItem) return;
         if (outerPageChangeListener != null) {
             outerPageChangeListener.onPageSelected(realPosition);
         }
