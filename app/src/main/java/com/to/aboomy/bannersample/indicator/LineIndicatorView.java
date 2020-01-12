@@ -15,40 +15,45 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.BezierPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.DummyPagerTitleView;
 
 /**
  * auth aboom
  * date 2019-12-26
  */
-public class BezierIndicatorView extends MagicIndicator implements Indicator {
-
-    private static final String[] CHANNELS = new String[]{"AB", "BC", "CD", "DE"};
-    private List<String> mDataList = new ArrayList<>();
+public class LineIndicatorView extends MagicIndicator implements Indicator {
 
     private CommonNavigator commonNavigator;
+    private int pagerCount;
 
-    public BezierIndicatorView(Context context) {
+    public LineIndicatorView(Context context) {
         this(context, null);
     }
 
-    public BezierIndicatorView(Context context, AttributeSet attrs) {
+    public LineIndicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
         commonNavigator = new CommonNavigator(context);
     }
 
     @Override
-    public void initIndicatorCount(final int pagerCount) {
-        mDataList.clear();
-        for (int i = 0; i < pagerCount; i++) {
-            mDataList.add(CHANNELS[new Random().nextInt(CHANNELS.length)]);
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (position != pagerCount - 1) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        } else {
+            if (positionOffset > .5) {
+                super.onPageScrolled(0, 0, 0);
+            } else {
+                super.onPageScrolled(position, 0, 0);
+            }
         }
+    }
 
+    @Override
+    public void initIndicatorCount(final int pagerCount) {
+        setBackgroundColor(Color.LTGRAY);
+        this.pagerCount = pagerCount;
+        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -57,21 +62,24 @@ public class BezierIndicatorView extends MagicIndicator implements Indicator {
 
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
-                SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
-                simplePagerTitleView.setText(mDataList.get(index));
-                simplePagerTitleView.setVisibility(View.INVISIBLE);
-                return simplePagerTitleView;
+                return new DummyPagerTitleView(context);
             }
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
-                BezierPagerIndicator indicator = new BezierPagerIndicator(context);
-                indicator.setColors(Color.parseColor("#ff4a42"), Color.parseColor("#fcde64"), Color.parseColor("#73e8f4"), Color.parseColor("#76b0ff"), Color.parseColor("#c683fe"));
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setRoundRadius(UIUtil.dip2px(getContext(),3));
+                indicator.setLineHeight(UIUtil.dip2px(getContext(), 5));
+                indicator.setColors(Color.parseColor("#40c4ff"));
                 return indicator;
             }
         });
 
         setNavigator(commonNavigator);
+
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
+        params.width = UIUtil.dip2px(getContext(), 20 * pagerCount);
     }
 
     @Override
@@ -81,10 +89,10 @@ public class BezierIndicatorView extends MagicIndicator implements Indicator {
 
     @Override
     public RelativeLayout.LayoutParams getParams() {
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, UIUtil.dip2px(getContext(),45));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, UIUtil.dip2px(getContext(), 5));
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        params.bottomMargin = UIUtil.dip2px(getContext(), 10);
+        params.bottomMargin = UIUtil.dip2px(getContext(), 20);
         return params;
     }
 }

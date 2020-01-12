@@ -22,11 +22,11 @@
 
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.RecyclerActivity"/>
-        <activity android:name=".activity.IndicatorStyleActivity"/>
         <activity android:name=".activity.FragmentViewPagerActivity"/>
         <activity android:name=".activity.MultBannerActivity"/>
         <activity android:name=".activity.AnimActivity"/>
         <activity android:name=".activity.Indicator2Activity"/>
+        <activity android:name=".activity.RevealBannerActivity"/>
     </application>
 
 </manifest>

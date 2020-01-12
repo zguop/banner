@@ -11,10 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.to.aboomy.bannersample.activity.AnimActivity;
 import com.to.aboomy.bannersample.activity.FragmentViewPagerActivity;
 import com.to.aboomy.bannersample.activity.Indicator2Activity;
-import com.to.aboomy.bannersample.activity.IndicatorStyleActivity;
 import com.to.aboomy.bannersample.activity.MainActivity;
 import com.to.aboomy.bannersample.activity.MultBannerActivity;
 import com.to.aboomy.bannersample.activity.RecyclerActivity;
+import com.to.aboomy.bannersample.activity.RevealBannerActivity;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 /**
@@ -33,14 +33,6 @@ public class LunchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LunchActivity.this, MainActivity.class);
-                startActivity(i);
-            }
-        });
-
-        findViewById(R.id.view2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, IndicatorStyleActivity.class);
                 startActivity(i);
             }
         });
@@ -81,6 +73,14 @@ public class LunchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LunchActivity.this, Indicator2Activity.class);
+                startActivity(i);
+            }
+        });
+
+        findViewById(R.id.view8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LunchActivity.this, RevealBannerActivity.class);
                 startActivity(i);
             }
         });

@@ -3,8 +3,8 @@ package com.to.aboomy.bannersample.creator;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,7 +29,7 @@ public class ImageTest1ChildHolderCreator implements HolderCreator {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, index + "", Toast.LENGTH_LONG).show();
+                ToastUtils.showShort(index + "");
             }
         });
         return inflate;

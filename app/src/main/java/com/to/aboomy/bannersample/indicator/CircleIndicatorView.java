@@ -53,7 +53,7 @@ public class CircleIndicatorView extends MagicIndicator implements Indicator {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        params.bottomMargin = UIUtil.dip2px(getContext(), 10);
+        params.bottomMargin = UIUtil.dip2px(getContext(), 20);
         return params;
     }
 }

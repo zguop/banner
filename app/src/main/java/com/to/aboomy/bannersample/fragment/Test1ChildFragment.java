@@ -48,7 +48,7 @@ public class Test1ChildFragment extends Fragment {
         BannerBean bannerBean = new BannerBean();
         bannerBean.urls = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            bannerBean.urls.add(Utils.getRandom());
+            bannerBean.urls.add(Utils.getRandomImage());
         }
         list.add(bannerBean);
 
