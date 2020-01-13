@@ -27,6 +27,8 @@
         <activity android:name=".activity.AnimActivity"/>
         <activity android:name=".activity.Indicator2Activity"/>
         <activity android:name=".activity.RevealBannerActivity"/>
+
+        <activity android:name=".viewpager2.Pager2MainActivity"/>
     </application>
 
 </manifest>

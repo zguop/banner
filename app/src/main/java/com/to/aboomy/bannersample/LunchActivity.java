@@ -15,6 +15,7 @@ import com.to.aboomy.bannersample.activity.MainActivity;
 import com.to.aboomy.bannersample.activity.MultBannerActivity;
 import com.to.aboomy.bannersample.activity.RecyclerActivity;
 import com.to.aboomy.bannersample.activity.RevealBannerActivity;
+import com.to.aboomy.bannersample.viewpager2.Pager2MainActivity;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 /**
@@ -85,5 +86,12 @@ public class LunchActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.view9).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LunchActivity.this, Pager2MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }
