@@ -18,6 +18,7 @@ public class Banner extends RelativeLayout {
     private static final long DEFAULT_AUTO_TIME = 2500;
     private static final int NORMAL_COUNT = 2;
 
+
     private ViewPager2 viewPager2;
     private BannerAdapter bannerAdapter;
     private Adapter adapter;
@@ -64,7 +65,6 @@ public class Banner extends RelativeLayout {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
                 if (state == ViewPager2.SCROLL_STATE_IDLE || state == ViewPager2.SCROLL_STATE_DRAGGING) {
                     if (currentPage == 0) {
                         viewPager2.setCurrentItem(realCount, false);
@@ -114,7 +114,7 @@ public class Banner extends RelativeLayout {
             isAutoPlay = false;
         } else {
             realCount = items.size();
-            needCount = needCount + NORMAL_COUNT;
+            needCount = realCount + NORMAL_COUNT;
             isAutoPlay = isAutoPlay && realCount > 1;
         }
         if (bannerAdapter == null) {
@@ -140,13 +140,27 @@ public class Banner extends RelativeLayout {
         removeCallbacks(task);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (isAutoPlay) {
+            startTurning();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (isAutoPlay) {
+            stopTurning();
+        }
+    }
+
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
             if (isAutoPlay) {
-                int nextItem = currentPage++;
-                int realPosition = nextItem % needCount;
-                viewPager2.setCurrentItem(realPosition);
+                viewPager2.setCurrentItem(++currentPage % needCount);
                 postDelayed(task, autoTurningTime);
             }
         }
