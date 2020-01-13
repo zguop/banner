@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -23,6 +24,7 @@ public class Banner extends RelativeLayout {
     private BannerAdapter bannerAdapter;
     private Adapter adapter;
     private boolean isAutoPlay = true;
+
     private long autoTurningTime = DEFAULT_AUTO_TIME;
 
     private List<?> items;
@@ -89,6 +91,20 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
+    /**
+     * 是否自动轮播 大于1页轮播才生效
+     */
+    public Banner setAutoPlay(boolean autoPlay) {
+        isAutoPlay = autoPlay;
+        if (isAutoPlay && adapter != null) {
+            isAutoPlay = realCount > 1;
+            if (isAutoPlay) {
+                startTurning();
+            }
+        }
+        return this;
+    }
+
     public Banner setAdapter(Adapter adapter) {
         this.adapter = adapter;
         return this;
@@ -129,6 +145,7 @@ public class Banner extends RelativeLayout {
         if (isAutoPlay) {
             startTurning();
         }
+        Log.e("aa" , " viewpager " + viewPager2.getOffscreenPageLimit());
     }
 
     public void startTurning() {
@@ -159,8 +176,9 @@ public class Banner extends RelativeLayout {
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (isAutoPlay) {
-                viewPager2.setCurrentItem(++currentPage % needCount);
+            if (isAutoPlay && realCount > 0) {
+                currentPage++;
+                viewPager2.setCurrentItem(currentPage % needCount);
                 postDelayed(task, autoTurningTime);
             }
         }
@@ -176,6 +194,7 @@ public class Banner extends RelativeLayout {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            Log.e("aa", "onBindViewHolder position " + position);
             adapter.onBindViewHolder(holder, position, items.get(toRealPosition(position)));
         }
 

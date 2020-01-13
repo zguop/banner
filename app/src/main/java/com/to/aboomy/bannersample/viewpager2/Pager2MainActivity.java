@@ -35,14 +35,15 @@ public class Pager2MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pager2);
         Banner banner = findViewById(R.id.banner);
+        banner.setAutoPlay(true);
 
         MyAdapter adapter = new MyAdapter();
-        final List<Integer> image = Utils.getImage(3);
+        final List<Integer> image = Utils.getImage(2);
         adapter.setData(image);
         banner.setAdapter(new Adapter() {
             @Override
             public RecyclerView.ViewHolder onCreateDefViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new MyAdapter.PagerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_round_image, parent, false));
+                return new MyAdapter.PagerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false));
             }
 
             @Override
@@ -55,7 +56,7 @@ public class Pager2MainActivity extends AppCompatActivity {
                 MyAdapter.PagerHolder pagerHolder = (MyAdapter.PagerHolder) holder;
                 Glide.with(holder.itemView.getContext())
                         .load(o)
-                        .apply(new RequestOptions().transform(new RoundedCorners(UIUtil.dip2px(holder.itemView.getContext(), 12))))
+                        .apply(new RequestOptions())
                         .into(pagerHolder.imageView);
                 pagerHolder.imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
