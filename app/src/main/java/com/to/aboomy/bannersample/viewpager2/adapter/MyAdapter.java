@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.pager2.Adapter;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -25,7 +24,7 @@ import java.util.List;
  * auth aboom
  * date 2020-01-13
  */
-public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Adapter {
+public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<Integer> data = new ArrayList<>();
     private Context context;
@@ -34,36 +33,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imp
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        return onCreateDefViewHolder(parent, viewType);
+        return new PagerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_banner_image, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        onBindViewHolder(holder, position, data.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return getRealCount();
-    }
-
-    public void setData(List<Integer> data) {
-        this.data.addAll(data);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateDefViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PagerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_round_image, parent, false));
-    }
-
-    @Override
-    public int getRealCount() {
-        return data.size();
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position, Object o) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         PagerHolder pagerHolder = (PagerHolder) holder;
         Glide.with(context)
                 .load(data.get(position))
@@ -74,7 +48,17 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imp
             public void onClick(View v) {
                 ToastUtils.showShort(position + "");
             }
-        });
+        });    }
+
+    @Override
+    public int getItemCount() {
+        return data.size();
+    }
+
+    public void setData(List<Integer> data) {
+        this.data.clear();
+        this.data.addAll(data);
+        notifyDataSetChanged();
     }
 
    public static class PagerHolder extends RecyclerView.ViewHolder {

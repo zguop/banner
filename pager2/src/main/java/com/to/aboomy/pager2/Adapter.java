@@ -9,12 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * auth aboom
  * date 2020-01-13
  */
-public interface Adapter {
-
-    RecyclerView.ViewHolder onCreateDefViewHolder(@NonNull ViewGroup parent, int viewType);
-
-    int getRealCount();
-
-    void onBindViewHolder(RecyclerView.ViewHolder holder, int position, Object o);
-
+public interface Adapter<H extends RecyclerView.ViewHolder> {
+    RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType);
+    void onBindViewHolder(H holder, int position);
 }

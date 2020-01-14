@@ -18,7 +18,7 @@ import com.to.aboomy.bannersample.creator.ImageHolderCreator;
  * auth aboom
  * date 2019-08-27
  */
-public class Adapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
+public class Adapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>  implements com.to.aboomy.pager2.Adapter<BaseViewHolder> {
 
     public Adapter() {
         super(null);

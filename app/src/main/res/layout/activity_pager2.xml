@@ -1,16 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#fff"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
 
     <com.to.aboomy.pager2.Banner
         android:id="@+id/banner"
+
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
 
     </com.to.aboomy.pager2.Banner>
+
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/lib_pub_select_btn_main"
+        android:gravity="center"
+        android:text="刷新"
+        android:textAllCaps="false"
+        android:textColor="@color/lib_pub_color_select_btn_main"
+        android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/update2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/lib_pub_select_btn_main"
+        android:gravity="center"
+        android:text="刷新"
+        android:textAllCaps="false"
+        android:textColor="@color/lib_pub_color_select_btn_main"
+        android:textSize="15dp" />
+
+
+    <com.to.aboomy.banner.Banner
+        android:id="@+id/banner1"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp" />
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
 
 </LinearLayout>
