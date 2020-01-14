@@ -67,7 +67,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private void initViews(Context context) {
         viewPager = new BannerViewPager(context);
         viewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        viewPager.setOffscreenPageLimit(1);
         viewPager.setClipChildren(Boolean.FALSE);
         viewPager.addOnPageChangeListener(this);
         addView(viewPager);
@@ -145,9 +144,9 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         isAutoPlay = autoPlay;
         if (isAutoPlay && adapter != null) {
             isAutoPlay = realCount > 1;
-        }
-        if (isAutoPlay) {
-            startTurning();
+            if (isAutoPlay) {
+                startTurning();
+            }
         }
         return this;
     }
@@ -325,7 +324,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (isAutoPlay) {
+            if (isAutoPlay && realCount > 1) {
                 currentPage++;
                 if (currentPage == realCount + sidePage + 1) {
                     viewPager.setCurrentItem(sidePage, false);
