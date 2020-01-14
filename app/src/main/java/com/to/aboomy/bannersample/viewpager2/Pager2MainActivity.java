@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -28,6 +29,7 @@ import com.to.aboomy.statusbar_lib.StatusBarUtil;
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * auth aboom
@@ -47,8 +49,8 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
         final Banner banner = findViewById(R.id.banner);
         banner.setAutoPlay(true)
                 .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
-//                .setPageTransformer(new com.to.aboomy.pager2.ScaleInTransformer())
-//                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(14))
+                .setPageTransformer(new com.to.aboomy.pager2.ScaleInTransformer())
+                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(14))
         ;
         final MyAdapter adapter = new MyAdapter();
         List<String> data = Utils.getData(2);
@@ -86,8 +88,7 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
             @Override
             public void onClick(View v) {
 
-
-                adapter.setData(Utils.getImage(4));
+                adapter.setData(Utils.getImage(new Random().nextInt(Utils.IMAGES.length) + 1));
 
 
             }
@@ -97,10 +98,17 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
         findViewById(R.id.update2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (is) {
                     MyAdapter myAdapter = new MyAdapter();
                     myAdapter.setData(Utils.getImage(5));
                     banner.setAdapter(myAdapter);
+                }else {
+                    banner.setAdapter(adapter);
                 }
+
+                is = !is;
+
+            }
         });
 
         initBanner1();

@@ -25,7 +25,6 @@ public class Banner extends RelativeLayout {
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
     private BannerAdapter bannerAdapter;
-    //    private Adapter adapter;
     private boolean isAutoPlay = true;
 
     private long autoTurningTime = DEFAULT_AUTO_TIME;
@@ -149,11 +148,8 @@ public class Banner extends RelativeLayout {
      */
     public Banner setAutoPlay(boolean autoPlay) {
         isAutoPlay = autoPlay;
-        if (isAutoPlay && adapter != null) {
-            isAutoPlay = realCount > 1;
-            if (isAutoPlay) {
-                startTurning();
-            }
+        if (isAutoPlay && realCount > 1) {
+            startTurning();
         }
         return this;
     }
@@ -178,18 +174,15 @@ public class Banner extends RelativeLayout {
 
     public void setAdapter(@Nullable RecyclerView.Adapter adapter, int startPosition) {
         if (adapter == null) {
-            if (viewPager2.getAdapter() != null) {
+            if (bannerAdapter != null) {
                 createPageNumber(0);
-                ((BannerAdapter) viewPager2.getAdapter()).registerAdapter(null);
+                bannerAdapter.registerAdapter(null);
                 viewPager2.setAdapter(null);
             }
             return;
         }
-        BannerAdapter bannerAdapter;
-        if (viewPager2.getAdapter() == null) {
+        if (bannerAdapter == null) {
             bannerAdapter = new BannerAdapter();
-        } else {
-            bannerAdapter = (BannerAdapter) viewPager2.getAdapter();
         }
         createPageNumber(adapter.getItemCount());
         bannerAdapter.registerAdapter(adapter);
@@ -211,7 +204,7 @@ public class Banner extends RelativeLayout {
      */
     public void setPages(List<?> items, int startPosition) {
         this.items = items;
-        createPageNumber(items == null || items.size() == 0 || adapter == null ? 0 : items.size());
+        createPageNumber(items == null || items.size() == 0 ? 0 : items.size());
         startPager(startPosition);
     }
 
@@ -234,7 +227,6 @@ public class Banner extends RelativeLayout {
         if (size == 0) {
             realCount = 0;
             needCount = 0;
-            isAutoPlay = false;
             return;
         }
         realCount = size;
@@ -270,49 +262,13 @@ public class Banner extends RelativeLayout {
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (isAutoPlay && realCount > 0) {
+            if (isAutoPlay && realCount > 1) {
                 currentPage++;
                 viewPager2.setCurrentItem(currentPage % needCount);
                 postDelayed(task, autoTurningTime);
             }
         }
     };
-
-    private class BannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        private RecyclerView.Adapter adapter;
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return adapter.onCreateViewHolder(parent, viewType);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            Log.e("aa", "onBindViewHolder position " + position);
-            adapter.onBindViewHolder(holder, toRealPosition(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return needCount;
-        }
-
-        public RecyclerView.Adapter getAdapter() {
-            return adapter;
-        }
-
-        public void registerAdapter(RecyclerView.Adapter adapter) {
-            if (this.adapter != null) {
-                this.adapter.unregisterAdapterDataObserver(mCurrentItemDataSetChangeObserver);
-            }
-            this.adapter = adapter;
-            if (this.adapter != null) {
-                this.adapter.registerAdapterDataObserver(mCurrentItemDataSetChangeObserver);
-            }
-        }
-    }
 
     private int toRealPosition(int position) {
         if (position == 0) {
@@ -342,13 +298,61 @@ public class Banner extends RelativeLayout {
             new DataSetChangeObserver() {
                 @Override
                 public void onChanged() {
-                    if (viewPager2 != null && viewPager2.getAdapter() != null) {
-                        createPageNumber(adapter.getItemCount());
-
-                        viewPager2.getAdapter().notifyDataSetChanged();
+                    if (viewPager2 != null && bannerAdapter != null) {
+                        createPageNumber(bannerAdapter.adapter.getItemCount());
+                        viewPager2.setUserInputEnabled(realCount > 1);
+                        viewPager2.setCurrentItem(currentPage = getCurrentPager() + 1, false);
+                        bannerAdapter.notifyDataSetChanged();
                     }
                 }
             };
+
+    private class BannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private RecyclerView.Adapter adapter;
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return adapter.onCreateViewHolder(parent, viewType);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            Log.e("aa", "onBindViewHolder position " + position);
+            adapter.onBindViewHolder(holder, toRealPosition(position));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+            adapter.onBindViewHolder(holder,toRealPosition(position),payloads);
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return adapter.getItemViewType(toRealPosition(position));
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return adapter.getItemId(toRealPosition(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return needCount;
+        }
+
+        void registerAdapter(RecyclerView.Adapter adapter) {
+            if (this.adapter != null) {
+                this.adapter.unregisterAdapterDataObserver(mCurrentItemDataSetChangeObserver);
+            }
+            this.adapter = adapter;
+            if (this.adapter != null) {
+                this.adapter.registerAdapterDataObserver(mCurrentItemDataSetChangeObserver);
+            }
+        }
+    }
 
     private abstract static class DataSetChangeObserver extends RecyclerView.AdapterDataObserver {
         @Override

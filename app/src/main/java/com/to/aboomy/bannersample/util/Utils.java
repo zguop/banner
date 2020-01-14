@@ -11,7 +11,7 @@ import java.util.Random;
  * date 2019-12-26
  */
 public class Utils {
-    private static final int[] IMAGES = {
+    public static final int[] IMAGES = {
             R.mipmap.image1,
             R.mipmap.image2,
             R.mipmap.image3,
