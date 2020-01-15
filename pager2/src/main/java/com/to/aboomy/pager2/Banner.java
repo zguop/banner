@@ -21,14 +21,12 @@ public class Banner extends RelativeLayout {
     private static final int NORMAL_COUNT = 2;
 
     private CompositePageTransformer compositePageTransformer;
+    private BannerAdapterWrapper bannerAdapterWrapper;
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
-    private BannerAdapterWrapper bannerAdapter;
     private boolean isAutoPlay = true;
-
     private long autoTurningTime = DEFAULT_AUTO_TIME;
 
-    private List<?> items;
     private int currentPage;
     private int realCount;
     private int needCount;
@@ -50,6 +48,7 @@ public class Banner extends RelativeLayout {
         viewPager2 = new ViewPager2(context);
         viewPager2.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         viewPager2.setPageTransformer(compositePageTransformer = new CompositePageTransformer());
+        bannerAdapterWrapper = new BannerAdapterWrapper();
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -75,6 +74,7 @@ public class Banner extends RelativeLayout {
             }
         });
         recyclerView = (RecyclerView) viewPager2.getChildAt(0);
+        recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         addView(viewPager2);
     }
 
@@ -83,7 +83,7 @@ public class Banner extends RelativeLayout {
      * 设置一屏多页
      *
      * @param multiWidth 左右页面露出来的宽度一致
-     * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度，小于0 魅族效果banner效果
+     * @param pageMargin >0 item与item之间的宽度
      */
     public Banner setPageMargin(int multiWidth, int pageMargin) {
         return setPageMargin(multiWidth, multiWidth, pageMargin);
@@ -123,9 +123,8 @@ public class Banner extends RelativeLayout {
     }
 
     public Banner setOffscreenPageLimit(int limit) {
-        if (viewPager2 != null) {
             viewPager2.setOffscreenPageLimit(limit);
-        }
+
         return this;
     }
 
@@ -136,9 +135,7 @@ public class Banner extends RelativeLayout {
      *                    Orientation.ORIENTATION_VERTICAL
      */
     public Banner setOrientation(@ViewPager2.Orientation int orientation) {
-        if (viewPager2 != null) {
-            viewPager2.setOrientation(orientation);
-        }
+        viewPager2.setOrientation(orientation);
         return this;
     }
 
@@ -161,32 +158,23 @@ public class Banner extends RelativeLayout {
         return Math.max(position, 0);
     }
 
-
-    //    public Banner setAdapter(Adapter adapter) {
-//        this.adapter = adapter;
-//        return this;
-//    }
-
     public void setAdapter(@Nullable RecyclerView.Adapter adapter) {
         setAdapter(adapter, 0);
     }
 
     public void setAdapter(@Nullable RecyclerView.Adapter adapter, int startPosition) {
-        if (adapter == null) {
-            if (bannerAdapter != null) {
-                createPageNumber(0);
-                bannerAdapter.registerAdapter(null);
-                viewPager2.setAdapter(null);
-            }
-            return;
-        }
-        if (bannerAdapter == null) {
-            bannerAdapter = new BannerAdapterWrapper();
-        }
-        createPageNumber(adapter.getItemCount());
-        bannerAdapter.registerAdapter(adapter);
-        viewPager2.setAdapter(bannerAdapter);
+        createPageNumber(adapter != null ? adapter.getItemCount() : 0);
+        bannerAdapterWrapper.registerAdapter(adapter);
+        viewPager2.setAdapter(bannerAdapterWrapper);
         startPager(startPosition);
+    }
+
+    public <T> Banner setHolderCreator(HolderCreator<T> holderCreator) {
+        if (bannerAdapterWrapper == null) bannerAdapterWrapper = new BannerAdapterWrapper();
+        bannerAdapterWrapper.registerAdapter(null);
+        BannerAdapter<T> bannerAdapter = new BannerAdapter<>(holderCreator);
+        bannerAdapterWrapper.registerAdapter(bannerAdapter);
+        return this;
     }
 
     public void setPages(List<?> items) {
@@ -198,8 +186,17 @@ public class Banner extends RelativeLayout {
      * @param startPosition 开始位置 真实索引
      */
     public void setPages(List<?> items, int startPosition) {
-        this.items = items;
         createPageNumber(items == null || items.size() == 0 ? 0 : items.size());
+        if (realCount == 0) {
+            if (bannerAdapterWrapper != null) {
+                createPageNumber(0);
+                bannerAdapterWrapper.registerAdapter(null);
+                viewPager2.setAdapter(null);
+            }
+            return;
+        }
+        BannerAdapter bannerAdapter = (BannerAdapter) bannerAdapterWrapper.adapter;
+        bannerAdapter.replaceData(items);
         startPager(startPosition);
     }
 
@@ -288,9 +285,9 @@ public class Banner extends RelativeLayout {
             new DataSetChangeObserver() {
                 @Override
                 public void onChanged() {
-                    if (viewPager2 != null && bannerAdapter != null) {
-                        createPageNumber(bannerAdapter.adapter.getItemCount());
-                        bannerAdapter.notifyDataSetChanged();
+                    if (viewPager2 != null && bannerAdapterWrapper != null) {
+                        createPageNumber(bannerAdapterWrapper.adapter.getItemCount());
+                        bannerAdapterWrapper.notifyDataSetChanged();
                         startPager(getCurrentPager());
                     }
                 }
@@ -309,7 +306,7 @@ public class Banner extends RelativeLayout {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            Log.e("aa", "onBindViewHolder position " + position);
+            Log.e("aa", "onBindView position " + position);
             adapter.onBindViewHolder(holder, toRealPosition(position));
         }
 

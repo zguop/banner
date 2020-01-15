@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -59,30 +61,6 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
         final List<Integer> image = Utils.getImage(2);
         adapter.setData(image);
         banner.setAdapter(adapter);
-//                .setAdapter(new Adapter() {
-//                    @Override
-//                    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                        return new MyAdapter.PagerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_banner_image, parent, false));
-//                    }
-//
-//                    @Override
-//                    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-//                        MyAdapter.PagerHolder pagerHolder = (MyAdapter.PagerHolder) holder;
-//                        Glide.with(holder.itemView.getContext())
-//                                .load(image.get(position))
-//                                .apply(new RequestOptions()
-//                                        .transform(new RoundedCorners(UIUtil.dip2px(Pager2MainActivity.this, 10))))
-//                                .into(pagerHolder.imageView);
-//                        pagerHolder.imageView.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                ToastUtils.showShort(position + "");
-//                            }
-//                        });
-//                    }
-//                })
-//                .setPages(image);
-
 
         findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,8 +78,9 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
             public void onClick(View v) {
                 if (is) {
                     MyAdapter myAdapter = new MyAdapter();
-                    myAdapter.setData(Utils.getImage(5));
+
                     banner.setAdapter(myAdapter);
+                    myAdapter.setData(Utils.getImage(5));
                 }else {
                     banner.setAdapter(adapter);
                 }
