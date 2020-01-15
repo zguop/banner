@@ -5,37 +5,33 @@ import android.view.ViewParent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Px;
+import androidx.core.util.Preconditions;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+public class PageMarginTransFormer  implements ViewPager2.PageTransformer {
+    private final int mMarginPx;
 
-/**
- * Created by wangpeiyuan on 2019-12-03.
- */
-public class MultiplePagerScaleInTransformer implements ViewPager2.PageTransformer {
-    private int marginPx;
-    private float scale;
-
-    public MultiplePagerScaleInTransformer(@Px int marginPx, float scale) {
-        this.marginPx = marginPx;
-        this.scale = scale;
+    /**
+     * Creates a {@link PageMarginTransFormer}.
+     *
+     * @param marginPx non-negative margin
+     */
+    public PageMarginTransFormer(@Px int marginPx) {
+        mMarginPx = marginPx;
     }
 
     @Override
     public void transformPage(@NonNull View page, float position) {
         ViewPager2 viewPager = requireViewPager(page);
-        float offset = position * marginPx;
+
+        float offset = mMarginPx * position;
+
         if (viewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-            if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                page.setTranslationX(offset);
-            } else {
-                page.setTranslationX(-offset);
-            }
-            page.setScaleY(1 - (scale * Math.abs(position)));
+            page.setTranslationX(ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL ? -offset : offset);
         } else {
-            page.setTranslationY(-offset);
-            page.setScaleX(1 - (scale * Math.abs(position)));
+            page.setTranslationY(offset);
         }
     }
 

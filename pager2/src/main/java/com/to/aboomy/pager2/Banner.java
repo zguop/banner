@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class Banner extends RelativeLayout {
     private CompositePageTransformer compositePageTransformer;
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
-    private BannerAdapter bannerAdapter;
+    private BannerAdapterWrapper bannerAdapter;
     private boolean isAutoPlay = true;
 
     private long autoTurningTime = DEFAULT_AUTO_TIME;
@@ -99,7 +98,7 @@ public class Banner extends RelativeLayout {
      */
     public Banner setPageMargin(int tlWidth, int brWidth, int pageMargin) {
         if (pageMargin != 0) {
-            compositePageTransformer.addTransformer(new MarginPageTransformer(pageMargin));
+            compositePageTransformer.addTransformer(new PageMarginTransFormer(pageMargin));
         }
         if (tlWidth > 0 && brWidth > 0) {
             if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_VERTICAL) {
@@ -182,16 +181,12 @@ public class Banner extends RelativeLayout {
             return;
         }
         if (bannerAdapter == null) {
-            bannerAdapter = new BannerAdapter();
+            bannerAdapter = new BannerAdapterWrapper();
         }
         createPageNumber(adapter.getItemCount());
         bannerAdapter.registerAdapter(adapter);
         viewPager2.setAdapter(bannerAdapter);
-        viewPager2.setUserInputEnabled(realCount > 1);
-        viewPager2.setCurrentItem(currentPage = startPosition + 1, false);
-        if (isAutoPlay) {
-            startTurning();
-        }
+        startPager(startPosition);
     }
 
     public void setPages(List<?> items) {
@@ -208,13 +203,17 @@ public class Banner extends RelativeLayout {
         startPager(startPosition);
     }
 
+
+    public void startTurning() {
+        stopTurning();
+        postDelayed(task, autoTurningTime);
+    }
+
+    public void stopTurning() {
+        removeCallbacks(task);
+    }
+
     private void startPager(int startPosition) {
-        if (bannerAdapter == null) {
-            bannerAdapter = new BannerAdapter();
-            viewPager2.setAdapter(bannerAdapter);
-        } else {
-            bannerAdapter.notifyDataSetChanged();
-        }
         currentPage = startPosition + 1;
         viewPager2.setUserInputEnabled(realCount > 1);
         viewPager2.setCurrentItem(currentPage, false);
@@ -232,15 +231,6 @@ public class Banner extends RelativeLayout {
         realCount = size;
         needCount = realCount + NORMAL_COUNT;
         isAutoPlay = isAutoPlay && realCount > 1;
-    }
-
-    public void startTurning() {
-        stopTurning();
-        postDelayed(task, autoTurningTime);
-    }
-
-    public void stopTurning() {
-        removeCallbacks(task);
     }
 
     @Override
@@ -300,16 +290,16 @@ public class Banner extends RelativeLayout {
                 public void onChanged() {
                     if (viewPager2 != null && bannerAdapter != null) {
                         createPageNumber(bannerAdapter.adapter.getItemCount());
-                        viewPager2.setUserInputEnabled(realCount > 1);
-                        viewPager2.setCurrentItem(currentPage = getCurrentPager() + 1, false);
                         bannerAdapter.notifyDataSetChanged();
+                        startPager(getCurrentPager());
                     }
                 }
             };
 
-    private class BannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class BannerAdapterWrapper extends RecyclerView.Adapter {
 
         private RecyclerView.Adapter adapter;
+
 
         @NonNull
         @Override
@@ -323,10 +313,6 @@ public class Banner extends RelativeLayout {
             adapter.onBindViewHolder(holder, toRealPosition(position));
         }
 
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
-            adapter.onBindViewHolder(holder,toRealPosition(position),payloads);
-        }
 
         @Override
         public int getItemViewType(int position) {
@@ -364,7 +350,9 @@ public class Banner extends RelativeLayout {
         }
 
         @Override
-        public final void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) { onChanged(); }
+        public final void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
+            onChanged();
+        }
 
         @Override
         public final void onItemRangeInserted(int positionStart, int itemCount) {
@@ -377,6 +365,8 @@ public class Banner extends RelativeLayout {
         }
 
         @Override
-        public final void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) { onChanged(); }
+        public final void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            onChanged();
+        }
     }
 }
