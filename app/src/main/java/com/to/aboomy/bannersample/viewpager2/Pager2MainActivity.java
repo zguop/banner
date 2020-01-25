@@ -4,9 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,6 +24,7 @@ import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.bannersample.viewpager2.adapter.MyAdapter;
 import com.to.aboomy.pager2.Banner;
+import com.to.aboomy.pager2.HolderRestLoader;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
@@ -50,12 +49,28 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
 
         final Banner banner = findViewById(R.id.banner);
         banner.setAutoPlay(true)
+                .setHolderRestLoader(new HolderRestLoader() {
+                    @Override
+                    public void onItemRestLoader(int position, boolean isRestItem) {
+
+                    }
+                })
                 .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
                 .setPageTransformer(new com.to.aboomy.pager2.ScaleInTransformer())
                 .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(14))
+                .setOuterPageChangeListener(new ViewPager2.OnPageChangeCallback() {
+                    @Override
+                    public void onPageSelected(int position) {
+//                        Log.e("aa","==========================");
+                        Log.e("aa" , " wai onPageSelected " + position);
+                    }
+                })
         ;
         final MyAdapter adapter = new MyAdapter();
         List<String> data = Utils.getData(2);
+//
+//        ReflectUtils.reflect()
+//                .field()
 
 
         final List<Integer> image = Utils.getImage(2);
@@ -106,7 +121,6 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
 
                     @Override
                     public void onPageSelected(int i) {
-                        Log.e("aa", "==================== banner1 onPageSelected " + i);
                     }
 
                     @Override
