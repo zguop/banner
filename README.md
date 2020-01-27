@@ -1,5 +1,5 @@
 # Android轮播控件
-[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg?version=3.0.9-x) ](https://bintray.com/a13706649811/maven/banner/3.0.9-x/link)[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg) ](https://bintray.com/a13706649811/maven/banner/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg?version=3.1.0-x) ](https://bintray.com/a13706649811/maven/banner/3.1.0-x/link)[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg) ](https://bintray.com/a13706649811/maven/banner/_latestVersion)
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持五种动画切换。
 无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考Sample。
@@ -58,8 +58,8 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 Gradle 
 ```groovy
 dependencies{
-    implementation 'com.to.aboomy:banner:3.0.9'  //最新版本
-    implementation 'com.to.aboomy:banner:3.0.9-x' //androidx版本
+    implementation 'com.to.aboomy:banner:3.1.0'  //最新版本
+    implementation 'com.to.aboomy:banner:3.1.0-x' //androidx版本
 }
 ```
 或者引用本地lib
@@ -213,35 +213,37 @@ public class IndicatorView extends View implements Indicator{
 
 ```
 ### Banner提供的方法介绍，banner未提供任何自定义属性
- |方法名|描述
- |---|---|
- |setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer)|设置viewpager的自定义动画
- |setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener)|设置viewpager的滑动监听
- |setAutoTurningTime(long autoTurningTime)|设置自动轮播时长
- |setPagerScrollDuration(int pagerScrollDuration)|设置viewpager的切换时长
- |setAutoPlay(boolean autoPlay)|设置是否自动轮播，大于1页可以轮播
- |setIndicator(Indicator indicator)|设置indicator
- |setIndicator(Indicator indicator, boolean attachToRoot)|设置indicator
- |HolderCreator(HolderCreator holderCreator))|设置view创建接口
- |setPages(List<?> items)|加载数据，此方法时开始轮播的方法，请再最后调用
- |setPages(List<?> items, int startPosition)|重载方法，设置轮播的起始位置
- |isAutoPlay()|是否无限轮播
- |getCurrentPager()|获取viewPager位置
- |startTurning()|开始轮播
- |stopTurning()|停止轮播
- |setPageMargin(int multiWidth, int pageMargin)|设置一屏多页
- |setPageMargin(int leftWidth, int rightWidth, int pageMargin)|设置一屏多页,方法重载
- |setOffscreenPageLimit(int limit)|
+
+|方法名|描述|
+|---|---| 
+|setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer)|设置viewpager的自定义动画|
+setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener)|设置viewpager的滑动监听
+|setAutoTurningTime(long autoTurningTime)|设置自动轮播时长
+|setPagerScrollDuration(int pagerScrollDuration)|设置viewpager的切换时长
+|setAutoPlay(boolean autoPlay)|设置是否自动轮播，大于1页可以轮播
+|setIndicator(Indicator indicator)|设置indicator
+|setIndicator(Indicator indicator, boolean attachToRoot)|设置indicator
+|HolderCreator(HolderCreator holderCreator))|设置view创建接口
+|setPages(List<?> items)|加载数据，此方法时开始轮播的方法，请再最后调用
+|setPages(List<?> items, int startPosition)|重载方法，设置轮播的起始位置
+|isAutoPlay()|是否无限轮播
+|getCurrentPager()|获取viewPager位置
+|startTurning()|开始轮播
+|stopTurning()|停止轮播
+|setPageMargin(int multiWidth, int pageMargin)|设置一屏多页
+|setPageMargin(int leftWidth, int rightWidth, int pageMargin)|设置一屏多页,方法重载
+|setOffscreenPageLimit(int limit)|同viewPager用法
+|setOnPageClickListener(OnPageItemClickListener onPageClickListener)|扩展接口,设置itemView点击事件，3.1.0新增
 
 ### 内置IndicatorView使用方法介绍，没有提供任何自定义属性
- |方法名|描述
- |---|---|
- |setIndicatorRadius(float indicatorRadius)|设置圆点半径|
- |setIndicatorSpacing(float indicatorSpacing)|设置圆点间距|
- |setIndicatorStyle(@IndicatorStyle int indicatorStyle)|设置圆点切换动画，内置五种切换动画，请参考Sample|
- |setIndicatorColor(@ColorInt int indicatorColor)|设置默认的圆点颜色|
- |setIndicatorSelectorColor(@ColorInt int indicatorSelectorColor) |设置选中的圆点颜色|
- |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部10dp，请参考Sample|
+|方法名|描述|
+|---|---|
+|setIndicatorRadius(float indicatorRadius)|设置圆点半径|
+|setIndicatorSpacing(float indicatorSpacing)|设置圆点间距|
+|setIndicatorStyle(@IndicatorStyle int indicatorStyle)|设置圆点切换动画，内置五种切换动画，请参考Sample|
+|setIndicatorColor(@ColorInt int indicatorColor)|设置默认的圆点颜色|
+|setIndicatorSelectorColor(@ColorInt int indicatorSelectorColor) |设置选中的圆点颜色|
+|setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部10dp，请参考Sample|
  
 ### 感谢
 项目参考了[banner](https://github.com/youth5201314/banner) count+2的轮播思想。
