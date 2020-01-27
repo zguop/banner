@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 public class Banner extends RelativeLayout {
@@ -277,7 +278,7 @@ public class Banner extends RelativeLayout {
      */
     public Banner setPageMargin(int tlWidth, int brWidth, int pageMargin) {
         if (pageMargin != 0) {
-            compositePageTransformer.addTransformer(new PageMarginTransFormer(pageMargin));
+            compositePageTransformer.addTransformer(new MarginPageTransformer(pageMargin));
         }
         if (tlWidth > 0 && brWidth > 0) {
             RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
