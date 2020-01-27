@@ -142,11 +142,8 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      */
     public Banner setAutoPlay(boolean autoPlay) {
         isAutoPlay = autoPlay;
-        if (isAutoPlay && adapter != null) {
-            isAutoPlay = realCount > 1;
-            if (isAutoPlay) {
-                startTurning();
-            }
+        if (isAutoPlay && realCount > 1) {
+            startTurning();
         }
         return this;
     }
@@ -212,7 +209,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         views.clear();
         if (items == null || items.size() == 0 || holderCreator == null) {
             realCount = 0;
-            isAutoPlay = false;
             needCount = 0;
             return;
         }
