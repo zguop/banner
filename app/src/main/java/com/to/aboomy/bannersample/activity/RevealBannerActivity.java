@@ -103,6 +103,7 @@ public class RevealBannerActivity extends AppCompatActivity implements HolderCre
     }
 
 
+    @NonNull
     @Override
     public View createView(Context context, final int index, Object o) {
 

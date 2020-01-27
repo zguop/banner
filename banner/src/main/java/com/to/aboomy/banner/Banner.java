@@ -19,6 +19,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private static final int NORMAL_COUNT = 2;
 
     private ViewPager.OnPageChangeListener outerPageChangeListener;
+    private OnPageItemClickListener onPageClickListener;
     private HolderCreator holderCreator;
     private BannerViewPager viewPager;
     private PagerAdapter adapter;
@@ -48,7 +49,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      */
     private int sidePage;
 
-
     public Banner(Context context) {
         this(context, null);
     }
@@ -70,189 +70,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         viewPager.setClipChildren(Boolean.FALSE);
         viewPager.addOnPageChangeListener(this);
         addView(viewPager);
-    }
-
-    /**
-     * 设置一屏多页
-     *
-     * @param multiWidth 左右页面露出来的宽度一致
-     * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度，小于0 魅族效果banner效果
-     */
-    public Banner setPageMargin(int multiWidth, int pageMargin) {
-        return setPageMargin(multiWidth, multiWidth, pageMargin);
-    }
-
-    /**
-     * 设置一屏多页
-     *
-     * @param leftWidth  左边页面显露出来的宽度
-     * @param rightWidth 右边页面露出来的宽度
-     * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度
-     */
-    public Banner setPageMargin(int leftWidth, int rightWidth, int pageMargin) {
-        if (viewPager != null) {
-            if (pageMargin != 0) {
-                viewPager.setPageMargin(pageMargin);
-                viewPager.setOverlapStyle(pageMargin < 0);
-            }
-            if (leftWidth > 0 && rightWidth > 0) {
-                LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
-                layoutParams.leftMargin = leftWidth + Math.abs(pageMargin);
-                layoutParams.rightMargin = rightWidth + Math.abs(pageMargin);
-                viewPager.setOffscreenPageLimit(2);
-                needPage += NORMAL_COUNT;
-            }
-        }
-        return this;
-    }
-
-    public Banner setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
-        if (viewPager != null) {
-            viewPager.setPageTransformer(reverseDrawingOrder, transformer);
-        }
-        return this;
-    }
-
-    public Banner setAutoTurningTime(long autoTurningTime) {
-        this.autoTurningTime = autoTurningTime;
-        return this;
-    }
-
-    public Banner setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener) {
-        this.outerPageChangeListener = outerPageChangeListener;
-        return this;
-    }
-
-    public Banner setPagerScrollDuration(int pagerScrollDuration) {
-        if (viewPager != null) {
-            viewPager.setPagerScrollDuration(pagerScrollDuration);
-        }
-        return this;
-    }
-
-    public Banner setOffscreenPageLimit(int limit) {
-        if (viewPager != null) {
-            viewPager.setOffscreenPageLimit(limit);
-        }
-        return this;
-    }
-
-    /**
-     * 是否自动轮播 大于1页轮播才生效
-     */
-    public Banner setAutoPlay(boolean autoPlay) {
-        isAutoPlay = autoPlay;
-        if (isAutoPlay && realCount > 1) {
-            startTurning();
-        }
-        return this;
-    }
-
-    public Banner setIndicator(Indicator indicator) {
-        return setIndicator(indicator, true);
-    }
-
-    /**
-     * 设置indicator，支持在xml中创建
-     *
-     * @param attachToRoot true 添加到banner布局中
-     */
-    public Banner setIndicator(Indicator indicator, boolean attachToRoot) {
-        if (this.indicator != null) {
-            removeView(this.indicator.getView());
-        }
-        if (indicator != null) {
-            this.indicator = indicator;
-            if (attachToRoot) {
-                addView(this.indicator.getView(), this.indicator.getParams());
-            }
-        }
-        return this;
-    }
-
-    public Banner setHolderCreator(HolderCreator holderCreator) {
-        this.holderCreator = holderCreator;
-        return this;
-    }
-
-    /**
-     * @param items         数据集
-     * @param startPosition 开始位置 真实索引
-     */
-    public void setPages(List<?> items, int startPosition) {
-        createImages(items);
-        startPager(startPosition);
-    }
-
-    public void setPages(List<?> items) {
-        setPages(items, 0);
-    }
-
-    private void startPager(int startPosition) {
-        if (adapter == null) {
-            adapter = new BannerAdapter();
-        }
-        viewPager.setAdapter(adapter);
-        currentPage = startPosition + sidePage;
-        viewPager.setScrollable(realCount > 1);
-        viewPager.setFocusable(true);
-        viewPager.setCurrentItem(currentPage);
-        if (indicator != null) {
-            indicator.initIndicatorCount(realCount);
-        }
-        if (isAutoPlay) {
-            startTurning();
-        }
-    }
-
-    private void createImages(List<?> items) {
-        views.clear();
-        if (items == null || items.size() == 0 || holderCreator == null) {
-            realCount = 0;
-            needCount = 0;
-            return;
-        }
-        realCount = items.size();
-        isAutoPlay = isAutoPlay && realCount > 1;
-        sidePage = needPage / NORMAL_COUNT;
-        needCount = realCount + needPage;
-        for (int i = 0; i < needCount; i++) {
-            int position = toRealPosition(i);
-            View view = holderCreator.createView(getContext(), position, items.get(position));
-            views.add(view);
-        }
-    }
-
-    public boolean isAutoPlay() {
-        return isAutoPlay;
-    }
-
-    /**
-     * 返回真实位置
-     */
-    public int getCurrentPager() {
-        int position = toRealPosition(currentPage);
-        return Math.max(position, 0);
-    }
-
-    public void startTurning() {
-        stopTurning();
-        postDelayed(task, autoTurningTime);
-    }
-
-    public void stopTurning() {
-        removeCallbacks(task);
-    }
-
-    private int toRealPosition(int position) {
-        int realPosition = 0;
-        if (realCount != 0) {
-            realPosition = (position - sidePage) % realCount;
-        }
-        if (realPosition < 0) {
-            realPosition += realCount;
-        }
-        return realPosition;
     }
 
     @Override
@@ -347,8 +164,17 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
         @NonNull
         @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             View view = views.get(position);
+            if (onPageClickListener != null) {
+                view.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int toRealPosition = toRealPosition(position);
+                        onPageClickListener.onPageItemClick(v, toRealPosition);
+                    }
+                });
+            }
             container.addView(view);
             return view;
         }
@@ -371,5 +197,204 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    private void startPager(int startPosition) {
+        if (adapter == null) {
+            adapter = new BannerAdapter();
+        }
+        viewPager.setAdapter(adapter);
+        currentPage = startPosition + sidePage;
+        viewPager.setScrollable(realCount > 1);
+        viewPager.setFocusable(true);
+        viewPager.setCurrentItem(currentPage);
+        if (indicator != null) {
+            indicator.initIndicatorCount(realCount);
+        }
+        if (isAutoPlay) {
+            startTurning();
+        }
+    }
+
+    private void createImages(List<?> items) {
+        this.views.clear();
+        if (items == null || items.size() == 0 || holderCreator == null) {
+            realCount = 0;
+            needCount = 0;
+            return;
+        }
+        realCount = items.size();
+        isAutoPlay = isAutoPlay && realCount > 1;
+        sidePage = needPage / NORMAL_COUNT;
+        needCount = realCount + needPage;
+        for (int i = 0; i < needCount; i++) {
+            int toRealPosition = toRealPosition(i);
+            View view = holderCreator.createView(getContext(), toRealPosition, items.get(toRealPosition));
+            views.add(view);
+        }
+    }
+
+    private int toRealPosition(int position) {
+        int realPosition = 0;
+        if (realCount != 0) {
+            realPosition = (position - sidePage) % realCount;
+        }
+        if (realPosition < 0) {
+            realPosition += realCount;
+        }
+        return realPosition;
+    }
+
+    /*--------------- 下面是对外暴露的方法 ---------------*/
+
+    /**
+     * 设置一屏多页
+     *
+     * @param multiWidth 左右页面露出来的宽度一致
+     * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度，小于0 魅族效果banner效果
+     */
+    public Banner setPageMargin(int multiWidth, int pageMargin) {
+        return setPageMargin(multiWidth, multiWidth, pageMargin);
+    }
+
+    /**
+     * 设置一屏多页
+     *
+     * @param leftWidth  左边页面显露出来的宽度
+     * @param rightWidth 右边页面露出来的宽度
+     * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度
+     */
+    public Banner setPageMargin(int leftWidth, int rightWidth, int pageMargin) {
+        if (viewPager != null) {
+            if (pageMargin != 0) {
+                viewPager.setPageMargin(pageMargin);
+                viewPager.setOverlapStyle(pageMargin < 0);
+            }
+            if (leftWidth > 0 && rightWidth > 0) {
+                LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
+                layoutParams.leftMargin = leftWidth + Math.abs(pageMargin);
+                layoutParams.rightMargin = rightWidth + Math.abs(pageMargin);
+                viewPager.setOffscreenPageLimit(2);
+                needPage += NORMAL_COUNT;
+            }
+        }
+        return this;
+    }
+
+    public Banner setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
+        if (viewPager != null) {
+            viewPager.setPageTransformer(reverseDrawingOrder, transformer);
+        }
+        return this;
+    }
+
+    public Banner setAutoTurningTime(long autoTurningTime) {
+        this.autoTurningTime = autoTurningTime;
+        return this;
+    }
+
+    /**
+     * {@link android.support.v4.view.ViewPager.SimpleOnPageChangeListener}
+     */
+    public Banner setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener) {
+        this.outerPageChangeListener = outerPageChangeListener;
+        return this;
+    }
+
+    /**
+     * 设置viewpager的切换时长
+     */
+    public Banner setPagerScrollDuration(int pagerScrollDuration) {
+        if (viewPager != null) {
+            viewPager.setPagerScrollDuration(pagerScrollDuration);
+        }
+        return this;
+    }
+
+    public Banner setOffscreenPageLimit(int limit) {
+        if (viewPager != null) {
+            viewPager.setOffscreenPageLimit(limit);
+        }
+        return this;
+    }
+
+    /**
+     * 是否自动轮播 大于1页轮播才生效
+     */
+    public Banner setAutoPlay(boolean autoPlay) {
+        isAutoPlay = autoPlay;
+        if (isAutoPlay && realCount > 1) {
+            startTurning();
+        }
+        return this;
+    }
+
+    public Banner setIndicator(Indicator indicator) {
+        return setIndicator(indicator, true);
+    }
+
+    /**
+     * 设置indicator，支持在xml中创建
+     *
+     * @param attachToRoot true 添加到banner布局中
+     */
+    public Banner setIndicator(Indicator indicator, boolean attachToRoot) {
+        if (this.indicator != null) {
+            removeView(this.indicator.getView());
+        }
+        if (indicator != null) {
+            this.indicator = indicator;
+            if (attachToRoot) {
+                addView(this.indicator.getView(), this.indicator.getParams());
+            }
+        }
+        return this;
+    }
+
+    public Banner setHolderCreator(HolderCreator holderCreator) {
+        this.holderCreator = holderCreator;
+        return this;
+    }
+
+    public Banner setOnPageClickListener(OnPageItemClickListener onPageClickListener) {
+        this.onPageClickListener = onPageClickListener;
+        return this;
+    }
+
+    /**
+     * @param items         数据集
+     * @param startPosition 开始位置 真实索引
+     */
+    public void setPages(List<?> items, int startPosition) {
+        createImages(items);
+        startPager(startPosition);
+    }
+
+    public void setPages(List<?> items) {
+        setPages(items, 0);
+    }
+
+    /**
+     * 是否正在轮播
+     */
+    public boolean isAutoPlay() {
+        return isAutoPlay;
+    }
+
+    /**
+     * 返回真实位置
+     */
+    public int getCurrentPager() {
+        int position = toRealPosition(currentPage);
+        return Math.max(position, 0);
+    }
+
+    public void startTurning() {
+        stopTurning();
+        postDelayed(task, autoTurningTime);
+    }
+
+    public void stopTurning() {
+        removeCallbacks(task);
     }
 }

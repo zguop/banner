@@ -58,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
                 .setHolderCreator(new ImageHolderCreator())
+                .setOnPageClickListener(new OnPageItemClickListener() {
+                    @Override
+                    public void onPageItemClick(View v, int position) {
+                        ToastUtils.showShort("ImageHolderCreator中设置了点击事件，但是被 onPageItemClick 覆盖了 " + position);
+                    }
+                })
                 .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

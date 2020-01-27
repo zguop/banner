@@ -97,6 +97,7 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
     }
 
 
+    @NonNull
     @Override
     public View createView(final Context context, final int index, Object o) {
         View view = View.inflate(context, R.layout.item_banner_image, null);
