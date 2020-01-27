@@ -1,6 +1,7 @@
 package com.to.aboomy.bannersample.creator;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,6 +19,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
  * date 2019-12-28
  */
 public class ImageTest1ChildHolderCreator implements HolderCreator {
+    @NonNull
     @Override
     public View createView(final Context context, final int index, Object o) {
         View inflate = View.inflate(context, R.layout.item_round_image, null);

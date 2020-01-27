@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
+import com.to.aboomy.banner.OnPageItemClickListener;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
@@ -57,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
                 .setHolderCreator(new ImageHolderCreator())
+                .setOnPageClickListener(new OnPageItemClickListener() {
+                    @Override
+                    public void onPageItemClick(View v, int position) {
+                        ToastUtils.showShort("ImageHolderCreator中设置了点击事件，但是被 onPageItemClick 覆盖了 " + position);
+                    }
+                })
                 .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
