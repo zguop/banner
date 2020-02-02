@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
+//                .setIndicatorRatio(1.5f)
+//                .setIndicatorSelectedRadius(4)
+                .setIndicatorRadius(5.5f)
+//                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BEZIER)
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(indicatorView)

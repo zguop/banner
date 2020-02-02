@@ -1,7 +1,6 @@
 package com.to.aboomy.bannersample.creator;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -16,7 +15,6 @@ import com.to.aboomy.banner.HolderCreator;
 public class ImageHolderCreator implements HolderCreator {
     @Override
     public View createView(final Context context, final int index, Object o) {
-        Log.e("aa", "index " + index);
         ImageView iv = new ImageView(context);
         iv.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(iv).load(o).into(iv);

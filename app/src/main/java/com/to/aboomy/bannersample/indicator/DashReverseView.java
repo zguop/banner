@@ -19,7 +19,7 @@ import com.to.aboomy.banner.Indicator;
 public class DashReverseView extends LinearLayout implements Indicator {
 
     private int pointRadius = dip2px(2);
-    private int pointSelectColor = Color.WHITE;
+    private int pointSelectColor = Color.RED;
     private int pointColor = Color.GRAY;
     private int pointWidth = pointRadius * 6;
     private int pointHeight = pointRadius * 2;
