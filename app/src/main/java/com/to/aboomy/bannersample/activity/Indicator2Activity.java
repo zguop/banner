@@ -5,17 +5,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SizeUtils;
+import com.rd.PageIndicatorView;
+import com.rd.animation.type.AnimationType;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.Indicator;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageTest1ChildHolderCreator;
-import com.to.aboomy.bannersample.indicator.LineIndicatorView;
 import com.to.aboomy.bannersample.indicator.CircleIndicatorView;
 import com.to.aboomy.bannersample.indicator.DashPointView;
 import com.to.aboomy.bannersample.indicator.DashReverseView;
+import com.to.aboomy.bannersample.indicator.LineIndicatorView;
 import com.to.aboomy.bannersample.indicator.LinePagerTitleIndicatorView;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
@@ -32,10 +37,13 @@ public class Indicator2Activity extends AppCompatActivity {
             "CircleIndicatorView",
             "CircleIndicatorView-FollowTouch",
             "LinePagerTitleIndicatorView",
-            "LineIndicatorView"
+            "LineIndicatorView",
+            "PageIndicatorView-FILL",
+            "PageIndicatorView-THIN_WORM",
+            "PageIndicatorView-DROP",
+            "PageIndicatorView-SWAP",
     };
     private int choose;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,9 +75,7 @@ public class Indicator2Activity extends AppCompatActivity {
                         }).show();
             }
         });
-
     }
-
 
     public Indicator getIndicator(int position) {
         switch (position) {
@@ -78,20 +84,78 @@ public class Indicator2Activity extends AppCompatActivity {
             case 1:
                 return new DashReverseView(this);
             case 2:
-                CircleIndicatorView c = new CircleIndicatorView(this);
-                c.setCircleColor(Color.WHITE);
-                c.setFollowTouch(false);
-                return c;
+                return getCircleIndicatorView(false);
             case 3:
-                CircleIndicatorView c1 = new CircleIndicatorView(this);
-                c1.setCircleColor(Color.WHITE);
-                return c1;
+                return getCircleIndicatorView(true);
             case 4:
                 return new LinePagerTitleIndicatorView(this);
             case 5:
                 return new LineIndicatorView(this);
+            case 6:
+                return getPageIndicatorView(AnimationType.FILL);
+            case 7:
+                return getPageIndicatorView(AnimationType.THIN_WORM);
+            case 8:
+                return getPageIndicatorView(AnimationType.DROP);
+            case 9:
+                return getPageIndicatorView(AnimationType.SWAP);
             default:
                 return new IndicatorView(this);
         }
+    }
+
+    private CircleIndicatorView getCircleIndicatorView(boolean followTouch){
+        CircleIndicatorView circleIndicatorView = new CircleIndicatorView(this);
+        circleIndicatorView.setCircleColor(Color.RED);
+        circleIndicatorView.setFollowTouch(followTouch);
+        return circleIndicatorView;
+    }
+
+    /**
+     * 集成 https://github.com/romandanylyk/PageIndicatorView
+     */
+    private Indicator getPageIndicatorView(AnimationType type) {
+        final PageIndicatorView pageIndicatorView = new PageIndicatorView(this);
+        pageIndicatorView.setAnimationType(type);
+        pageIndicatorView.setInteractiveAnimation(true);
+        pageIndicatorView.setSelectedColor(Color.RED);
+        pageIndicatorView.setUnselectedColor(Color.GRAY);
+        pageIndicatorView.setPadding(10);
+        pageIndicatorView.setRadius(8);
+        return new Indicator() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pageIndicatorView.setSelection(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+
+            @Override
+            public void initIndicatorCount(int pagerCount) {
+                pageIndicatorView.setCount(pagerCount);
+            }
+
+            @Override
+            public View getView() {
+                return pageIndicatorView;
+            }
+
+            @Override
+            public RelativeLayout.LayoutParams getParams() {
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                params.bottomMargin = SizeUtils.dp2px(20);
+                return params;
+            }
+        };
     }
 }

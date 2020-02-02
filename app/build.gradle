@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.zhy:magic-viewpager:1.0.1'
     implementation 'com.github.lihangleo2:ShadowLayout:2.1.5'
     implementation 'com.blankj:utilcode:1.25.9'
+    api 'com.romandanylyk:pageindicatorview:1.0.2'
 
 
     implementation project(":banner")

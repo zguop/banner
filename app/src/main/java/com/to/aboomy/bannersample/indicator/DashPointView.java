@@ -18,7 +18,7 @@ import com.to.aboomy.banner.Indicator;
 public class DashPointView extends LinearLayout implements Indicator {
 
     private int pointRadius = dip2px(3);
-    private int pointSelectColor = Color.WHITE;
+    private int pointSelectColor = Color.RED;
     private int pointColor = Color.GRAY;
     private int maxPointWidth = pointRadius * 6;
     private int pointWidth = pointRadius * 2;
