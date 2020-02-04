@@ -129,7 +129,6 @@ public class Banner extends RelativeLayout {
             return;
         }
         realCount = adapter.getItemCount();
-        isAutoPlay = isAutoPlay && realCount > 1;
         sidePage = needPage / NORMAL_COUNT;
         needCount = realCount + needPage;
     }
@@ -334,6 +333,10 @@ public class Banner extends RelativeLayout {
             startTurning();
         }
         return this;
+    }
+
+    public boolean isAutoPlay() {
+        return isAutoPlay && realCount > 1;
     }
 
     public Banner setIndicator(Indicator indicator) {
