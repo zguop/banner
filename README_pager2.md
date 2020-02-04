@@ -1,6 +1,6 @@
 # Android轮播控件
 
-全新升级，基于ViewPager2实现无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了的IndicatorView，支持五种动画切换。集成使用请参考Sample。
+**全新升级**，基于**ViewPager2**实现无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了的IndicatorView，支持五种动画切换。**支持传入RecyclerView.Adapter 即可实现无限轮播**，支持任何ReyclerView.Apdater框架，集成使用请参考Sample。
 
 ![logo](gif/logo.png)
 
@@ -9,8 +9,17 @@
 * 支持自定义Indicator
 * 支持自定义view
 * 支持数据刷新
-* 支持任意RecyclerView.adapter
+* 支持垂直滚动
+* 支持任意RecyclerView.adapter，RecyclerView的使用方式。
+* 支持androidx，还在使用support请使用[banner](https://github.com/zguop/banner)ViewPager版本
 * 良好的代码封装，更多优化请参考代码实现。
+
+ViewPager2
+* 暂不支持页面切换滑动速度。
+* 暂不支持仿魅族样式。
+
+
+[想使用ViewPager实现Banner请点击](https://github.com/zguop/banner)
 
 
 ## 效果图
@@ -66,30 +75,9 @@ compile project(':banner')
         android:layout_height="150dp"/>
 ```
 
-#### Step 3.实现Recycler.adapter
-```java
-//RecylerView的使用方式，支持任意ReyclerView.adapter框架
-public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
-    }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+#### Step 3.在页面中使用Banner
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
-}
-
-```
-
-#### Step 4.在页面中使用Banner
 
 ```java
 
@@ -98,12 +86,17 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         banner = findViewById(R.id.banner);
+        
         //使用内置Indicator
         IndicatorView indicator = new IndicatorView(this)
               .setIndicatorColor(Color.DKGRAY)
               .setIndicatorSelectorColor(Color.WHITE);
-     	 MyRecyclerAdapter adapter = new MyRecyclerAdapter();
-        banner.setIndicator(indicator)
+        
+        //创建adapter
+     	 RecyclerView.Adapter adapter = new MyRecyclerAdapter();
+     	 
+     	 //传入RecyclerView.Adapter 即可实现无限轮播
+         banner.setIndicator(indicator)
               .setAdapter(adapter);
     }
 ```
@@ -117,6 +110,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 .setPageTransformer(true, new ScaleInTransformer())
     
 ```
+
+### 
+
 
 ### 关于ViewPager切换动画
 
@@ -150,6 +146,12 @@ public interface Indicator extends ViewPager.OnPageChangeListener {
      * banner是一个RelativeLayout，设置banner在RelativeLayout中的位置，可以是任何地方
      */
     RelativeLayout.LayoutParams getParams();
+    
+    void onPageScrolled(int position, float positionOffset, @Px int positionOffsetPixels);
+    
+    void onPageSelected(int position);
+    
+    void onPageScrollStateChanged(int state);
 }
 
 //举个栗子
@@ -203,24 +205,26 @@ public class IndicatorView extends View implements Indicator{
 
 |方法名|描述|
 |---|---| 
-|setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer)|设置viewpager的自定义动画|
-setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener)|设置viewpager的滑动监听
+|setPageTransformer(ViewPager2.PageTransformer transformer)|设置viewpager2的自定义动画，支持多个添加|
+setOuterPageChangeListener(ViewPager2.OnPageChangeCallback listener)|设置viewpager2的滑动监听
 |setAutoTurningTime(long autoTurningTime)|设置自动轮播时长
-|setPagerScrollDuration(int pagerScrollDuration)|设置viewpager的切换时长
 |setAutoPlay(boolean autoPlay)|设置是否自动轮播，大于1页可以轮播
 |setIndicator(Indicator indicator)|设置indicator
 |setIndicator(Indicator indicator, boolean attachToRoot)|设置indicator
-|HolderCreator(HolderCreator holderCreator))|设置view创建接口
-|setPages(List<?> items)|加载数据，此方法时开始轮播的方法，请再最后调用
-|setPages(List<?> items, int startPosition)|重载方法，设置轮播的起始位置
+|setAdapter(@Nullable RecyclerView.Adapter adapter)|加载数据，此方法时开始轮播的方法，请再最后调用
+|setAdapter(@Nullable RecyclerView.Adapter adapter, int startPosition)|重载方法，设置轮播的起始位置
 |isAutoPlay()|是否无限轮播
-|getCurrentPager()|获取viewPager位置
+|getCurrentPager()|获取viewPager2当前位置
 |startTurning()|开始轮播
 |stopTurning()|停止轮播
 |setPageMargin(int multiWidth, int pageMargin)|设置一屏多页
 |setPageMargin(int leftWidth, int rightWidth, int pageMargin)|设置一屏多页,方法重载
-|setOffscreenPageLimit(int limit)|同viewPager用法
-|setOnPageClickListener(OnPageItemClickListener onPageClickListener)|扩展接口,设置itemView点击事件，3.1.0新增
+|setOffscreenPageLimit(int limit)|同viewPager2用法
+|setOrientation(@ViewPager2.Orientation int orientation)|设置viewpager2滑动方向|
+|ViewPager2 getViewPager2()|获取viewpager2|
+|RecyclerView.Adapter getAdapter()|获取apdater|
+|||
+
 
 ### 内置IndicatorView使用方法介绍，没有提供任何自定义属性
 |方法名|描述|
@@ -231,9 +235,9 @@ setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListene
 |setIndicatorColor(@ColorInt int indicatorColor)|设置默认的圆点颜色|
 |setIndicatorSelectorColor(@ColorInt int indicatorSelectorColor) |设置选中的圆点颜色|
 |setParams(RelativeLayout.LayoutParams params) |设置IndicatorView在banner中的位置，默认底部居中，距离底部10dp，请参考Sample|
- 
-### 感谢
-项目参考了[banner](https://github.com/youth5201314/banner) count+2的轮播思想。
+|setIndicatorRatio(float indicatorRatio)|设置indicator比例，拉伸圆为矩形，设置越大，拉伸越长，默认1.0|
+|setIndicatorSelectedRadius(float indicatorSelectedRadius)|设置选中的圆角，默认和indicatorRadius值一致，可单独设置选中的点大小|
+|setIndicatorSelectedRatio(float indicatorSelectedRatio)|设置选中圆比例，拉伸圆为矩形，控制该比例，默认比例和indicatorRatio一致，默认值1.0|
 
 ### 总结
 -

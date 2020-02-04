@@ -6,7 +6,7 @@ package com.to.aboomy.pager2;
  */
 public interface HolderRestLoader {
     /**
-     * viewPager切换页面时调用，当页面切换时需要更新UI，可以设置该接口
+     * 作为ViewPager2扩展接口，页面切换时调用
      *
      * @param position   当前的position
      * @param isRestItem 是否是ViewPager重置当前位置，

@@ -324,6 +324,16 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
+    public Banner addItemDecoration(@NonNull RecyclerView.ItemDecoration decor) {
+        viewPager2.addItemDecoration(decor);
+        return this;
+    }
+
+    public Banner addItemDecoration(@NonNull RecyclerView.ItemDecoration decor, int index) {
+        viewPager2.addItemDecoration(decor, index);
+        return this;
+    }
+
     /**
      * 是否自动轮播 大于1页轮播才生效
      */
