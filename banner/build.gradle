@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName version
     }
@@ -17,4 +17,4 @@ android {
 dependencies {
     compileOnly 'androidx.viewpager:viewpager:1.0.0'
 }
-apply from:"${rootProject.projectDir}/uploadBintrayNoJavadoc.gradle"
+apply from:"${rootProject.projectDir}/uploadBintray.gradle"

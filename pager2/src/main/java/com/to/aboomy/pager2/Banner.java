@@ -262,7 +262,7 @@ public class Banner extends RelativeLayout {
      * 设置一屏多页
      *
      * @param multiWidth 左右页面露出来的宽度一致
-     * @param pageMargin >0 item与item之间的宽度
+     * @param pageMargin item与item之间的宽度
      */
     public Banner setPageMargin(int multiWidth, int pageMargin) {
         return setPageMargin(multiWidth, multiWidth, pageMargin);
@@ -273,7 +273,7 @@ public class Banner extends RelativeLayout {
      *
      * @param tlWidth    左边页面显露出来的宽度
      * @param brWidth    右边页面露出来的宽度
-     * @param pageMargin >0 item与item之间的宽度
+     * @param pageMargin item与item之间的宽度
      */
     public Banner setPageMargin(int tlWidth, int brWidth, int pageMargin) {
         if (pageMargin != 0) {

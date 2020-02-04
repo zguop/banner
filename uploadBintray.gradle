@@ -35,6 +35,33 @@ group = pkgGroupId
 // VCS Tag
 version = pkgVersion
 
+// 生成Javadoc文档
+task javadoc(type: Javadoc) {
+    options.encoding = "utf-8"
+    source = android.sourceSets.main.java.srcDirs
+    classpath += files(android.bootClasspath)
+
+    options {
+        //links "http://docs.oracle.com/javase/7/docs/api/"
+        linksOffline "https://developer.android.com/reference","${android.sdkDirectory}/docs/reference"
+        encoding = "UTF-8"
+    }
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+
+    android.libraryVariants.all { variant ->
+        variant.javaCompileProvider.configure{
+            javadoc.classpath += files(it.classpath.files)
+        }
+    }
+}
+
+// 文档打包成jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 // 生成源文件
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -70,6 +97,7 @@ publishing {
         Production(MavenPublication) {
             // 上传到JCenter所需要的源码文件
             artifact sourcesJar
+            artifact javadocJar
             groupId pkgGroupId
             artifactId pkgArtifactId
             version pkgVersion
@@ -98,6 +126,7 @@ publishing {
         Sandbox(MavenPublication) {
             // 上传到JCenter所需要的源码文件
             artifact sourcesJar
+            artifact javadocJar
             groupId pkgGroupId
             artifactId pkgArtifactId
             version pkgVersion
@@ -128,13 +157,21 @@ publishing {
 
 // 上传到JCenter
 Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def localFile = project.rootProject.file('local.properties')
+// local.properties exists
+if (localFile.exists()) {
+    properties.load(localFile.newDataInputStream())
+}
 
 bintray {
-    // 读取 项目根目录下local.properties 文件里面的 BINTRAY_USER
-    user = properties.getProperty("BINTRAY_USER")
-    // 读取 项目根目录下local.properties 文件里面的 BINTRAY_APIKEY
-    key = properties.getProperty("BINTRAY_APIKEY")
+    if (properties.containsKey("BINTRAY_USER")) {
+        // 读取 项目根目录下local.properties 文件里面的 BINTRAY_USER
+        user = properties.getProperty("BINTRAY_USER")
+    }
+    if (properties.containsKey("BINTRAY_APIKEY")) {
+        // 读取 项目根目录下local.properties 文件里面的 BINTRAY_APIKEY
+        key = properties.getProperty("BINTRAY_APIKEY")
+    }
     configurations = ['archives']
     pkg {
         // 这里的repo值必须要和你创建Maven仓库的时候的名字一样

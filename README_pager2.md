@@ -59,7 +59,9 @@ ViewPager2
 Gradle 
 ```groovy
 	
-
+dependencies{
+    implementation 'com.to.aboomy.pager2:banner:0.0.1-alpha' //预览版
+}
 ```
 或者引用本地lib
 ```groovy
