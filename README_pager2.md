@@ -33,7 +33,7 @@ ViewPager2
 |![tu1](gif/tu1.png)|
 
 |描述|普通样式|两边缩放|
-|---|---|---|---|
+|---|---|---|
 |**一屏三页**|![img6](gif/img6.gif)|![img7](gif/img7.gif)|
 
 |IndicatorView|IndicatorStyle|

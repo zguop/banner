@@ -19,6 +19,9 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 
 ##### [版本更新内容点击查看](https://github.com/zguop/banner/releases)
 
+##### ViewPager2版本
+[ViewPager2文档请点击](https://github.com/zguop/banner/blob/master/README_pager2.md)，项目中新增pager2模块，查看Viewpager2实现banner无限轮播。
+
 ## 效果图
 
 **点击下载 [banner.apk](https://fir.im/r7le) 体验**
