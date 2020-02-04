@@ -20,7 +20,7 @@ class ViewPagerScroller extends Scroller {
         super.startScroll(startX, startY, dx, dy, scrollDuration);
     }
 
-    public void setScrollDuration(int scrollDuration) {
+    void setScrollDuration(int scrollDuration) {
         this.scrollDuration = scrollDuration;
     }
 }

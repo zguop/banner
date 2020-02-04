@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,12 +20,16 @@ import com.to.aboomy.bannersample.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * auth aboom
  * date 2019-12-28
  */
 public class Test1ChildFragment extends Fragment {
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private Test1ChildAdapter adapter;
 
     @Nullable
     @Override
@@ -36,17 +41,27 @@ public class Test1ChildFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.list);
+        swipeRefreshLayout = view.findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
 
-        final Test1ChildAdapter adapter = new Test1ChildAdapter();
+        adapter = new Test1ChildAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        loadData();
 
+    }
+
+    private void loadData() {
         List<MultiItemEntity> list = new ArrayList<>();
-
-
         BannerBean bannerBean = new BannerBean();
         bannerBean.urls = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        int count = new Random().nextInt(4) + 1;
+        for (int i = 0; i < count; i++) {
             bannerBean.urls.add(Utils.getRandomImage());
         }
         list.add(bannerBean);
@@ -56,8 +71,7 @@ public class Test1ChildFragment extends Fragment {
             textBean.text = "--- " + i;
             list.add(textBean);
         }
-        adapter.addData(list);
-
-
+        adapter.replaceData(list);
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

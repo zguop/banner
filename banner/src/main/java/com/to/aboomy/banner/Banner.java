@@ -205,6 +205,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         viewPager.setAdapter(adapter);
         currentPage = startPosition + sidePage;
         viewPager.setScrollable(realCount > 1);
+        viewPager.setFirstLayoutToField(false);
         viewPager.setFocusable(true);
         viewPager.setCurrentItem(currentPage);
         if (indicator != null) {
@@ -223,7 +224,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
             return;
         }
         realCount = items.size();
-        isAutoPlay = isAutoPlay && realCount > 1;
         sidePage = needPage / NORMAL_COUNT;
         needCount = realCount + needPage;
         for (int i = 0; i < needCount; i++) {
@@ -377,7 +377,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      * 是否正在轮播
      */
     public boolean isAutoPlay() {
-        return isAutoPlay;
+        return isAutoPlay && realCount > 1;
     }
 
     /**
