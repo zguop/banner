@@ -148,6 +148,10 @@ public class BannerViewPager extends ViewPager {
         isFirstLayoutToField = true;
     }
 
+    public void setFirstLayoutToField(boolean firstLayoutToField) {
+        isFirstLayoutToField = firstLayoutToField;
+    }
+
     private void onAttachedToRestFirstLayout() {
         try {
             //解决在RecyclerView中使用的bug,当viewPager画出屏幕时，并执行了onDetachedFromWindow，再回来时，第一次滑动时没有动画效果
