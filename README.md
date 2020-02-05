@@ -220,7 +220,7 @@ public class IndicatorView extends View implements Indicator{
 }
 
 ```
-###### 内置indicator不满足需求？
+#### 内置indicator不满足需求？
 
 举例接入[PageIndicatorView](https://github.com/romandanylyk/PageIndicatorView)满足各种indicator效果
 
