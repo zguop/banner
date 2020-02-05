@@ -55,7 +55,6 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 |![img12](gif/img16.gif)|![img12](gif/img17.gif)|![img12](gif/img18.gif)|
 |![img12](gif/img19.gif)|![img12](gif/img20.gif)|...|
 
-![img16](gif/img16.gif)
 
 |切换动画|切换动画|
 |---|---|
