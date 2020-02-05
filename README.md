@@ -2,7 +2,7 @@
 [ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg?version=3.1.1-x) ](https://bintray.com/a13706649811/maven/banner/3.1.1-x/link)[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg) ](https://bintray.com/a13706649811/maven/banner/_latestVersion)
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持五种动画切换。
-无缝衔接[MagicIndicator](https://github.com/hackware1993/MagicIndicator)大神的Indicator，打造花样Indicator，集成使用请参考Sample。
+项目集成各种indicator网红效果，打造花样Indicator，使用请参考Sample。
 
 ![logo](gif/logo.png)
 
