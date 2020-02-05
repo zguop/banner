@@ -126,7 +126,6 @@ public class Indicator2Activity extends AppCompatActivity {
         return new Indicator() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
             }
 
             @Override
@@ -136,7 +135,6 @@ public class Indicator2Activity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int i) {
-
             }
 
             @Override

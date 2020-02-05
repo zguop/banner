@@ -45,10 +45,15 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 |INDICATOR_BIG_CIRCLE||
 |![img5](gif/img5.gif)||
 
+
+
+
 |效果图|1|2|
 |---|---|---|
 |**收集更多的效果**|![img12](gif/img12.gif)|![img13](gif/img13.gif)
 |**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
+|![img12](gif/img16.gif)|![img12](gif/img17.gif)|![img12](gif/img18.gif)|
+|![img12](gif/img19.gif)|![img12](gif/img20.gif)|...|
 
 ![img16](gif/img16.gif)
 
@@ -216,6 +221,56 @@ public class IndicatorView extends View implements Indicator{
 }
 
 ```
+###### 内置indicator不满足需求？
+
+举例接入[PageIndicatorView](https://github.com/romandanylyk/PageIndicatorView)满足各种indicator效果
+
+```java
+ private Indicator getPageIndicatorView(AnimationType type) {
+         final PageIndicatorView pageIndicatorView = new PageIndicatorView(this);
+         pageIndicatorView.setAnimationType(type);
+         pageIndicatorView.setInteractiveAnimation(true);
+         pageIndicatorView.setSelectedColor(Color.RED);
+         pageIndicatorView.setUnselectedColor(Color.GRAY);
+         pageIndicatorView.setPadding(10);
+         pageIndicatorView.setRadius(8);
+         return new Indicator() {
+             @Override
+             public void onPageScrolled(int i, float v, int i1) {
+             }
+ 
+             @Override
+             public void onPageSelected(int position) {
+                 pageIndicatorView.setSelection(position);
+             }
+ 
+             @Override
+             public void onPageScrollStateChanged(int i) {
+             }
+ 
+             @Override
+             public void initIndicatorCount(int pagerCount) {
+                 pageIndicatorView.setCount(pagerCount);
+             }
+ 
+             @Override
+             public View getView() {
+                 return pageIndicatorView;
+             }
+ 
+             @Override
+             public RelativeLayout.LayoutParams getParams() {
+                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                 params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                 params.bottomMargin = SizeUtils.dp2px(20);
+                 return params;
+             }
+         };
+     }
+```
+
+
 ### Banner提供的方法介绍，banner未提供任何自定义属性
 
 |方法名|描述|
