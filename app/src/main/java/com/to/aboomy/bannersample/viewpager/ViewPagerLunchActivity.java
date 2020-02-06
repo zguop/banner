@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample.activity;
+package com.to.aboomy.bannersample.viewpager;
 
 import android.content.Intent;
 import android.graphics.Color;

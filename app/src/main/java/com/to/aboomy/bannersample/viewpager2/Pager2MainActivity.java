@@ -79,7 +79,9 @@ public class Pager2MainActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ToastUtils.showShort(String.valueOf(position));
+                //onItemClick回调position是holder.getAdapterPosition()的，
+                //holder.getAdapterPosition()是轮播中当前位置，可以通过banner.getCurrentPager()获取真实位置。
+                ToastUtils.showShort(String.valueOf(banner.getCurrentPager()));
             }
         });
         adapter.addData(Utils.getRandom());

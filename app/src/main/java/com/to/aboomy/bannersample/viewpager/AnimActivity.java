@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample.activity;
+package com.to.aboomy.bannersample.viewpager;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ import com.ToxicBakery.viewpager.transforms.ZoomOutTransformer;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.bannersample.creator.ImageHolderCreator;
+import com.to.aboomy.bannersample.viewpager.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;

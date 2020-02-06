@@ -13,7 +13,7 @@ import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.bean.BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;
-import com.to.aboomy.bannersample.creator.ImageTest1ChildHolderCreator;
+import com.to.aboomy.bannersample.viewpager.creator.ImageTest1ChildHolderCreator;
 
 
 /**

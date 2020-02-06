@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LunchPageActivity">
+        <activity android:name=".LunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,14 +20,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.ViewPagerLunchActivity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.RecyclerActivity" />
-        <activity android:name=".activity.FragmentViewPagerActivity" />
-        <activity android:name=".activity.MultBannerActivity" />
-        <activity android:name=".activity.AnimActivity" />
-        <activity android:name=".activity.Indicator2Activity" />
-        <activity android:name=".activity.RevealBannerActivity" />
+        <activity android:name=".viewpager.ViewPagerLunchActivity" />
+        <activity android:name=".viewpager.MainActivity" />
+        <activity android:name=".viewpager.RecyclerActivity" />
+        <activity android:name=".viewpager.FragmentViewPagerActivity" />
+        <activity android:name=".viewpager.MultBannerActivity" />
+        <activity android:name=".viewpager.AnimActivity" />
+        <activity android:name=".viewpager.Indicator2Activity" />
+        <activity android:name=".viewpager.RevealBannerActivity" />
 
 
 

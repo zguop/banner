@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample.activity;
+package com.to.aboomy.bannersample.viewpager;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.adapter.Adapter;
 import com.to.aboomy.bannersample.bean.BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;
-import com.to.aboomy.bannersample.creator.ImageHolderCreator;
+import com.to.aboomy.bannersample.viewpager.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 

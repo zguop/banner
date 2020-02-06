@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample.activity;
+package com.to.aboomy.bannersample.viewpager;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.Indicator;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.bannersample.creator.ImageTest1ChildHolderCreator;
+import com.to.aboomy.bannersample.viewpager.creator.ImageTest1ChildHolderCreator;
 import com.to.aboomy.bannersample.indicator.CircleIndicatorView;
 import com.to.aboomy.bannersample.indicator.DashPointView;
 import com.to.aboomy.bannersample.indicator.DashReverseView;
