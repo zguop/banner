@@ -51,8 +51,6 @@ ViewPager2
 |**收集更多的效果**|![img12](gif/img12.gif)|![img13](gif/img13.gif)
 |**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
 
-![img16](gif/img16.gif)
-
 
 ## 使用步骤
 
@@ -78,8 +76,29 @@ compile project(':banner')
         android:layout_height="150dp"/>
 ```
 
+#### Step 3.自定义RecyclerView.Adapter
 
-#### Step 3.在页面中使用Banner
+
+```java
+//自定义adapter
+public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
+ 
+//或者使用其他三方框架，都是支持的，如：BRVAH
+public class ImageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    public ImageAdapter() {
+        super(R.layout.item_image);
+    }
+    @Override
+    protected void convert(@NonNull BaseViewHolder helper, String item) {
+        Glide.with(mContext)
+                .load(item)
+                .into((ImageView) helper.getView(R.id.img));
+    }
+}
+```
+
+
+#### Step 4.在页面中使用Banner
 
 
 ```java
@@ -96,7 +115,7 @@ compile project(':banner')
               .setIndicatorSelectorColor(Color.WHITE);
         
         //创建adapter
-     	 RecyclerView.Adapter adapter = new MyRecyclerAdapter();
+     	 ImageAdapter adapter = new ImageAdapter();
      	 
      	 //传入RecyclerView.Adapter 即可实现无限轮播
          banner.setIndicator(indicator)
@@ -127,11 +146,10 @@ Sample中集成了以下两个ViewPager切换动画，请运行Sample查看动�
 
 ### 如何自定义Indicator
 ```java
-   //实现Indicator接口
 /**
  * 可以实现该接口，自定义Indicator 可参考内置的{@link IndicatorView}
  */
-public interface Indicator extends ViewPager.OnPageChangeListener {
+public interface Indicator {
 
     /**
      * 当数据初始化完成时调用

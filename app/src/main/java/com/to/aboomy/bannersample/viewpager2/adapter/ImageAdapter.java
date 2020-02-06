@@ -14,11 +14,9 @@ import com.to.aboomy.bannersample.R;
  * date 2020-01-13
  */
 public class ImageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-
     public ImageAdapter() {
         super(R.layout.item_image);
     }
-
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
         Glide.with(mContext)
