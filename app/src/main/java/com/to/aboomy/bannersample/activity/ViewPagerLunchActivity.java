@@ -1,4 +1,4 @@
-package com.to.aboomy.bannersample;
+package com.to.aboomy.bannersample.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,21 +8,14 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.to.aboomy.bannersample.activity.AnimActivity;
-import com.to.aboomy.bannersample.activity.FragmentViewPagerActivity;
-import com.to.aboomy.bannersample.activity.Indicator2Activity;
-import com.to.aboomy.bannersample.activity.MainActivity;
-import com.to.aboomy.bannersample.activity.MultBannerActivity;
-import com.to.aboomy.bannersample.activity.RecyclerActivity;
-import com.to.aboomy.bannersample.activity.RevealBannerActivity;
-import com.to.aboomy.bannersample.viewpager2.Pager2MainActivity;
+import com.to.aboomy.bannersample.R;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 /**
  * auth aboom
  * date 2019-08-27
  */
-public class LunchActivity extends AppCompatActivity {
+public class ViewPagerLunchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +26,7 @@ public class LunchActivity extends AppCompatActivity {
         findViewById(R.id.view1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, MainActivity.class);
+                Intent i = new Intent(ViewPagerLunchActivity.this, MainActivity.class);
                 startActivity(i);
             }
         });
@@ -41,7 +34,7 @@ public class LunchActivity extends AppCompatActivity {
         findViewById(R.id.view3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, RecyclerActivity.class);
+                Intent i = new Intent(ViewPagerLunchActivity.this, RecyclerActivity.class);
                 startActivity(i);
             }
         });
@@ -49,7 +42,7 @@ public class LunchActivity extends AppCompatActivity {
         findViewById(R.id.view4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, FragmentViewPagerActivity.class);
+                Intent i = new Intent(ViewPagerLunchActivity.this, FragmentViewPagerActivity.class);
                 startActivity(i);
             }
         });
@@ -57,7 +50,7 @@ public class LunchActivity extends AppCompatActivity {
         findViewById(R.id.view5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, MultBannerActivity.class);
+                Intent i = new Intent(ViewPagerLunchActivity.this, MultBannerActivity.class);
                 startActivity(i);
             }
         });
@@ -65,7 +58,7 @@ public class LunchActivity extends AppCompatActivity {
         findViewById(R.id.view6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, AnimActivity.class);
+                Intent i = new Intent(ViewPagerLunchActivity.this, AnimActivity.class);
                 startActivity(i);
             }
         });
@@ -73,7 +66,7 @@ public class LunchActivity extends AppCompatActivity {
         findViewById(R.id.view7).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, Indicator2Activity.class);
+                Intent i = new Intent(ViewPagerLunchActivity.this, Indicator2Activity.class);
                 startActivity(i);
             }
         });
@@ -81,15 +74,7 @@ public class LunchActivity extends AppCompatActivity {
         findViewById(R.id.view8).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, RevealBannerActivity.class);
-                startActivity(i);
-            }
-        });
-
-        findViewById(R.id.view9).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LunchActivity.this, Pager2MainActivity.class);
+                Intent i = new Intent(ViewPagerLunchActivity.this, RevealBannerActivity.class);
                 startActivity(i);
             }
         });

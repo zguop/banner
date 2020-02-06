@@ -1,34 +1,28 @@
 package com.to.aboomy.bannersample.viewpager2;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.blankj.utilcode.util.SizeUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.to.aboomy.banner.HolderCreator;
-import com.to.aboomy.banner.IndicatorView;
-import com.to.aboomy.banner.ScaleInTransformer;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.to.aboomy.bannersample.R;
+import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
-import com.to.aboomy.bannersample.viewpager2.adapter.MyAdapter;
+import com.to.aboomy.bannersample.viewpager2.adapter.ImageAdapter;
 import com.to.aboomy.pager2.Banner;
 import com.to.aboomy.pager2.HolderRestLoader;
+import com.to.aboomy.pager2.IndicatorView;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
-
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -36,10 +30,19 @@ import java.util.Random;
  * auth aboom
  * date 2020-01-13
  */
-public class Pager2MainActivity extends AppCompatActivity implements HolderCreator {
+public class Pager2MainActivity extends AppCompatActivity {
 
+    private static final String[] INDICATOR_STR = {
+            "INDICATOR_CIRCLE",
+            "INDICATOR_CIRCLE_RECT",
+            "INDICATOR_BEZIER",
+            "INDICATOR_DASH",
+            "INDICATOR_BIG_CIRCLE",
+    };
 
-    private boolean is = false;
+    private Banner banner;
+    private TextView noLoop;
+    private int style;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,108 +50,126 @@ public class Pager2MainActivity extends AppCompatActivity implements HolderCreat
         setContentView(R.layout.activity_pager2);
         StatusBarUtil.setStatusBarColor(this, Color.WHITE);
 
-        final Banner banner = findViewById(R.id.banner);
-        banner.setAutoPlay(true)
+        banner = findViewById(R.id.banner);
+        final IndicatorView indicatorView = new IndicatorView(this)
+//                .setIndicatorRatio(1.5f)
+//                .setIndicatorSelectedRadius(4)
+//                .setIndicatorRadius(5.5f)
+//                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BEZIER)
+                .setIndicatorColor(Color.GRAY)
+                .setIndicatorSelectorColor(Color.WHITE);
+
+        banner.setAutoPlay(false)
+                .setIndicator(indicatorView)
+                .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
                 .setHolderRestLoader(new HolderRestLoader() {
                     @Override
                     public void onItemRestLoader(int position, boolean isRestItem) {
 
                     }
                 })
-                .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
-                .setPageTransformer(new com.to.aboomy.pager2.ScaleInTransformer())
-                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(14))
                 .setOuterPageChangeListener(new ViewPager2.OnPageChangeCallback() {
                     @Override
                     public void onPageSelected(int position) {
-//                        Log.e("aa","==========================");
-                        Log.e("aa" , " wai onPageSelected " + position);
+                        Log.e("aa", " wai onPageSelected " + position);
                     }
                 })
         ;
-        final MyAdapter adapter = new MyAdapter();
-        List<String> data = Utils.getData(2);
-//
-//        ReflectUtils.reflect()
-//                .field()
-
-
-        final List<Integer> image = Utils.getImage(2);
-        adapter.setData(image);
+        final ImageAdapter adapter = new ImageAdapter();
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ToastUtils.showShort(String.valueOf(position));
+            }
+        });
+        adapter.addData(Utils.getRandom());
+        adapter.addData(Utils.getRandom());
         banner.setAdapter(adapter);
+
+
+        /*--------------- 下面是按钮点击事件 ---------------*/
+
+        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.addData(Utils.getRandom());
+                updateLoopText();
+            }
+        });
+
+        findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (adapter.getData().size() == 0) {
+                    return;
+                }
+                int listRandom = new Random().nextInt(adapter.getData().size());
+                Toast.makeText(Pager2MainActivity.this, "删除第" + listRandom + " 张", Toast.LENGTH_SHORT).show();
+                adapter.remove(listRandom);
+                updateLoopText();
+            }
+        });
 
         findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                adapter.setData(Utils.getImage(new Random().nextInt(Utils.IMAGES.length) + 1));
-
-
-            }
-        });
-
-
-        findViewById(R.id.update2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (is) {
-                    MyAdapter myAdapter = new MyAdapter();
-
-                    banner.setAdapter(myAdapter);
-                    myAdapter.setData(Utils.getImage(5));
-                }else {
-                    banner.setAdapter(adapter);
+                List<String> data = adapter.getData();
+                final int size = data.size();
+                data.clear();
+                for (int i = 0; i < size; i++) {
+                    data.add(Utils.getRandom());
                 }
-
-                is = !is;
-
+                adapter.replaceData(data);
+                updateLoopText();
             }
         });
 
-        initBanner1();
-
-
-    }
-
-    private void initBanner1() {
-        com.to.aboomy.banner.Banner banner = findViewById(R.id.banner1);
-        banner.setHolderCreator(this)
-                .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int i, float v, int i1) {
-
-                    }
-
-                    @Override
-                    public void onPageSelected(int i) {
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int i) {
-
-                    }
-                })
-                .setIndicator(new IndicatorView(this)
-                        .setIndicatorColor(Color.GRAY)
-                        .setIndicatorSelectorColor(Color.WHITE))
-                .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 14))
-                .setPageTransformer(true, new ScaleInTransformer())
-
-                .setPages(Utils.getImage(2));
-    }
-
-
-    @Override
-    public View createView(final Context context, final int index, Object o) {
-        View view = View.inflate(context, R.layout.item_banner_image, null);
-        ImageView image = view.findViewById(R.id.img);
-        Glide.with(image).load(o).apply(new RequestOptions().transform(new RoundedCorners(UIUtil.dip2px(this, 10)))).into(image);
-        image.setOnClickListener(new View.OnClickListener() {
+        final TextView updateStyle = findViewById(R.id.updateStyle);
+        updateStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, index + "", Toast.LENGTH_LONG).show();
+                new ArrayStringItemSelectDialog(Pager2MainActivity.this)
+                        .setValueStrings(Arrays.asList(INDICATOR_STR))
+                        .setChoose(style)
+                        .setOnItemClickListener(new ArrayStringItemSelectDialog.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position, String value) {
+                                updateStyle.setText(value);
+                                style = position;
+                                indicatorView.setIndicatorStyle(style);
+                            }
+                        }).show();
             }
         });
-        return view;
+
+        noLoop = findViewById(R.id.noLoop);
+
+        findViewById(R.id.noLoop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (banner.isAutoPlay()) {
+                    banner.setAutoPlay(false);
+                    updateLoopText();
+                } else {
+                    banner.setAutoPlay(true);
+                    if (!banner.isAutoPlay()) {
+                        Toast.makeText(Pager2MainActivity.this, "轮播页数需要大于1", Toast.LENGTH_SHORT).show();
+                    }
+                    updateLoopText();
+                }
+            }
+        });
+
+        updateLoopText();
+
     }
+
+    private void updateLoopText() {
+        if (banner.isAutoPlay()) {
+            noLoop.setText("停止自动轮播");
+        } else {
+            noLoop.setText("开始自动轮播");
+        }
+    }
+
 }

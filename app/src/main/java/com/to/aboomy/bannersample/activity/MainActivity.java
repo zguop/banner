@@ -18,7 +18,6 @@ import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.creator.ImageHolderCreator;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
-import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,23 +38,18 @@ public class MainActivity extends AppCompatActivity {
     private List<String> list = new ArrayList<>();
     private Banner banner;
 
-    int style;
+    private int style;
     private TextView noLoop;
-
-    public int getListRandom() {
-        return new Random().nextInt(list.size());
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        StatusBarUtil.setStatusBarColor(this, Color.WHITE);
         list.add(Utils.getRandom());
         list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
-                .setIndicatorRatio(1.5f)
+//                .setIndicatorRatio(1.5f)
 //                .setIndicatorSelectedRadius(4)
 //                .setIndicatorRadius(5.5f)
 //                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BEZIER)
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 if (list.size() == 0) {
                     return;
                 }
-                int listRandom = getListRandom();
+                int listRandom = new Random().nextInt(list.size());
                 Toast.makeText(MainActivity.this, "删除第" + listRandom + " 张", Toast.LENGTH_SHORT).show();
                 list.remove(listRandom);
                 banner.setPages(list, banner.getCurrentPager());
