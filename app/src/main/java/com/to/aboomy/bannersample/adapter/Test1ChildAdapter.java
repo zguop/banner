@@ -1,7 +1,6 @@
 package com.to.aboomy.bannersample.adapter;
 
 import android.graphics.Color;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
@@ -28,27 +27,17 @@ public class Test1ChildAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
         addItemType(2, R.layout.item_text);
     }
 
-    @Override
-    protected BaseViewHolder onCreateDefViewHolder(ViewGroup parent, int viewType) {
-        BaseViewHolder baseViewHolder = super.onCreateDefViewHolder(parent, viewType);
-        if(viewType == 1){
-            Banner banner = baseViewHolder.getView(R.id.banner);
-            IndicatorView qyIndicator = new IndicatorView(mContext)
-                    .setIndicatorColor(Color.BLACK)
-                    .setIndicatorSelectorColor(Color.WHITE);
-            banner. setIndicator(qyIndicator)
-                    .setHolderCreator(new ImageTest1ChildHolderCreator());
-
-        }
-
-        return baseViewHolder;
-    }
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, MultiItemEntity item) {
         if (item.getItemType() == 1) {
             BannerBean bannerBean = (BannerBean) item;
             Banner itemView = helper.getView(R.id.banner);
+            IndicatorView qyIndicator = new IndicatorView(mContext)
+                    .setIndicatorColor(Color.BLACK)
+                    .setIndicatorSelectorColor(Color.WHITE);
+            itemView.setIndicator(qyIndicator)
+                    .setHolderCreator(new ImageTest1ChildHolderCreator());
             itemView.setPages(bannerBean.urls, itemView.getCurrentPager());
         } else {
             TextBean textBean = (TextBean) item;

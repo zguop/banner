@@ -115,7 +115,7 @@ public class Pager2MainActivity extends AppCompatActivity {
         findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> data = adapter.getData();
+                List<Object> data = adapter.getData();
                 final int size = data.size();
                 data.clear();
                 for (int i = 0; i < size; i++) {

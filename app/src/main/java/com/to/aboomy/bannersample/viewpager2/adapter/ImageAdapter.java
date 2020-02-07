@@ -13,12 +13,12 @@ import com.to.aboomy.bannersample.R;
  * auth aboom
  * date 2020-01-13
  */
-public class ImageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class ImageAdapter extends BaseQuickAdapter<Object, BaseViewHolder> {
     public ImageAdapter() {
         super(R.layout.item_image);
     }
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, String item) {
+    protected void convert(@NonNull BaseViewHolder helper, Object item) {
         Glide.with(mContext)
                 .load(item)
                 .into((ImageView) helper.getView(R.id.img));

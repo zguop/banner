@@ -27,5 +27,14 @@ public class ViewPager2LunchActivity extends AppCompatActivity {
             }
         });
 
+
+        findViewById(R.id.view3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ViewPager2LunchActivity.this, Pager2RecyclerViewActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 }
