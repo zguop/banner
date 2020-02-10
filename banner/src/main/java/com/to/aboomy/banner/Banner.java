@@ -158,11 +158,6 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         }
 
         @Override
-        public int getItemPosition(@NonNull Object object) {
-            return super.getItemPosition(object);
-        }
-
-        @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
             return view == object;
         }

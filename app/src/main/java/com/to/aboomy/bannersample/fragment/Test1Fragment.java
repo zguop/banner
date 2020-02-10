@@ -51,7 +51,7 @@ public class Test1Fragment extends Fragment {
 
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < titles.length; i++) {
-            Test1ChildFragment test1ChildFragment = new Test1ChildFragment();
+            ViewPagerFragment test1ChildFragment = new ViewPagerFragment();
             fragments.add(test1ChildFragment);
         }
         BasePagerFragmentAdapter basePagerFragmentAdapter = new BasePagerFragmentAdapter(getChildFragmentManager(),fragments);

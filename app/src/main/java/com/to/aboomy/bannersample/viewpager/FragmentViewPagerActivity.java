@@ -36,10 +36,10 @@ public class FragmentViewPagerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarColor(this, Color.WHITE);
-
+        int currentTag = getIntent().getIntExtra("currentTag", TAB_TEST1);
         setContentView(R.layout.activity_fvp);
         binding();
-        clickTab(tabView.get(TAB_TEST1));
+        clickTab(tabView.get(currentTag));
     }
 
 

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.to.aboomy.bannersample.R;
+import com.to.aboomy.bannersample.viewpager.FragmentViewPagerActivity;
 
 /**
  * auth aboom
@@ -36,5 +37,13 @@ public class ViewPager2LunchActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.view4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ViewPager2LunchActivity.this, FragmentViewPagerActivity.class);
+                i.putExtra("currentTag", FragmentViewPagerActivity.TAB_TEST2);
+                startActivity(i);
+            }
+        });
     }
 }

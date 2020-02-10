@@ -17,7 +17,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
  * auth aboom
  * date 2019-12-28
  */
-public class ImageTest1ChildHolderCreator implements HolderCreator {
+public class ImageRoundHolderCreator implements HolderCreator {
     @Override
     public View createView(final Context context, final int index, Object o) {
         View inflate = View.inflate(context, R.layout.item_round_image, null);

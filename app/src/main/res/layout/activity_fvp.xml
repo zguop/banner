@@ -23,12 +23,12 @@
         <TextView
             android:id="@+id/test1"
             style="@style/main_bottom_btn"
-            android:text="test1" />
+            android:text="ViewPager" />
 
         <TextView
             android:id="@+id/test2"
             style="@style/main_bottom_btn"
-            android:text="test2" />
+            android:text="ViewPager2" />
 
         <TextView
             android:id="@+id/test3"

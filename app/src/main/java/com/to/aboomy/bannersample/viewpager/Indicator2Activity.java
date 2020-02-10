@@ -17,7 +17,7 @@ import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.Indicator;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.bannersample.viewpager.creator.ImageTest1ChildHolderCreator;
+import com.to.aboomy.bannersample.viewpager.creator.ImageRoundHolderCreator;
 import com.to.aboomy.bannersample.indicator.CircleIndicatorView;
 import com.to.aboomy.bannersample.indicator.DashPointView;
 import com.to.aboomy.bannersample.indicator.DashReverseView;
@@ -56,7 +56,7 @@ public class Indicator2Activity extends AppCompatActivity {
         final Banner banner = findViewById(R.id.banner);
         DashPointView dashPointView = new DashPointView(this);
         banner.setIndicator(dashPointView)
-                .setHolderCreator(new ImageTest1ChildHolderCreator())
+                .setHolderCreator(new ImageRoundHolderCreator())
                 .setPages(data);
         final TextView select = findViewById(R.id.select);
         select.setOnClickListener(new View.OnClickListener() {

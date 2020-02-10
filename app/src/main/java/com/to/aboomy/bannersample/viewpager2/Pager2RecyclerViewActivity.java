@@ -13,7 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.bannersample.adapter.Adapter;
+import com.to.aboomy.bannersample.adapter.BannerAdapter;
 import com.to.aboomy.bannersample.bean.Pager2BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;
 import com.to.aboomy.bannersample.util.Utils;
@@ -32,7 +32,7 @@ import java.util.Random;
  */
 public class Pager2RecyclerViewActivity extends AppCompatActivity {
 
-    private Adapter adapter;
+    private BannerAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Banner banner;
 
@@ -45,7 +45,7 @@ public class Pager2RecyclerViewActivity extends AppCompatActivity {
 
         swipeRefreshLayout = findViewById(R.id.swipe);
 
-        adapter = new Adapter();
+        adapter = new BannerAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 

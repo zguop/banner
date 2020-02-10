@@ -14,7 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.bannersample.adapter.Test1ChildAdapter;
+import com.to.aboomy.bannersample.adapter.FragmentBannerAdapter;
 import com.to.aboomy.bannersample.bean.BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;
 import com.to.aboomy.bannersample.util.Utils;
@@ -27,10 +27,10 @@ import java.util.Random;
  * auth aboom
  * date 2019-12-28
  */
-public class Test1ChildFragment extends Fragment {
+public class ViewPagerFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Test1ChildAdapter adapter;
+    private FragmentBannerAdapter adapter;
 
     @Nullable
     @Override
@@ -50,7 +50,7 @@ public class Test1ChildFragment extends Fragment {
             }
         });
 
-        adapter = new Test1ChildAdapter();
+        adapter = new FragmentBannerAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         loadData();

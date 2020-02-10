@@ -17,7 +17,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.bannersample.R;
-import com.to.aboomy.bannersample.adapter.Adapter;
+import com.to.aboomy.bannersample.adapter.BannerAdapter;
 import com.to.aboomy.bannersample.bean.BannerBean;
 import com.to.aboomy.bannersample.bean.TextBean;
 import com.to.aboomy.bannersample.viewpager.creator.ImageHolderCreator;
@@ -34,7 +34,7 @@ import java.util.Random;
  */
 public class RecyclerActivity extends AppCompatActivity {
 
-    private Adapter adapter;
+    private BannerAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Banner banner;
 
@@ -47,7 +47,7 @@ public class RecyclerActivity extends AppCompatActivity {
 
         swipeRefreshLayout = findViewById(R.id.swipe);
 
-        adapter = new Adapter();
+        adapter = new BannerAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
