@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.to.aboomy.bannersample.R;
@@ -62,6 +63,7 @@ public class Pager2MainActivity extends AppCompatActivity {
         banner.setAutoPlay(false)
                 .setIndicator(indicatorView)
                 .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
+                .setPageMargin(SizeUtils.dp2px( 20), SizeUtils.dp2px( 10))
                 .setHolderRestLoader(new HolderRestLoader() {
                     @Override
                     public void onItemRestLoader(int position, boolean isRestItem) {

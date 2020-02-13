@@ -28,7 +28,6 @@ public class ViewPager2LunchActivity extends AppCompatActivity {
             }
         });
 
-
         findViewById(R.id.view3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +41,14 @@ public class ViewPager2LunchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(ViewPager2LunchActivity.this, FragmentViewPagerActivity.class);
                 i.putExtra("currentTag", FragmentViewPagerActivity.TAB_TEST2);
+                startActivity(i);
+            }
+        });
+
+        findViewById(R.id.view5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ViewPager2LunchActivity.this, MultPager2BannerActivity.class);
                 startActivity(i);
             }
         });

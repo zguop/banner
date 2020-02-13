@@ -211,11 +211,6 @@ public class Banner extends RelativeLayout {
         }
 
         @Override
-        public long getItemId(int position) {
-            return adapter.getItemId(toRealPosition(position));
-        }
-
-        @Override
         public int getItemCount() {
             return needCount;
         }

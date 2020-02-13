@@ -34,6 +34,7 @@
         <activity android:name=".viewpager2.ViewPager2LunchActivity"/>
         <activity android:name=".viewpager2.Pager2RecyclerViewActivity"/>
         <activity android:name=".viewpager2.Pager2MainActivity" />
+        <activity android:name=".viewpager2.MultPager2BannerActivity"/>
     </application>
 
 </manifest>

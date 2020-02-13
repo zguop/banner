@@ -22,7 +22,6 @@ import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.banner.ScaleInTransformer;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.Utils;
-import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -37,7 +36,6 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mult);
-        StatusBarUtil.setStatusBarColor(this, Color.WHITE);
 
         initBanner1();
         initBanner2();
