@@ -62,7 +62,7 @@ Gradle
 ```groovy
 	
 dependencies{
-    implementation 'com.to.aboomy.pager2:banner:0.0.1-alpha' //预览版
+    implementation 'com.to.aboomy.pager2:banner:0.0.1' //最新版本
 }
 ```
 或者引用本地lib
