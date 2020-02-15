@@ -1,22 +1,31 @@
 package com.to.aboomy.pager2;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.lang.reflect.Field;
+
 public class Banner extends RelativeLayout {
 
     private static final long DEFAULT_AUTO_TIME = 2500;
+    private static final long DEFAULT_PAGER_DURATION = 800;
     private static final int NORMAL_COUNT = 2;
 
     private ViewPager2.OnPageChangeCallback changeCallback;
@@ -27,6 +36,7 @@ public class Banner extends RelativeLayout {
     private Indicator indicator;
     private boolean isAutoPlay = true;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
+    private long pagerScrollDuration = DEFAULT_PAGER_DURATION;
 
     private int currentPage;
     private int realCount;
@@ -45,6 +55,7 @@ public class Banner extends RelativeLayout {
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initViews(context);
+
     }
 
     private void initViews(final Context context) {
@@ -98,8 +109,10 @@ public class Banner extends RelativeLayout {
                 }
             }
         });
+
         RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
         recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        initViewPagerScrollProxy(recyclerView);
         addView(viewPager2);
     }
 
@@ -251,6 +264,100 @@ public class Banner extends RelativeLayout {
         }
     };
 
+    private void initViewPagerScrollProxy(RecyclerView recyclerView) {
+        try {
+            Field LayoutMangerField = ViewPager2.class.getDeclaredField("mLayoutManager");
+            LayoutMangerField.setAccessible(true);
+            LinearLayoutManager o = (LinearLayoutManager) LayoutMangerField.get(viewPager2);
+            ProxyLayoutManger proxyLayoutManger = new ProxyLayoutManger(getContext(), o);
+            recyclerView.setLayoutManager(proxyLayoutManger);
+            LayoutMangerField.set(viewPager2, proxyLayoutManger);
+            Field pageTransformerAdapterField = ViewPager2.class.getDeclaredField("mPageTransformerAdapter");
+            pageTransformerAdapterField.setAccessible(true);
+            Object mPageTransformerAdapter = pageTransformerAdapterField.get(viewPager2);
+            if (mPageTransformerAdapter != null) {
+                Class<?> aClass = mPageTransformerAdapter.getClass();
+                Field layoutManager = aClass.getDeclaredField("mLayoutManager");
+                layoutManager.setAccessible(true);
+                layoutManager.set(mPageTransformerAdapter, proxyLayoutManger);
+            }
+            Field scrollEventAdapterField = ViewPager2.class.getDeclaredField("mScrollEventAdapter");
+            scrollEventAdapterField.setAccessible(true);
+            Object mScrollEventAdapter = scrollEventAdapterField.get(viewPager2);
+            if (mScrollEventAdapter != null) {
+                Class<?> aClass = mScrollEventAdapter.getClass();
+                Field layoutManager = aClass.getDeclaredField("mLayoutManager");
+                layoutManager.setAccessible(true);
+                layoutManager.set(mScrollEventAdapter, proxyLayoutManger);
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class ProxyLayoutManger extends LinearLayoutManager {
+
+        private RecyclerView.LayoutManager linearLayoutManager;
+
+        ProxyLayoutManger(Context context, RecyclerView.LayoutManager layoutManager) {
+            super(context);
+            this.linearLayoutManager = layoutManager;
+        }
+
+        @Override
+        public boolean performAccessibilityAction(@NonNull RecyclerView.Recycler recycler,
+                                                  @NonNull RecyclerView.State state, int action, @Nullable Bundle args) {
+            return linearLayoutManager.performAccessibilityAction(recycler, state, action, args);
+        }
+
+        @Override
+        public void onInitializeAccessibilityNodeInfo(@NonNull RecyclerView.Recycler recycler,
+                                                      @NonNull RecyclerView.State state, @NonNull AccessibilityNodeInfoCompat info) {
+            linearLayoutManager.onInitializeAccessibilityNodeInfo(recycler, state, info);
+        }
+
+        @Override
+        public boolean requestChildRectangleOnScreen(@NonNull RecyclerView parent,
+                                                     @NonNull View child, @NonNull Rect rect, boolean immediate,
+                                                     boolean focusedChildVisible) {
+            return linearLayoutManager.requestChildRectangleOnScreen(parent, child, rect, immediate);
+        }
+
+        @Override
+        public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
+            LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
+                @Override
+                protected int calculateTimeForDeceleration(int dx) {
+                    return (int) (pagerScrollDuration * (1 - .3356));
+                }
+            };
+            linearSmoothScroller.setTargetPosition(position);
+            startSmoothScroll(linearSmoothScroller);
+        }
+
+        @Override
+        protected void calculateExtraLayoutSpace(@NonNull RecyclerView.State state,
+                                                 @NonNull int[] extraLayoutSpace) {
+            int pageLimit = viewPager2.getOffscreenPageLimit();
+            if (pageLimit == ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT) {
+                super.calculateExtraLayoutSpace(state, extraLayoutSpace);
+                return;
+            }
+            final int offscreenSpace = getPageSize() * pageLimit;
+            extraLayoutSpace[0] = offscreenSpace;
+            extraLayoutSpace[1] = offscreenSpace;
+        }
+
+        private int getPageSize() {
+            final RecyclerView rv = (RecyclerView) viewPager2.getChildAt(0);
+            return getOrientation() == RecyclerView.HORIZONTAL
+                    ? rv.getWidth() - rv.getPaddingLeft() - rv.getPaddingRight()
+                    : rv.getHeight() - rv.getPaddingTop() - rv.getPaddingBottom();
+        }
+    }
+
     /*--------------- 下面是对外暴露的方法 ---------------*/
 
     /**
@@ -305,6 +412,14 @@ public class Banner extends RelativeLayout {
 
     public Banner setOffscreenPageLimit(int limit) {
         viewPager2.setOffscreenPageLimit(limit);
+        return this;
+    }
+
+    /**
+     * 设置viewpager2的切换时长
+     */
+    public Banner setPagerScrollDuration(long pagerScrollDuration) {
+        this.pagerScrollDuration = pagerScrollDuration;
         return this;
     }
 

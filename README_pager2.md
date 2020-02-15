@@ -12,11 +12,11 @@
 * 支持数据刷新
 * 支持垂直滚动
 * 支持任意RecyclerView.adapter，RecyclerView的使用方式。
-* 支持androidx，还在使用support请使用[banner](https://github.com/zguop/banner)ViewPager版本
+* 支持androidx，还在使用support请使用[banner](https://github.com/zguop/banner)，ViewPager版本
 * 良好的代码封装，更多优化请参考代码实现。
 
 ViewPager2
-* 暂不支持页面切换滑动速度。
+* 暂不支持页面切换滑动速度。（已解决目前支持）
 * 暂不支持仿魅族样式。
 
 
@@ -51,6 +51,9 @@ ViewPager2
 |**收集更多的效果**|![img12](gif/img12.gif)|![img13](gif/img13.gif)
 |**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
 
+#### 版本更新
+	1.0.0
+	解决了ViewPager2页面滑动切换时间，新增setPagerScrollDuration方法设置。
 
 ## 使用步骤
 
@@ -244,8 +247,7 @@ setOuterPageChangeListener(ViewPager2.OnPageChangeCallback listener)|设置viewp
 |setOrientation(@ViewPager2.Orientation int orientation)|设置viewpager2滑动方向|
 |ViewPager2 getViewPager2()|获取viewpager2|
 |RecyclerView.Adapter getAdapter()|获取apdater|
-|||
-
+|setPagerScrollDuration(long pagerScrollDuration)|设置viewpager2的切换时长|
 
 ### 内置IndicatorView使用方法介绍，没有提供任何自定义属性
 |方法名|描述|

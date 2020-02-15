@@ -35,33 +35,6 @@ group = pkgGroupId
 // VCS Tag
 version = pkgVersion
 
-// 生成Javadoc文档
-task javadoc(type: Javadoc) {
-    options.encoding = "utf-8"
-    source = android.sourceSets.main.java.srcDirs
-    classpath += files(android.bootClasspath)
-
-    options {
-        //links "http://docs.oracle.com/javase/7/docs/api/"
-        linksOffline "https://developer.android.com/reference","${android.sdkDirectory}/docs/reference"
-        encoding = "UTF-8"
-    }
-    exclude '**/BuildConfig.java'
-    exclude '**/R.java'
-
-    android.libraryVariants.all { variant ->
-        variant.javaCompileProvider.configure{
-            javadoc.classpath += files(it.classpath.files)
-        }
-    }
-}
-
-// 文档打包成jar
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
 // 生成源文件
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -97,7 +70,6 @@ publishing {
         Production(MavenPublication) {
             // 上传到JCenter所需要的源码文件
             artifact sourcesJar
-            artifact javadocJar
             groupId pkgGroupId
             artifactId pkgArtifactId
             version pkgVersion
@@ -126,7 +98,6 @@ publishing {
         Sandbox(MavenPublication) {
             // 上传到JCenter所需要的源码文件
             artifact sourcesJar
-            artifact javadocJar
             groupId pkgGroupId
             artifactId pkgArtifactId
             version pkgVersion
