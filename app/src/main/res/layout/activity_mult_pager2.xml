@@ -5,18 +5,18 @@
     android:background="@color/color_white"
     android:orientation="vertical">
 
-    <com.to.aboomy.pager2.Banner
+    <com.to.aboomy.pager2Banner.Banner
         android:id="@+id/banner1"
         android:layout_width="match_parent"
         android:layout_height="150dp" />
 
-    <com.to.aboomy.pager2.Banner
+    <com.to.aboomy.pager2Banner.Banner
         android:id="@+id/banner2"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="20dp" />
 
-    <com.to.aboomy.pager2.IndicatorView
+    <com.to.aboomy.pager2Banner.IndicatorView
         android:id="@+id/indicator2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

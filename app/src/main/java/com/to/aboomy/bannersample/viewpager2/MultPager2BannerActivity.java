@@ -20,9 +20,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.Utils;
-import com.to.aboomy.pager2.Banner;
-import com.to.aboomy.pager2.IndicatorView;
-import com.to.aboomy.pager2.ScaleInTransformer;
+import com.to.aboomy.pager2Banner.Banner;
+import com.to.aboomy.pager2Banner.IndicatorView;
+import com.to.aboomy.pager2Banner.ScaleInTransformer;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 

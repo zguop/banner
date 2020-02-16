@@ -1,4 +1,4 @@
-package com.to.aboomy.pager2;
+package com.to.aboomy.pager2Banner;
 
 import android.content.Context;
 import android.graphics.Canvas;

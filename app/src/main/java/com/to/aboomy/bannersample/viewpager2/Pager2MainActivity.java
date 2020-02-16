@@ -16,9 +16,9 @@ import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.bannersample.viewpager2.adapter.ImageAdapter;
-import com.to.aboomy.pager2.Banner;
-import com.to.aboomy.pager2.HolderRestLoader;
-import com.to.aboomy.pager2.IndicatorView;
+import com.to.aboomy.pager2Banner.Banner;
+import com.to.aboomy.pager2Banner.HolderRestLoader;
+import com.to.aboomy.pager2Banner.IndicatorView;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.Arrays;
@@ -42,7 +42,6 @@ public class Pager2MainActivity extends AppCompatActivity {
     private Banner banner;
     private TextView noLoop;
     private int style;
-
 
 
     @Override
@@ -171,6 +170,11 @@ public class Pager2MainActivity extends AppCompatActivity {
         });
 
         updateLoopText();
+
+        ViewPager2 viewPager2 = findViewById(R.id.viewpager2);
+        final ImageAdapter pager2Adapter = new ImageAdapter();
+        pager2Adapter.addData(Utils.getData(2));
+        viewPager2.setAdapter(pager2Adapter);
 
     }
 

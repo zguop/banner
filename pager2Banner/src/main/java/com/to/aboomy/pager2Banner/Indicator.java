@@ -1,4 +1,4 @@
-package com.to.aboomy.pager2;
+package com.to.aboomy.pager2Banner;
 
 import android.view.View;
 import android.widget.RelativeLayout;

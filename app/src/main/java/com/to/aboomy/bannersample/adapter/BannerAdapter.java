@@ -43,8 +43,8 @@ public class BannerAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Ba
                     .setHolderCreator(new ImageHolderCreator());
         }
         if (viewType == 3) {
-            com.to.aboomy.pager2.Banner banner = baseViewHolder.getView(R.id.banner);
-            com.to.aboomy.pager2.IndicatorView indicatorView = new com.to.aboomy.pager2.IndicatorView(mContext)
+            com.to.aboomy.pager2Banner.Banner banner = baseViewHolder.getView(R.id.banner);
+            com.to.aboomy.pager2Banner.IndicatorView indicatorView = new com.to.aboomy.pager2Banner.IndicatorView(mContext)
                     .setIndicatorColor(Color.BLACK)
                     .setIndicatorSelectorColor(Color.WHITE);
             ImageAdapter imageAdapter = new ImageAdapter();
@@ -64,7 +64,7 @@ public class BannerAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Ba
             helper.setText(R.id.text, "我是recyclerView的一个item");
         } else if (item.getItemType() == 3) {
             Pager2BannerBean bannerBean = (Pager2BannerBean) item;
-            com.to.aboomy.pager2.Banner itemView = helper.getView(R.id.banner);
+            com.to.aboomy.pager2Banner.Banner itemView = helper.getView(R.id.banner);
             ImageAdapter adapter = (ImageAdapter) itemView.getAdapter();
             adapter.replaceData(bannerBean.urls);
             helper.setText(R.id.text, "我是recyclerView的一个item");

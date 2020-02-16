@@ -1,4 +1,4 @@
-package com.to.aboomy.pager2;
+package com.to.aboomy.pager2Banner;
 
 /**
  * auth aboom

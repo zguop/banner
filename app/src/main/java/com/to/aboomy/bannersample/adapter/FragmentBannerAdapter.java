@@ -43,8 +43,8 @@ public class FragmentBannerAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     .setHolderCreator(new ImageRoundHolderCreator());
         }
         if (viewType == 3) {
-            com.to.aboomy.pager2.Banner banner = baseViewHolder.getView(R.id.banner);
-            com.to.aboomy.pager2.IndicatorView indicatorView = new com.to.aboomy.pager2.IndicatorView(mContext)
+            com.to.aboomy.pager2Banner.Banner banner = baseViewHolder.getView(R.id.banner);
+            com.to.aboomy.pager2Banner.IndicatorView indicatorView = new com.to.aboomy.pager2Banner.IndicatorView(mContext)
                     .setIndicatorColor(Color.BLACK)
                     .setIndicatorSelectorColor(Color.WHITE);
             banner.setIndicator(indicatorView)
@@ -61,7 +61,7 @@ public class FragmentBannerAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             Banner itemView = helper.getView(R.id.banner);
             itemView.setPages(bannerBean.urls, itemView.getCurrentPager());
         } else if (item.getItemType() == 3) {
-            com.to.aboomy.pager2.Banner banner = helper.getView(R.id.banner);
+            com.to.aboomy.pager2Banner.Banner banner = helper.getView(R.id.banner);
             Pager2BannerBean bannerBean = (Pager2BannerBean) item;
             ImageRoundAdapter adapter = (ImageRoundAdapter) banner.getAdapter();
             adapter.replaceData(bannerBean.urls);
