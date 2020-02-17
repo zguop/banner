@@ -96,9 +96,4 @@
         android:textColor="@color/lib_pub_color_select_btn_main"
         android:textSize="15dp" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager2"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"/>
-
 </LinearLayout>

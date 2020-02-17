@@ -171,11 +171,6 @@ public class Pager2MainActivity extends AppCompatActivity {
 
         updateLoopText();
 
-        ViewPager2 viewPager2 = findViewById(R.id.viewpager2);
-        final ImageAdapter pager2Adapter = new ImageAdapter();
-        pager2Adapter.addData(Utils.getData(2));
-        viewPager2.setAdapter(pager2Adapter);
-
     }
 
     private void updateLoopText() {

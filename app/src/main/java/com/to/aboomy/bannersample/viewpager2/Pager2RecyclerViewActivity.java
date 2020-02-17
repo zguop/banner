@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.adapter.BannerAdapter;
@@ -63,6 +65,12 @@ public class Pager2RecyclerViewActivity extends AppCompatActivity {
         banner = inflate.findViewById(R.id.banner);
         banner.setIndicator(new IndicatorView(this).setIndicatorColor(Color.GRAY).setIndicatorSelectorColor(Color.WHITE));
         ImageAdapter imageAdapter = new ImageAdapter();
+        imageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ToastUtils.showShort(String.valueOf(banner.getCurrentPager()));
+            }
+        });
         imageAdapter.replaceData(Utils.getImage(4));
         banner.setAdapter(imageAdapter);
 

@@ -140,11 +140,11 @@ public class Banner extends RelativeLayout {
         if (adapter == null || adapter.getItemCount() == 0) {
             realCount = 0;
             needCount = 0;
-            return;
+        } else {
+            realCount = adapter.getItemCount();
+            needCount = realCount + needPage;
         }
-        realCount = adapter.getItemCount();
         sidePage = needPage / NORMAL_COUNT;
-        needCount = realCount + needPage;
     }
 
     @Override
@@ -302,8 +302,8 @@ public class Banner extends RelativeLayout {
 
         private RecyclerView.LayoutManager linearLayoutManager;
 
-        ProxyLayoutManger(Context context, RecyclerView.LayoutManager layoutManager) {
-            super(context);
+        ProxyLayoutManger(Context context, LinearLayoutManager layoutManager) {
+            super(context, layoutManager.getOrientation(), false);
             this.linearLayoutManager = layoutManager;
         }
 

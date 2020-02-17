@@ -1,11 +1,14 @@
 package com.to.aboomy.bannersample.adapter;
 
 import android.graphics.Color;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.to.aboomy.banner.Banner;
@@ -43,11 +46,17 @@ public class BannerAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Ba
                     .setHolderCreator(new ImageHolderCreator());
         }
         if (viewType == 3) {
-            com.to.aboomy.pager2banner.Banner banner = baseViewHolder.getView(R.id.banner);
+            final com.to.aboomy.pager2banner.Banner banner = baseViewHolder.getView(R.id.banner);
             com.to.aboomy.pager2banner.IndicatorView indicatorView = new com.to.aboomy.pager2banner.IndicatorView(mContext)
                     .setIndicatorColor(Color.BLACK)
                     .setIndicatorSelectorColor(Color.WHITE);
             ImageAdapter imageAdapter = new ImageAdapter();
+            imageAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    ToastUtils.showShort(String.valueOf(banner.getCurrentPager()));
+                }
+            });
             banner.setIndicator(indicatorView)
                     .setAdapter(imageAdapter);
         }

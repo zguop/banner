@@ -16,7 +16,7 @@
 * 良好的代码封装，更多优化请参考代码实现。
 
 ViewPager2
-* 暂不支持页面切换滑动速度。（已解决目前支持）
+* 暂不支持页面切换滑动速度。（已支持）
 * 暂不支持仿魅族样式。
 
 
@@ -52,7 +52,9 @@ ViewPager2
 |**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
 
 #### 版本更新
-	1.0.0
+    0.0.2
+    修复banner默认是垂直滑动的问题，应该是横向滑动的。
+	0.0.1
 	解决了ViewPager2页面滑动切换时间，新增setPagerScrollDuration方法设置。
 
 ## 使用步骤
@@ -62,7 +64,7 @@ Gradle
 ```groovy
 	
 dependencies{
-    implementation 'com.to.aboomy:pager2banner:0.0.1' //最新版本
+    implementation 'com.to.aboomy:pager2banner:0.0.2' //最新版本
 }
 ```
 或者引用本地lib
