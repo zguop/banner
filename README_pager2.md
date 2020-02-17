@@ -69,7 +69,7 @@ dependencies{
 ```
 或者引用本地lib
 ```groovy
-compile project(':pager2')
+compile project(':pager2banner')
 ```
 
 
