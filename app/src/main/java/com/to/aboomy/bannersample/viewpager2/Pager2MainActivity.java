@@ -16,9 +16,9 @@ import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.bannersample.viewpager2.adapter.ImageAdapter;
-import com.to.aboomy.pager2Banner.Banner;
-import com.to.aboomy.pager2Banner.HolderRestLoader;
-import com.to.aboomy.pager2Banner.IndicatorView;
+import com.to.aboomy.pager2banner.Banner;
+import com.to.aboomy.pager2banner.HolderRestLoader;
+import com.to.aboomy.pager2banner.IndicatorView;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.Arrays;

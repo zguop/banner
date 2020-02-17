@@ -1,4 +1,4 @@
-package com.to.aboomy.pager2Banner;
+package com.to.aboomy.pager2banner;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -21,6 +21,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.lang.reflect.Field;
+
 
 public class Banner extends RelativeLayout {
 

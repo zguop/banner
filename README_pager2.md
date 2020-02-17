@@ -62,7 +62,7 @@ Gradle
 ```groovy
 	
 dependencies{
-    implementation 'com.to.aboomy:pager2Banner:0.0.1' //最新版本
+    implementation 'com.to.aboomy:pager2banner:0.0.1' //最新版本
 }
 ```
 或者引用本地lib
@@ -73,7 +73,7 @@ compile project(':pager2')
 
 #### Step 2.xml
 ```xml
-     <com.to.aboomy.pager2.Banner
+     <com.to.aboomy.pager2banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="150dp"/>

@@ -1,1 +1,1 @@
-include ':app', ':banner', ':pager2Banner'
+include ':app', ':banner', ':pager2banner'
