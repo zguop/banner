@@ -45,7 +45,7 @@ dependencies {
 //    implementation 'com.to.aboomy.pager2:banner:0.0.1'
 
     implementation project(':banner')
-//    implementation project(':pager2banner')
+    implementation project(':pager2banner')
 
-    implementation 'com.to.aboomy:pager2banner:0.0.2'
+//    implementation 'com.to.aboomy:pager2banner:0.0.2'
 }

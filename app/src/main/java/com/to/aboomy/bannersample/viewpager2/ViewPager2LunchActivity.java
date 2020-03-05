@@ -52,5 +52,13 @@ public class ViewPager2LunchActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        findViewById(R.id.view6).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ViewPager2LunchActivity.this, NestedPager2Activity.class);
+                startActivity(i);
+            }
+        });
     }
 }

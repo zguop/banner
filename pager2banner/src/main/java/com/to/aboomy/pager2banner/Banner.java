@@ -27,6 +27,7 @@ public class Banner extends RelativeLayout {
 
     private static final long DEFAULT_AUTO_TIME = 2500;
     private static final long DEFAULT_PAGER_DURATION = 800;
+    private static final int SCALED_TOUCH_SLOP = 8;
     private static final int NORMAL_COUNT = 2;
 
     private ViewPager2.OnPageChangeCallback changeCallback;
@@ -38,6 +39,10 @@ public class Banner extends RelativeLayout {
     private boolean isAutoPlay = true;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
     private long pagerScrollDuration = DEFAULT_PAGER_DURATION;
+    private float lastX;
+    private float lastY;
+    private float startX;
+    private float startY;
 
     private int currentPage;
     private int realCount;
@@ -202,6 +207,30 @@ public class Banner extends RelativeLayout {
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        if (action == MotionEvent.ACTION_DOWN) {
+            startX = lastX = ev.getRawX();
+            startY = lastY = ev.getRawY();
+        } else if (action == MotionEvent.ACTION_MOVE) {
+            lastX = ev.getRawX();
+            lastY = ev.getRawY();
+            float distanceX = Math.abs(lastX - startX);
+            float distanceY = Math.abs(lastY - startY);
+            boolean disallowIntercept;
+            if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+                disallowIntercept = distanceX > SCALED_TOUCH_SLOP && distanceX > distanceY;
+            } else {
+                disallowIntercept = distanceY > SCALED_TOUCH_SLOP && distanceY > distanceX;
+            }
+            getParent().requestDisallowInterceptTouchEvent(disallowIntercept);
+        } else if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+            return Math.abs(lastX - startX) > SCALED_TOUCH_SLOP || Math.abs(lastY - startY) > SCALED_TOUCH_SLOP;
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     private class BannerAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
