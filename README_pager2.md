@@ -52,8 +52,10 @@ ViewPager2
 |**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
 
 #### 版本更新
+    0.0.4
+    indicator的INDICATOR_BEZIER，INDICATOR_DASH，INDICATOR_BIG_CIRCLE，动画问题修改，修改issues#6，代理LayoutManager中的layout内部ReyclerView为null导致。
     0.0.3
-    修复[issues #5](https://github.com/zguop/banner/issues/5)，ViewPager2嵌套滑动冲突。
+    修复issues #5，ViewPager2嵌套滑动冲突。
     0.0.2
     修复banner默认是垂直滑动的问题，应该是横向滑动的。
 	0.0.1
@@ -66,7 +68,7 @@ Gradle
 ```groovy
 	
 dependencies{
-    implementation 'com.to.aboomy:pager2banner:0.0.3' //最新版本
+    implementation 'com.to.aboomy:pager2banner:0.0.4' //最新版本
 }
 ```
 或者引用本地lib
