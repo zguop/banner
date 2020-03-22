@@ -55,11 +55,12 @@ public class Pager2MainActivity extends AppCompatActivity {
 //                .setIndicatorRatio(1.5f)
 //                .setIndicatorSelectedRadius(4)
 //                .setIndicatorRadius(5.5f)
-//                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BEZIER)
+//                .setIndicatorSelectedRatio(1.2f)
+                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE)
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
 
-        banner.setAutoPlay(true)
+        banner.setAutoPlay(false)
                 .setIndicator(indicatorView)
                 .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
                 .setPagerScrollDuration(800)

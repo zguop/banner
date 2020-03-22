@@ -116,9 +116,8 @@ public class Banner extends RelativeLayout {
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
-        recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        initViewPagerScrollProxy(recyclerView);
+
+        initViewPagerScrollProxy();
         addView(viewPager2);
     }
 
@@ -294,14 +293,25 @@ public class Banner extends RelativeLayout {
         }
     };
 
-    private void initViewPagerScrollProxy(RecyclerView recyclerView) {
+    private void initViewPagerScrollProxy() {
         try {
-            Field LayoutMangerField = ViewPager2.class.getDeclaredField("mLayoutManager");
-            LayoutMangerField.setAccessible(true);
-            LinearLayoutManager o = (LinearLayoutManager) LayoutMangerField.get(viewPager2);
+            //控制切换速度，采用反射方。法方法只会调用一次，替换掉内部的RecyclerView的LinearLayoutManager
+            RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
+            recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+            LinearLayoutManager o = (LinearLayoutManager) recyclerView.getLayoutManager();
             ProxyLayoutManger proxyLayoutManger = new ProxyLayoutManger(getContext(), o);
             recyclerView.setLayoutManager(proxyLayoutManger);
+
+            //由于设置了代理的ProxyLayoutManger，方法调用上还是调用o中实现的方法，其中还会使用到RecyclerView的方法，导致空指针，这里塞回去一个避免
+            Field mRecyclerView = RecyclerView.LayoutManager.class.getDeclaredField("mRecyclerView");
+            mRecyclerView.setAccessible(true);
+            mRecyclerView.set(o, recyclerView);
+
+            Field LayoutMangerField = ViewPager2.class.getDeclaredField("mLayoutManager");
+            LayoutMangerField.setAccessible(true);
             LayoutMangerField.set(viewPager2, proxyLayoutManger);
+
             Field pageTransformerAdapterField = ViewPager2.class.getDeclaredField("mPageTransformerAdapter");
             pageTransformerAdapterField.setAccessible(true);
             Object mPageTransformerAdapter = pageTransformerAdapterField.get(viewPager2);

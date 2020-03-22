@@ -136,7 +136,10 @@ public class IndicatorView extends View implements Indicator {
                 break;
             case MeasureSpec.AT_MOST:
             case MeasureSpec.UNSPECIFIED:
-                result = (int) (pagerCount * Math.max(indicatorRadius, indicatorSelectedRadius) * indicatorRatio * 2 + (pagerCount - 1) * indicatorSpacing + getPaddingLeft() + getPaddingRight());
+                float radius = Math.max(indicatorRadius, indicatorSelectedRadius);
+                float diameterDistance = radius * indicatorRatio * 2 * pagerCount;
+                float spacingDistance = (pagerCount - 1) * indicatorSpacing;
+                result = (int) (diameterDistance + spacingDistance + getPaddingLeft() + getPaddingRight() + dip2px(30));
                 break;
             default:
                 break;
@@ -154,7 +157,7 @@ public class IndicatorView extends View implements Indicator {
                 break;
             case MeasureSpec.AT_MOST:
             case MeasureSpec.UNSPECIFIED:
-                result = (int) (Math.max(indicatorRadius, indicatorSelectedRadius) * 2 + getPaddingTop() + getPaddingBottom());
+                result = (int) (Math.max(indicatorRadius, indicatorSelectedRadius) * 2 + getPaddingTop() + getPaddingBottom() + dip2px(10));
                 break;
             default:
                 break;
@@ -237,9 +240,9 @@ public class IndicatorView extends View implements Indicator {
         float leftTopOrBottomOffset = (indicatorSelectedRadius - minRadius) * interpolatedOffset();
         float rightTopOrBottomOffset = (indicatorSelectedRadius - minRadius) * accelerateInterpolator.getInterpolation(offset);
         indicatorPaint.setColor(selectedColor);
-        rectF.set(leftX + leftRadius, midY - indicatorSelectedRadius + leftTopOrBottomOffset, leftX - leftRadius, midY + indicatorSelectedRadius - leftTopOrBottomOffset);
+        rectF.set(leftX - leftRadius, midY - indicatorSelectedRadius + leftTopOrBottomOffset, leftX + leftRadius, midY + indicatorSelectedRadius - leftTopOrBottomOffset);
         canvas.drawRoundRect(rectF, leftRadius, leftRadius, indicatorPaint);
-        rectF.set(rightX + rightRadius, midY - minRadius - rightTopOrBottomOffset, rightX - rightRadius, midY + minRadius + rightTopOrBottomOffset);
+        rectF.set(rightX - rightRadius, midY - minRadius - rightTopOrBottomOffset, rightX + rightRadius, midY + minRadius + rightTopOrBottomOffset);
         canvas.drawRoundRect(rectF, rightRadius, rightRadius, indicatorPaint);
         path.reset();
         path.moveTo(rightX, midY);
@@ -254,7 +257,7 @@ public class IndicatorView extends View implements Indicator {
     private void drawDash(Canvas canvas, float midY) {
         float offset = interpolatedOffset();
         //默认dash的长度，设置ratio控制长度
-        float distance = (indicatorSelectedRadius * 2) * indicatorRatio;
+        float distance = getRatioSelectedRadius() * 2;
         float distanceOffset = distance * offset;
         int nextPage = (selectedPage + 1) % pagerCount;
         boolean isNextFirst = nextPage == 0;
@@ -297,7 +300,7 @@ public class IndicatorView extends View implements Indicator {
         float indicatorStartX = indicatorStartX(selectedPage);
         float nextIndicatorStartX = indicatorStartX((selectedPage + 1) % pagerCount);
         float ratioRadius = getRatioRadius();
-        float maxRadius = indicatorRadius == indicatorSelectedRadius ? indicatorSelectedRadius * 1.5f : indicatorSelectedRadius;
+        float maxRadius = indicatorRadius == indicatorSelectedRadius ? indicatorSelectedRadius * 1.3f : indicatorSelectedRadius;
         float maxRatioRadius = maxRadius * indicatorSelectedRatio;
         float leftRadius = maxRatioRadius - ((maxRatioRadius - ratioRadius) * offset);
         float rightRadius = ratioRadius + ((maxRatioRadius - ratioRadius) * offset);
@@ -338,7 +341,7 @@ public class IndicatorView extends View implements Indicator {
     private float indicatorStartX(int index) {
         float ratioIndicatorRadius = getRatioRadius();
         float centerSpacing = ratioIndicatorRadius * 2.0f + indicatorSpacing;
-        return ratioIndicatorRadius + getPaddingLeft() + centerSpacing * index;
+        return ratioIndicatorRadius + getPaddingLeft() + centerSpacing * index + dip2px(15);
     }
 
     private float getRatioRadius() {
