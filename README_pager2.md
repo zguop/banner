@@ -25,7 +25,7 @@ ViewPager2
 
 ## 效果图
 
-**点击下载 [banner.apk](https://fir.im/r7le) 体验**
+**点击下载 [banner.apk](http://d.6short.com/r7le) 体验**
 
 ------
 
