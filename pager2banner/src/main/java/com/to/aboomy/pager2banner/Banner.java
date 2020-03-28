@@ -1,16 +1,20 @@
 package com.to.aboomy.pager2banner;
 
 import android.content.Context;
+import android.graphics.Outline;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -523,6 +527,21 @@ public class Banner extends RelativeLayout {
 
     public Banner setHolderRestLoader(HolderRestLoader holderRestLoader) {
         this.holderRestLoader = holderRestLoader;
+        return this;
+    }
+
+    /**
+     * 设置banner圆角 api21以上
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public Banner setRoundCorners(final float radius) {
+        setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
+            }
+        });
+        setClipToOutline(true);
         return this;
     }
 

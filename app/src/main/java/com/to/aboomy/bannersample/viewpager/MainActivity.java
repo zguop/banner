@@ -1,15 +1,18 @@
 package com.to.aboomy.bannersample.viewpager;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int style;
     private TextView noLoop;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 .setIndicatorSelectorColor(Color.WHITE);
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
+                .setPageMargin(SizeUtils.dp2px(50),SizeUtils.dp2px(10))
+                .setRoundCorners(SizeUtils.dp2px(20))
                 .setHolderCreator(new ImageHolderCreator())
                 .setOnPageClickListener(new OnPageItemClickListener() {
                     @Override

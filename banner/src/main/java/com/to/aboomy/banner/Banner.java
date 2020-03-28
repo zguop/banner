@@ -1,13 +1,17 @@
 package com.to.aboomy.banner;
 
 import android.content.Context;
+import android.graphics.Outline;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -316,6 +320,21 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     /**
+     * 设置banner圆角 api21以上
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public Banner setRoundCorners(final float radius) {
+        setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
+            }
+        });
+        setClipToOutline(true);
+        return this;
+    }
+
+    /**
      * 是否自动轮播 大于1页轮播才生效
      */
     public Banner setAutoPlay(boolean autoPlay) {
@@ -394,4 +413,5 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     public void stopTurning() {
         removeCallbacks(task);
     }
+
 }
