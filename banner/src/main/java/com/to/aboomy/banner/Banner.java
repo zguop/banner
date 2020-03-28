@@ -1,6 +1,8 @@
 package com.to.aboomy.banner;
 
 import android.content.Context;
+import android.graphics.Outline;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,7 +10,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,14 +64,13 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         views = new ArrayList<>();
-        setClipChildren(Boolean.FALSE);
         initViews(context);
     }
 
     private void initViews(Context context) {
         viewPager = new BannerViewPager(context);
         viewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        viewPager.setClipChildren(Boolean.FALSE);
+        viewPager.setClipToPadding(false);
         viewPager.addOnPageChangeListener(this);
         addView(viewPager);
     }
@@ -270,9 +274,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
                 viewPager.setOverlapStyle(pageMargin < 0);
             }
             if (leftWidth > 0 && rightWidth > 0) {
-                LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
-                layoutParams.leftMargin = leftWidth + Math.abs(pageMargin);
-                layoutParams.rightMargin = rightWidth + Math.abs(pageMargin);
+                viewPager.setPadding(leftWidth + Math.abs(pageMargin), viewPager.getPaddingTop(), rightWidth + Math.abs(pageMargin), viewPager.getBottom());
                 viewPager.setOffscreenPageLimit(2);
                 needPage += NORMAL_COUNT;
             }
@@ -314,6 +316,21 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         if (viewPager != null) {
             viewPager.setOffscreenPageLimit(limit);
         }
+        return this;
+    }
+
+    /**
+     * 设置banner圆角 api21以上
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public Banner setRoundCorners(final float radius) {
+        setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
+            }
+        });
+        setClipToOutline(true);
         return this;
     }
 
@@ -396,4 +413,5 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     public void stopTurning() {
         removeCallbacks(task);
     }
+
 }
