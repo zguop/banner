@@ -66,8 +66,8 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 Gradle 
 ```groovy
 dependencies{
-    implementation 'com.to.aboomy:banner:3.1.1'  //最新版本
-    implementation 'com.to.aboomy:banner:3.1.1-x' //androidx版本
+    implementation 'com.to.aboomy:banner:3.1.2'  //最新版本
+    implementation 'com.to.aboomy:banner:3.1.2-x' //androidx版本
 }
 ```
 或者引用本地lib
@@ -292,6 +292,7 @@ setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListene
 |setPageMargin(int leftWidth, int rightWidth, int pageMargin)|设置一屏多页,方法重载
 |setOffscreenPageLimit(int limit)|同viewPager用法
 |setOnPageClickListener(OnPageItemClickListener onPageClickListener)|扩展接口,设置itemView点击事件，3.1.0新增
+|setRoundCorners(float radius)|设置banner圆角，需要api21，3.1.2新增
 
 ### 内置IndicatorView使用方法介绍，没有提供任何自定义属性
 |方法名|描述|
