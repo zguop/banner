@@ -65,7 +65,7 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
                 .setIndicator(new IndicatorView(this)
                         .setIndicatorColor(Color.GRAY)
                         .setIndicatorSelectorColor(Color.WHITE))
-                .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
+                .setPageMargin(UIUtil.dip2px(this, 50), UIUtil.dip2px(this, 10))
                 .setPages(Utils.getImage(2));
     }
 

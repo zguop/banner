@@ -60,14 +60,13 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         views = new ArrayList<>();
-        setClipChildren(Boolean.FALSE);
         initViews(context);
     }
 
     private void initViews(Context context) {
         viewPager = new BannerViewPager(context);
         viewPager.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        viewPager.setClipChildren(Boolean.FALSE);
+        viewPager.setClipToPadding(false);
         viewPager.addOnPageChangeListener(this);
         addView(viewPager);
     }
@@ -271,9 +270,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
                 viewPager.setOverlapStyle(pageMargin < 0);
             }
             if (leftWidth > 0 && rightWidth > 0) {
-                LayoutParams layoutParams = (LayoutParams) viewPager.getLayoutParams();
-                layoutParams.leftMargin = leftWidth + Math.abs(pageMargin);
-                layoutParams.rightMargin = rightWidth + Math.abs(pageMargin);
+                viewPager.setPadding(leftWidth + Math.abs(pageMargin), viewPager.getPaddingTop(), rightWidth + Math.abs(pageMargin), viewPager.getBottom());
                 viewPager.setOffscreenPageLimit(2);
                 needPage += NORMAL_COUNT;
             }
