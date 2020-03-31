@@ -274,9 +274,9 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
                 viewPager.setOverlapStyle(pageMargin < 0);
             }
             if (leftWidth > 0 && rightWidth > 0) {
-                viewPager.setPadding(leftWidth + Math.abs(pageMargin), viewPager.getPaddingTop(), rightWidth + Math.abs(pageMargin), viewPager.getBottom());
+                viewPager.setPadding(leftWidth + Math.abs(pageMargin), viewPager.getPaddingTop(), rightWidth + Math.abs(pageMargin), viewPager.getPaddingBottom());
                 viewPager.setOffscreenPageLimit(2);
-                needPage += NORMAL_COUNT;
+                needPage = NORMAL_COUNT + NORMAL_COUNT;
             }
         }
         return this;
