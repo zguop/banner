@@ -65,7 +65,6 @@ public class Banner extends RelativeLayout {
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initViews(context);
-
     }
 
     private void initViews(final Context context) {
@@ -73,54 +72,7 @@ public class Banner extends RelativeLayout {
         viewPager2.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         viewPager2.setPageTransformer(compositePageTransformer = new CompositePageTransformer());
         bannerAdapterWrapper = new BannerAdapterWrapper();
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                int realPosition = toRealPosition(position);
-                if (changeCallback != null) {
-                    changeCallback.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
-                }
-                if (indicator != null) {
-                    indicator.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
-                }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                boolean resetItem = currentPage == sidePage - 1 || currentPage == needCount - (sidePage - 1) || (position != currentPage && needCount - currentPage == sidePage);
-                currentPage = position;
-                int realPosition = toRealPosition(position);
-                if (holderRestLoader != null) {
-                    holderRestLoader.onItemRestLoader(realPosition, resetItem);
-                }
-                if (resetItem) return;
-                if (changeCallback != null) {
-                    changeCallback.onPageSelected(realPosition);
-                }
-                if (indicator != null) {
-                    indicator.onPageSelected(realPosition);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (changeCallback != null) {
-                    changeCallback.onPageScrollStateChanged(state);
-                }
-                if (indicator != null) {
-                    indicator.onPageScrollStateChanged(state);
-                }
-                if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
-                    if (currentPage == sidePage - 1) {
-                        viewPager2.setCurrentItem(realCount + currentPage, false);
-                    } else if (currentPage == needCount - sidePage) {
-                        viewPager2.setCurrentItem(sidePage, false);
-                    }
-                }
-            }
-        });
-
-
+        viewPager2.registerOnPageChangeCallback(new OnPageChangeCallback());
         initViewPagerScrollProxy();
         addView(viewPager2);
     }
@@ -138,7 +90,7 @@ public class Banner extends RelativeLayout {
         if (indicator != null) {
             indicator.initIndicatorCount(realCount);
         }
-        if (isAutoPlay) {
+        if (isAutoPlay()) {
             startTurning();
         }
     }
@@ -158,7 +110,7 @@ public class Banner extends RelativeLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (isAutoPlay) {
+        if (isAutoPlay()) {
             startTurning();
         }
     }
@@ -166,7 +118,7 @@ public class Banner extends RelativeLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (isAutoPlay) {
+        if (isAutoPlay()) {
             stopTurning();
         }
     }
@@ -174,7 +126,7 @@ public class Banner extends RelativeLayout {
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (isAutoPlay && realCount > 1) {
+            if (isAutoPlay()) {
                 currentPage++;
                 if (currentPage == realCount + sidePage + 1) {
                     viewPager2.setCurrentItem(sidePage, false);
@@ -200,7 +152,7 @@ public class Banner extends RelativeLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (isAutoPlay) {
+        if (isAutoPlay() && viewPager2.isUserInputEnabled()) {
             int action = ev.getAction();
             if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL
                     || action == MotionEvent.ACTION_OUTSIDE) {
@@ -221,19 +173,69 @@ public class Banner extends RelativeLayout {
         } else if (action == MotionEvent.ACTION_MOVE) {
             lastX = ev.getRawX();
             lastY = ev.getRawY();
-            float distanceX = Math.abs(lastX - startX);
-            float distanceY = Math.abs(lastY - startY);
-            boolean disallowIntercept;
-            if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-                disallowIntercept = distanceX > SCALED_TOUCH_SLOP && distanceX > distanceY;
-            } else {
-                disallowIntercept = distanceY > SCALED_TOUCH_SLOP && distanceY > distanceX;
+            if (viewPager2.isUserInputEnabled()) {
+                float distanceX = Math.abs(lastX - startX);
+                float distanceY = Math.abs(lastY - startY);
+                boolean disallowIntercept;
+                if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+                    disallowIntercept = distanceX > SCALED_TOUCH_SLOP && distanceX > distanceY;
+                } else {
+                    disallowIntercept = distanceY > SCALED_TOUCH_SLOP && distanceY > distanceX;
+                }
+                getParent().requestDisallowInterceptTouchEvent(disallowIntercept);
             }
-            getParent().requestDisallowInterceptTouchEvent(disallowIntercept);
         } else if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
             return Math.abs(lastX - startX) > SCALED_TOUCH_SLOP || Math.abs(lastY - startY) > SCALED_TOUCH_SLOP;
         }
         return super.onInterceptTouchEvent(ev);
+    }
+
+
+    private class OnPageChangeCallback extends ViewPager2.OnPageChangeCallback {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            int realPosition = toRealPosition(position);
+            if (changeCallback != null) {
+                changeCallback.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
+            }
+            if (indicator != null) {
+                indicator.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            boolean resetItem = currentPage == sidePage - 1 || currentPage == needCount - (sidePage - 1) || (position != currentPage && needCount - currentPage == sidePage);
+            currentPage = position;
+            int realPosition = toRealPosition(position);
+            if (holderRestLoader != null) {
+                holderRestLoader.onItemRestLoader(realPosition, resetItem);
+            }
+            if (resetItem) return;
+            if (changeCallback != null) {
+                changeCallback.onPageSelected(realPosition);
+            }
+            if (indicator != null) {
+                indicator.onPageSelected(realPosition);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (changeCallback != null) {
+                changeCallback.onPageScrollStateChanged(state);
+            }
+            if (indicator != null) {
+                indicator.onPageScrollStateChanged(state);
+            }
+            if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
+                if (currentPage == sidePage - 1) {
+                    viewPager2.setCurrentItem(realCount + currentPage, false);
+                } else if (currentPage == needCount - sidePage) {
+                    viewPager2.setCurrentItem(sidePage, false);
+                }
+            }
+        }
     }
 
     private class BannerAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -258,7 +260,7 @@ public class Banner extends RelativeLayout {
 
         @Override
         public int getItemCount() {
-            return needCount;
+            return realCount > 1 ? needCount : realCount;
         }
 
         void registerAdapter(RecyclerView.Adapter adapter) {
@@ -366,7 +368,7 @@ public class Banner extends RelativeLayout {
         public boolean requestChildRectangleOnScreen(@NonNull RecyclerView parent,
                                                      @NonNull View child, @NonNull Rect rect, boolean immediate,
                                                      boolean focusedChildVisible) {
-            return linearLayoutManager.requestChildRectangleOnScreen(parent, child, rect, immediate);
+            return linearLayoutManager.requestChildRectangleOnScreen(parent, child, rect, immediate, focusedChildVisible);
         }
 
         @Override
@@ -422,20 +424,16 @@ public class Banner extends RelativeLayout {
      * @param pageMargin item与item之间的宽度
      */
     public Banner setPageMargin(int tlWidth, int brWidth, int pageMargin) {
-        if (pageMargin != 0) {
-            compositePageTransformer.addTransformer(new MarginPageTransformer(pageMargin));
+        compositePageTransformer.addTransformer(new MarginPageTransformer(pageMargin));
+        RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
+        if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_VERTICAL) {
+            recyclerView.setPadding(viewPager2.getPaddingLeft(), tlWidth + Math.abs(pageMargin), viewPager2.getPaddingRight(), brWidth + Math.abs(pageMargin));
+        } else {
+            recyclerView.setPadding(tlWidth + Math.abs(pageMargin), viewPager2.getPaddingTop(), brWidth + Math.abs(pageMargin), viewPager2.getPaddingBottom());
         }
-        if (tlWidth > 0 && brWidth > 0) {
-            RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
-            if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_VERTICAL) {
-                recyclerView.setPadding(0, tlWidth + Math.abs(pageMargin), 0, brWidth + Math.abs(pageMargin));
-            } else {
-                recyclerView.setPadding(tlWidth + Math.abs(pageMargin), 0, brWidth + Math.abs(pageMargin), 0);
-            }
-            recyclerView.setClipToPadding(false);
-            setOffscreenPageLimit(1);
-            needPage += NORMAL_COUNT;
-        }
+        recyclerView.setClipToPadding(false);
+        setOffscreenPageLimit(1);
+        needPage = NORMAL_COUNT + NORMAL_COUNT;
         return this;
     }
 
