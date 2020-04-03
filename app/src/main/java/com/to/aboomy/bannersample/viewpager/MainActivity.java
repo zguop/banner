@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
@@ -52,15 +53,19 @@ public class MainActivity extends AppCompatActivity {
         list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
-//                .setIndicatorRatio(1.5f)
-//                .setIndicatorSelectedRadius(4)
-//                .setIndicatorRadius(5.5f)
-//                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BEZIER)
+//                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_DASH)
+                .setIndicatorRatio(1f)
+                .setIndicatorRadius(2f)
+                .setIndicatorSelectedRatio(3)
+                .setIndicatorSelectedRadius(2f)
+
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
+//        indicatorView.setPadding(SizeUtils.dp2px(10),0,SizeUtils.dp2px(10),0);
+
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
-//                .setPageMargin(SizeUtils.dp2px(50),SizeUtils.dp2px(10))
+//                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(10))
 //                .setRoundCorners(SizeUtils.dp2px(20))
                 .setHolderCreator(new ImageHolderCreator())
                 .setOnPageClickListener(new OnPageItemClickListener() {
@@ -123,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < size; i++) {
                     list.add(Utils.getRandom());
                 }
+
+                banner.setIndicator(indicatorView)
+                        .setAutoPlay(false)
+                        .setPageMargin(SizeUtils.dp2px(50), SizeUtils.dp2px(10));
                 banner.setPages(list, banner.getCurrentPager());
 
                 updateLoopText();
@@ -164,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         updateLoopText();
 

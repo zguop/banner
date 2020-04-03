@@ -84,7 +84,6 @@
             android:textSize="15dp" />
 
 
-
         <Button
             android:id="@+id/noLoop"
             android:layout_width="match_parent"

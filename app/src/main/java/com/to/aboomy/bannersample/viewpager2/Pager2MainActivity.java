@@ -52,10 +52,10 @@ public class Pager2MainActivity extends AppCompatActivity {
 
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
-//                .setIndicatorRatio(1.5f)
-//                .setIndicatorSelectedRadius(4)
-//                .setIndicatorRadius(5.5f)
-//                .setIndicatorSelectedRatio(1.2f)
+                .setIndicatorRatio(1f)
+                .setIndicatorRadius(2f)
+                .setIndicatorSelectedRatio(3)
+                .setIndicatorSelectedRadius(2f)
                 .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE)
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
