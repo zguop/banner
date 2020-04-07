@@ -77,7 +77,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (isAutoPlay) {
+        if (isAutoPlay()) {
             startTurning();
         }
     }
@@ -85,7 +85,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (isAutoPlay) {
+        if (isAutoPlay()) {
             stopTurning();
         }
     }
@@ -139,7 +139,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (isAutoPlay && realCount > 1) {
+            if (isAutoPlay()) {
                 currentPage++;
                 if (currentPage == realCount + sidePage + 1) {
                     viewPager.setCurrentItem(sidePage, false);
@@ -156,7 +156,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
         @Override
         public int getCount() {
-            return needCount;
+            return realCount > 1 ? needCount : realCount;
         }
 
         @Override
@@ -189,7 +189,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (isAutoPlay) {
+        if (isAutoPlay()) {
             int action = ev.getAction();
             if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL
                     || action == MotionEvent.ACTION_OUTSIDE) {
@@ -214,7 +214,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
         if (indicator != null) {
             indicator.initIndicatorCount(realCount);
         }
-        if (isAutoPlay) {
+        if (isAutoPlay()) {
             startTurning();
         }
     }
@@ -267,24 +267,16 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      * @param pageMargin >0 item与item之间的宽度， <0 item与item之间重叠宽度
      */
     public Banner setPageMargin(int leftWidth, int rightWidth, int pageMargin) {
-        if (viewPager != null) {
-            if (pageMargin != 0) {
-                viewPager.setPageMargin(pageMargin);
-                viewPager.setOverlapStyle(pageMargin < 0);
-            }
-            if (leftWidth > 0 && rightWidth > 0) {
-                viewPager.setPadding(leftWidth + Math.abs(pageMargin), viewPager.getPaddingTop(), rightWidth + Math.abs(pageMargin), viewPager.getPaddingBottom());
-                viewPager.setOffscreenPageLimit(2);
-                needPage = NORMAL_COUNT + NORMAL_COUNT;
-            }
-        }
+        viewPager.setPageMargin(pageMargin);
+        viewPager.setOverlapStyle(pageMargin < 0);
+        viewPager.setPadding(leftWidth + Math.abs(pageMargin), viewPager.getPaddingTop(), rightWidth + Math.abs(pageMargin), viewPager.getPaddingBottom());
+        viewPager.setOffscreenPageLimit(2);
+        needPage = NORMAL_COUNT + NORMAL_COUNT;
         return this;
     }
 
     public Banner setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
-        if (viewPager != null) {
-            viewPager.setPageTransformer(reverseDrawingOrder, transformer);
-        }
+        viewPager.setPageTransformer(reverseDrawingOrder, transformer);
         return this;
     }
 
@@ -294,7 +286,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     /**
-     * {@link android.support.v4.view.ViewPager.SimpleOnPageChangeListener}
+     * {@link ViewPager.SimpleOnPageChangeListener}
      */
     public Banner setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener) {
         this.outerPageChangeListener = outerPageChangeListener;
@@ -305,16 +297,12 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
      * 设置viewpager的切换时长
      */
     public Banner setPagerScrollDuration(int pagerScrollDuration) {
-        if (viewPager != null) {
-            viewPager.setPagerScrollDuration(pagerScrollDuration);
-        }
+        viewPager.setPagerScrollDuration(pagerScrollDuration);
         return this;
     }
 
     public Banner setOffscreenPageLimit(int limit) {
-        if (viewPager != null) {
-            viewPager.setOffscreenPageLimit(limit);
-        }
+        viewPager.setOffscreenPageLimit(limit);
         return this;
     }
 
