@@ -1,5 +1,5 @@
 # Android轮播控件
-[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg?version=3.1.1-x) ](https://bintray.com/a13706649811/maven/banner/3.1.1-x/link)[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg) ](https://bintray.com/a13706649811/maven/banner/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg) ](https://bintray.com/a13706649811/maven/banner/_latestVersion)
 
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持五种动画切换。
 项目集成各种indicator网红效果，打造花样Indicator，使用请参考Sample。
@@ -46,6 +46,11 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 |![img5](gif/img5.gif)||
 
 
+#### 注意：3.1.3版本开始，IndicatorView更新
+* INDICATOR_DASH：不再提供默认的长度，默认是没有长度的，一定要设置setIndicatorSelectedRatio属性，将圆点进行拉伸为矩形
+
+* INDICATOR_BIG_CIRCLE：不再提供默认的Max圆，默认是一样大的，所以看起来没有效果，一定要设置indicatorSelectedRadius属性，控制选中的大小。
+
 
 
 |效果图|1|2|
@@ -66,8 +71,8 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 Gradle 
 ```groovy
 dependencies{
-    implementation 'com.to.aboomy:banner:3.1.2'  //最新版本
-    implementation 'com.to.aboomy:banner:3.1.2-x' //androidx版本
+    implementation 'com.to.aboomy:banner:3.1.3'  //最新版本
+    implementation 'com.to.aboomy:banner:3.1.3-x' //androidx版本
 }
 ```
 或者引用本地lib

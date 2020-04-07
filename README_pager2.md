@@ -46,20 +46,23 @@ ViewPager2
 |INDICATOR_BIG_CIRCLE||
 |![img5](gif/img5.gif)||
 
+#### 注意：0.0.5版本开始，IndicatorView更新
+
+* INDICATOR_DASH：不再提供默认的长度，默认是没有长度的，一定要设置setIndicatorSelectedRatio属性，将圆点进行拉伸为矩形。
+
+* INDICATORBIGCIRCLE：不再提供默认的Max圆，默认是一样大的，所以看起来没有效果，一定要设置indicatorSelectedRadius属性，控制选中的大小。
+
 |效果图|1|2|
 |---|---|---|
 |**收集更多的效果**|![img12](gif/img12.gif)|![img13](gif/img13.gif)
 |**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
 
 #### 版本更新
-    0.0.4
-    indicator的INDICATOR_BEZIER，INDICATOR_DASH，INDICATOR_BIG_CIRCLE，动画问题修改，修改issues#6，代理LayoutManager中的layout内部ReyclerView为null导致。
-    0.0.3
-    修复issues #5，ViewPager2嵌套滑动冲突。
-    0.0.2
-    修复banner默认是垂直滑动的问题，应该是横向滑动的。
-	0.0.1
-	解决了ViewPager2页面滑动切换时间，新增setPagerScrollDuration方法设置。
+* 0.0.5：修复嵌套滑动的问题，主要是只有一页数据的时候，不拦截事件进行处理。
+* 0.0.4：修复issues#6，代理LayoutManager中的layout内部ReyclerView为null导致。
+* 0.0.3：修复issues #5，ViewPager2嵌套滑动冲突。
+* 0.0.2：修复banner默认是垂直滑动的问题，应该是横向滑动的。
+* 0.0.1：解决了ViewPager2页面滑动切换时间，新增setPagerScrollDuration方法设置。
 
 ## 使用步骤
 
@@ -68,7 +71,7 @@ Gradle
 ```groovy
 	
 dependencies{
-    implementation 'com.to.aboomy:pager2banner:0.0.4' //最新版本
+    implementation 'com.to.aboomy:pager2banner:0.0.5' //最新版本
 }
 ```
 或者引用本地lib
