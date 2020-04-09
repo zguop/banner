@@ -307,9 +307,10 @@ public class Banner extends RelativeLayout {
 
             LinearLayoutManager o = (LinearLayoutManager) recyclerView.getLayoutManager();
             ProxyLayoutManger proxyLayoutManger = new ProxyLayoutManger(getContext(), o);
+            //设置代理ProxyLayoutManger，这时候o上mRecyclerView会被置空。
             recyclerView.setLayoutManager(proxyLayoutManger);
 
-            //由于设置了代理的ProxyLayoutManger，方法调用上还是调用o中实现的方法，其中还会使用到RecyclerView的方法，导致空指针，这里塞回去一个避免
+            //由于设置了代理的ProxyLayoutManger，方法调用上还是调用o中实现的方法，o其中还会使用到RecyclerView的方法，导致空指针，这里塞回去一个避免
             Field mRecyclerView = RecyclerView.LayoutManager.class.getDeclaredField("mRecyclerView");
             mRecyclerView.setAccessible(true);
             mRecyclerView.set(o, recyclerView);
