@@ -1,5 +1,6 @@
 package com.to.aboomy.bannersample.viewpager2.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,19 @@ public class ImageAdapter extends BaseQuickAdapter<Object, BaseViewHolder> {
     public ImageAdapter() {
         super(R.layout.item_image);
     }
+
+    //看这里 回调出正确的position
+    @Override
+    public void onBindViewHolder(@NonNull final BaseViewHolder holder, final int position) {
+        super.onBindViewHolder(holder, position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setOnItemClick(holder.itemView, position);
+            }
+        });
+    }
+
     @Override
     protected void convert(@NonNull BaseViewHolder helper, Object item) {
         Glide.with(mContext)

@@ -64,7 +64,7 @@ public class Pager2MainActivity extends AppCompatActivity {
                 .setIndicator(indicatorView)
                 .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
                 .setPagerScrollDuration(800)
-//                .setPageMargin(SizeUtils.dp2px( 20), SizeUtils.dp2px( 10))
+//                .setPageMargin(SizeUtils.dp2px( 40), SizeUtils.dp2px( 10))
                 .setHolderRestLoader(new HolderRestLoader() {
                     @Override
                     public void onItemRestLoader(int position, boolean isRestItem) {
@@ -89,7 +89,9 @@ public class Pager2MainActivity extends AppCompatActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //onItemClick回调position是holder.getAdapterPosition()的，
                 //holder.getAdapterPosition()是轮播中当前位置，可以通过banner.getCurrentPager()获取真实位置。
-                ToastUtils.showShort(String.valueOf(banner.getCurrentPager()));
+                ToastUtils.showShort(String.valueOf(banner.getCurrentPager()) + " 和 经过处理 onItemClick 上参数position=" + position);
+
+
             }
         });
         adapter.addData(Utils.getRandom());
