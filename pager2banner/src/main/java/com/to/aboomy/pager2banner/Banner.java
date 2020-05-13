@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.RelativeLayout;
@@ -31,7 +32,6 @@ public class Banner extends RelativeLayout {
 
     private static final long DEFAULT_AUTO_TIME = 2500;
     private static final long DEFAULT_PAGER_DURATION = 800;
-    private static final int SCALED_TOUCH_SLOP = 8;
     private static final int NORMAL_COUNT = 2;
 
     private ViewPager2.OnPageChangeCallback changeCallback;
@@ -43,10 +43,12 @@ public class Banner extends RelativeLayout {
     private boolean isAutoPlay = true;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
     private long pagerScrollDuration = DEFAULT_PAGER_DURATION;
+
     private float lastX;
     private float lastY;
     private float startX;
     private float startY;
+    private int scaledTouchSlop;
 
     private int currentPage;
     private int realCount;
@@ -64,6 +66,7 @@ public class Banner extends RelativeLayout {
 
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         initViews(context);
     }
 
@@ -178,14 +181,14 @@ public class Banner extends RelativeLayout {
                 float distanceY = Math.abs(lastY - startY);
                 boolean disallowIntercept;
                 if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-                    disallowIntercept = distanceX > SCALED_TOUCH_SLOP && distanceX > distanceY;
+                    disallowIntercept = distanceX > scaledTouchSlop && distanceX > distanceY;
                 } else {
-                    disallowIntercept = distanceY > SCALED_TOUCH_SLOP && distanceY > distanceX;
+                    disallowIntercept = distanceY > scaledTouchSlop && distanceY > distanceX;
                 }
                 getParent().requestDisallowInterceptTouchEvent(disallowIntercept);
             }
         } else if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
-            return Math.abs(lastX - startX) > SCALED_TOUCH_SLOP || Math.abs(lastY - startY) > SCALED_TOUCH_SLOP;
+            return Math.abs(lastX - startX) > scaledTouchSlop || Math.abs(lastY - startY) > scaledTouchSlop;
         }
         return super.onInterceptTouchEvent(ev);
     }
