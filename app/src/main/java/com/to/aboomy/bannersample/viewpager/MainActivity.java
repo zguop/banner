@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
-//                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(10))
+                .setPageMargin(SizeUtils.dp2px(20), 0)
 //                .setRoundCorners(SizeUtils.dp2px(20))
                 .setHolderCreator(new ImageHolderCreator())
                 .setOnPageClickListener(new OnPageItemClickListener() {

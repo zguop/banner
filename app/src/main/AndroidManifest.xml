@@ -28,6 +28,7 @@
         <activity android:name=".viewpager.AnimActivity" />
         <activity android:name=".viewpager.Indicator2Activity" />
         <activity android:name=".viewpager.RevealBannerActivity" />
+        <activity android:name=".viewpager.NestedPagerActivity"/>
 
 
 
