@@ -17,10 +17,13 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.banner.OnPageItemClickListener;
+import com.to.aboomy.banner.ScaleInTransformer;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.bannersample.viewpager.creator.ImageHolderCreator;
+
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,20 +56,20 @@ public class MainActivity extends AppCompatActivity {
         list.add(Utils.getRandom());
         banner = findViewById(R.id.banner);
         final IndicatorView indicatorView = new IndicatorView(this)
-//                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_DASH)
+                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE)
                 .setIndicatorRatio(1f)
                 .setIndicatorRadius(2f)
                 .setIndicatorSelectedRatio(3)
                 .setIndicatorSelectedRadius(2f)
-
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
-//        indicatorView.setPadding(SizeUtils.dp2px(10),0,SizeUtils.dp2px(10),0);
 
         banner.setIndicator(indicatorView)
                 .setAutoPlay(false)
-                .setPageMargin(SizeUtils.dp2px(20), 0)
-//                .setRoundCorners(SizeUtils.dp2px(20))
+
+                .setPageMargin(UIUtil.dip2px(this, 10), -UIUtil.dip2px(this, 14))
+                .setPageTransformer(true, new ScaleInTransformer())
+
                 .setHolderCreator(new ImageHolderCreator())
                 .setOnPageClickListener(new OnPageItemClickListener() {
                     @Override
@@ -77,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
                 .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                        Log.e("aa" , "onPageScrolled "  + position);
+                        Log.e("aa" , "onPageScrolled "  + position);
                     }
 
                     @Override
                     public void onPageSelected(int position) {
-                        Log.e("aa", "onPageSelected " + position);
+                        Log.e("aa", "position " + position);
 
                     }
 

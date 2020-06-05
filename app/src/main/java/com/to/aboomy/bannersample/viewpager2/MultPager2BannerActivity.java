@@ -67,7 +67,7 @@ public class MultPager2BannerActivity extends AppCompatActivity {
                         .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BEZIER)
                         .setIndicatorSelectorColor(Color.RED), false)
                 .setPageMargin(UIUtil.dip2px(this, 20), UIUtil.dip2px(this, 10))
-                .setPageTransformer(new ScaleInTransformer())
+                .addPageTransformer(new ScaleInTransformer())
                 .setOuterPageChangeListener(new ViewPager2.OnPageChangeCallback() {
                     @Override
                     public void onPageSelected(int position) {

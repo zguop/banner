@@ -3,7 +3,6 @@ package com.to.aboomy.bannersample.viewpager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -54,7 +53,7 @@ public class MultBannerActivity extends AppCompatActivity implements HolderCreat
 
                     @Override
                     public void onPageSelected(int i) {
-                        Log.e("aa", " onPageSelected " + i);
+//                        Log.e("aa", " onPageSelected " + i);
                     }
 
                     @Override

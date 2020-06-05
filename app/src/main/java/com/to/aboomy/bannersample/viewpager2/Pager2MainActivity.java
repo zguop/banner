@@ -2,6 +2,7 @@ package com.to.aboomy.bannersample.viewpager2;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.to.aboomy.bannersample.R;
@@ -17,8 +19,8 @@ import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.bannersample.viewpager2.adapter.ImageAdapter;
 import com.to.aboomy.pager2banner.Banner;
-import com.to.aboomy.pager2banner.HolderRestLoader;
 import com.to.aboomy.pager2banner.IndicatorView;
+import com.to.aboomy.pager2banner.ScaleInTransformer;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.Arrays;
@@ -64,17 +66,14 @@ public class Pager2MainActivity extends AppCompatActivity {
                 .setIndicator(indicatorView)
                 .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
                 .setPagerScrollDuration(800)
-//                .setPageMargin(SizeUtils.dp2px( 40), SizeUtils.dp2px( 10))
-                .setHolderRestLoader(new HolderRestLoader() {
-                    @Override
-                    public void onItemRestLoader(int position, boolean isRestItem) {
+                .setPageMargin(SizeUtils.dp2px( 40), SizeUtils.dp2px( 10))
+                .addPageTransformer(new ScaleInTransformer())
 
-                    }
-                })
 
                 .setOuterPageChangeListener(new ViewPager2.OnPageChangeCallback() {
                     @Override
                     public void onPageSelected(int position) {
+                        Log.e("aa" , "onPageSelected position " + position );
 
 
 //                        Log.e("aa", " wai onPageSelected " + position);
