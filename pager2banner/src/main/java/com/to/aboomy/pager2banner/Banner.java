@@ -2,9 +2,7 @@ package com.to.aboomy.pager2banner;
 
 import android.content.Context;
 import android.graphics.Outline;
-import android.graphics.Rect;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +33,7 @@ public class Banner extends RelativeLayout {
 
     private ViewPager2.OnPageChangeCallback changeCallback;
     private CompositePageTransformer compositePageTransformer;
-    private BannerAdapterWrapper bannerAdapterWrapper;
+    private BannerAdapterWrapper adapterWrapper;
     private ViewPager2 viewPager2;
     private Indicator indicator;
     private boolean isAutoPlay = true;
@@ -68,7 +65,7 @@ public class Banner extends RelativeLayout {
         viewPager2.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         viewPager2.setPageTransformer(compositePageTransformer = new CompositePageTransformer());
         viewPager2.registerOnPageChangeCallback(new OnPageChangeCallback());
-        viewPager2.setAdapter(bannerAdapterWrapper = new BannerAdapterWrapper());
+        viewPager2.setAdapter(adapterWrapper = new BannerAdapterWrapper());
         setOffscreenPageLimit(1);
         initViewPagerScrollProxy();
         addView(viewPager2);
@@ -78,7 +75,7 @@ public class Banner extends RelativeLayout {
         currentPage = startPosition + sidePage;
         viewPager2.setUserInputEnabled(getRealCount() > 1);
         viewPager2.setCurrentItem(currentPage, false);
-        bannerAdapterWrapper.notifyDataSetChanged();
+        adapterWrapper.notifyDataSetChanged();
         if (indicator != null) {
             indicator.initIndicatorCount(getRealCount());
         }
@@ -87,8 +84,8 @@ public class Banner extends RelativeLayout {
         }
     }
 
-    int getRealCount() {
-        return bannerAdapterWrapper.adapter == null ? 0 : bannerAdapterWrapper.adapter.getItemCount();
+    private int getRealCount() {
+        return adapterWrapper.getRealCount();
     }
 
     @Override
@@ -252,6 +249,15 @@ public class Banner extends RelativeLayout {
             return getRealCount() > 1 ? getRealCount() + needPage : getRealCount();
         }
 
+        @Override
+        public long getItemId(int position) {
+            return adapter.getItemId(toRealPosition(position));
+        }
+
+        int getRealCount() {
+            return adapter == null ? 0 : adapter.getItemCount();
+        }
+
         void registerAdapter(RecyclerView.Adapter adapter) {
             if (this.adapter != null) {
                 this.adapter.unregisterAdapterDataObserver(itemDataSetChangeObserver);
@@ -290,16 +296,8 @@ public class Banner extends RelativeLayout {
             //控制切换速度，采用反射方。法方法只会调用一次，替换掉内部的RecyclerView的LinearLayoutManager
             RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
             recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-
-            LinearLayoutManager o = (LinearLayoutManager) recyclerView.getLayoutManager();
-            ProxyLayoutManger proxyLayoutManger = new ProxyLayoutManger(getContext(), o);
-            //设置代理ProxyLayoutManger，这时候o上mRecyclerView会被置空。
+            ProxyLayoutManger proxyLayoutManger = new ProxyLayoutManger(getContext(), viewPager2.getOrientation());
             recyclerView.setLayoutManager(proxyLayoutManger);
-
-            //由于设置了代理的ProxyLayoutManger，方法调用上还是调用o中实现的方法，o其中还会使用到RecyclerView的方法，导致空指针，这里塞回去一个避免
-            Field mRecyclerView = RecyclerView.LayoutManager.class.getDeclaredField("mRecyclerView");
-            mRecyclerView.setAccessible(true);
-            mRecyclerView.set(o, recyclerView);
 
             Field LayoutMangerField = ViewPager2.class.getDeclaredField("mLayoutManager");
             LayoutMangerField.setAccessible(true);
@@ -332,30 +330,8 @@ public class Banner extends RelativeLayout {
 
     private class ProxyLayoutManger extends LinearLayoutManager {
 
-        private RecyclerView.LayoutManager linearLayoutManager;
-
-        ProxyLayoutManger(Context context, LinearLayoutManager layoutManager) {
-            super(context, layoutManager.getOrientation(), false);
-            this.linearLayoutManager = layoutManager;
-        }
-
-        @Override
-        public boolean performAccessibilityAction(@NonNull RecyclerView.Recycler recycler,
-                                                  @NonNull RecyclerView.State state, int action, @Nullable Bundle args) {
-            return linearLayoutManager.performAccessibilityAction(recycler, state, action, args);
-        }
-
-        @Override
-        public void onInitializeAccessibilityNodeInfo(@NonNull RecyclerView.Recycler recycler,
-                                                      @NonNull RecyclerView.State state, @NonNull AccessibilityNodeInfoCompat info) {
-            linearLayoutManager.onInitializeAccessibilityNodeInfo(recycler, state, info);
-        }
-
-        @Override
-        public boolean requestChildRectangleOnScreen(@NonNull RecyclerView parent,
-                                                     @NonNull View child, @NonNull Rect rect, boolean immediate,
-                                                     boolean focusedChildVisible) {
-            return linearLayoutManager.requestChildRectangleOnScreen(parent, child, rect, immediate, focusedChildVisible);
+        ProxyLayoutManger(Context context, int orientation) {
+            super(context, orientation, false);
         }
 
         @Override
@@ -518,7 +494,7 @@ public class Banner extends RelativeLayout {
     }
 
     public RecyclerView.Adapter getAdapter() {
-        return bannerAdapterWrapper.adapter;
+        return adapterWrapper.adapter;
     }
 
     public void startTurning() {
@@ -535,7 +511,7 @@ public class Banner extends RelativeLayout {
     }
 
     public void setAdapter(@Nullable RecyclerView.Adapter adapter, int startPosition) {
-        bannerAdapterWrapper.registerAdapter(adapter);
+        adapterWrapper.registerAdapter(adapter);
         startPager(startPosition);
     }
 }

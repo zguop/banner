@@ -37,4 +37,6 @@ public class ImageAdapter extends BaseQuickAdapter<Object, BaseViewHolder> {
                 .load(item)
                 .into((ImageView) helper.getView(R.id.img));
     }
+
+
 }

@@ -37,6 +37,7 @@
         <activity android:name=".viewpager2.Pager2MainActivity" />
         <activity android:name=".viewpager2.MultPager2BannerActivity"/>
         <activity android:name=".viewpager2.NestedPager2Activity"/>
+        <activity android:name=".viewpager2.FragmentStateAdapterActivity"/>
     </application>
 
 </manifest>
