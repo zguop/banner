@@ -68,6 +68,7 @@
 ## 使用步骤
 
 #### Step 1.依赖banner
+
 Gradle 
 ```groovy
 	
@@ -80,7 +81,6 @@ dependencies{
 compile project(':pager2banner')
 ```
 
-
 #### Step 2.xml
 ```xml
      <com.to.aboomy.pager2banner.Banner
@@ -90,7 +90,6 @@ compile project(':pager2banner')
 ```
 
 #### Step 3.自定义RecyclerView.Adapter
-
 
 ```java
 //自定义adapter
@@ -110,9 +109,7 @@ public class ImageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 }
 ```
 
-
 #### Step 4.在页面中使用Banner
-
 
 ```java
 
@@ -152,7 +149,6 @@ public class ImageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
 ```
 
-
 ### 关于ViewPager切换动画
 
 pager2banner 只内置了 ScaleInTransformer ，这个比较常用。
@@ -173,7 +169,6 @@ demo里集成了以下两个ViewPager切换动画，请运行Sample查看动画�
     .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE)       
 
 ```
-
 
 ### 如何自定义Indicator
 ```java
