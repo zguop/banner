@@ -1,7 +1,7 @@
 # Android轮播控件
 [ ![Download](https://api.bintray.com/packages/a13706649811/maven/pager2Banner/images/download.svg) ](https://bintray.com/a13706649811/maven/pager2Banner/_latestVersion)
 
-**全新升级**，基于**ViewPager2**实现无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了的IndicatorView，支持五种动画切换。**支持传入RecyclerView.Adapter 即可实现无限轮播**，支持任何ReyclerView.Apdater框架，集成使用请参考Sample。
+**全新升级**，基于**ViewPager2**实现无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了的IndicatorView，支持五种动画切换。**支持传入RecyclerView.Adapter 即可实现无限轮播**，支持任何ReyclerView.Apdater框架，集成使用请参考Demo。
 
 ![logo](gif/logo.png)
 
@@ -9,14 +9,13 @@
 * 支持一屏三页
 * 支持自定义Indicator
 * 支持自定义view
-* 支持数据刷新
 * 支持垂直滚动
 * 支持任意RecyclerView.adapter
-* 支持androidx，还在使用support请使用[banner](https://github.com/zguop/banner/blob/master/README_pager.md)，ViewPager版本
 * 目前就4个类，良好的代码封装，更多请参考代码实现。
 
 
-[想使用ViewPager实现Banner请点击](https://github.com/zguop/banner/blob/master/README_pager.md)
+ViewPager2是androidx中的
+还在使用support请使用ViewPager版本(持续维护...)[banner请点击](https://github.com/zguop/banner/blob/master/README_pager.md)
 
 
 ## 效果图
@@ -57,6 +56,7 @@
 |![img12](gif/img19.gif)|![img12](gif/img20.gif)|...|
 
 
+#### [版本更新内容点击查看](https://github.com/zguop/banner/releases)
 #### 历史版本更，后面更新到release标签上
 
 * 0.0.5：修复嵌套滑动的问题，主要是只有一页数据的时候，不拦截事件进行处理。
