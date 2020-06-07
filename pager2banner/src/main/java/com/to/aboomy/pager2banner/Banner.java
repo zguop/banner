@@ -37,11 +37,12 @@ public class Banner extends RelativeLayout {
     private ViewPager2 viewPager2;
     private Indicator indicator;
     private boolean isAutoPlay = true;
+    private boolean isBeginPagerChange = true;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
     private long pagerScrollDuration = DEFAULT_PAGER_DURATION;
     private int needPage = NORMAL_COUNT;
     private int sidePage = needPage / NORMAL_COUNT;
-    private int currentPage;
+    private int tempPosition;
 
     private float startX, startY, lastX, lastY;
     private int scaledTouchSlop;
@@ -72,9 +73,8 @@ public class Banner extends RelativeLayout {
     }
 
     private void startPager(int startPosition) {
-        currentPage = startPosition + sidePage;
-        viewPager2.setUserInputEnabled(getRealCount() > 1);
-        viewPager2.setCurrentItem(currentPage, false);
+        tempPosition = startPosition + sidePage;
+        viewPager2.setCurrentItem(tempPosition, false);
         adapterWrapper.notifyDataSetChanged();
         if (indicator != null) {
             indicator.initIndicatorCount(getRealCount());
@@ -108,12 +108,14 @@ public class Banner extends RelativeLayout {
         @Override
         public void run() {
             if (isAutoPlay()) {
-                currentPage++;
-                if (currentPage == getRealCount() + sidePage + 1) {
+                tempPosition++;
+                if (tempPosition == getRealCount() + sidePage + 1) {
+                    isBeginPagerChange = false;
                     viewPager2.setCurrentItem(sidePage, false);
                     post(task);
                 } else {
-                    viewPager2.setCurrentItem(currentPage);
+                    isBeginPagerChange = true;
+                    viewPager2.setCurrentItem(tempPosition);
                     postDelayed(task, autoTurningTime);
                 }
             }
@@ -122,7 +124,7 @@ public class Banner extends RelativeLayout {
 
     private int toRealPosition(int position) {
         int realPosition = 0;
-        if (getRealCount() != 0) {
+        if (getRealCount() > 1) {
             realPosition = (position - sidePage) % getRealCount();
         }
         if (realPosition < 0) {
@@ -174,8 +176,6 @@ public class Banner extends RelativeLayout {
 
     private class OnPageChangeCallback extends ViewPager2.OnPageChangeCallback {
 
-        private boolean isBeginPagerChange = true;
-
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             int realPosition = toRealPosition(position);
@@ -189,7 +189,9 @@ public class Banner extends RelativeLayout {
 
         @Override
         public void onPageSelected(int position) {
-            currentPage = position;
+            if (getRealCount() > 1) {
+                tempPosition = position;
+            }
             if (isBeginPagerChange) {
                 int realPosition = toRealPosition(position);
                 if (changeCallback != null) {
@@ -203,18 +205,17 @@ public class Banner extends RelativeLayout {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (state == ViewPager2.SCROLL_STATE_DRAGGING || state == ViewPager2.SCROLL_STATE_SETTLING) {
-                isBeginPagerChange = true;
-            } else if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                //滑动闲置或滑动结束
-                isBeginPagerChange = false;
-                if (currentPage == sidePage - 1) {
-                    viewPager2.setCurrentItem(getRealCount() + currentPage, false);
-                } else if (currentPage == getRealCount() + sidePage) {
+            if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
+                if (tempPosition == sidePage - 1) {
+                    isBeginPagerChange = false;
+                    viewPager2.setCurrentItem(getRealCount() + tempPosition, false);
+                } else if (tempPosition == getRealCount() + sidePage) {
+                    isBeginPagerChange = false;
                     viewPager2.setCurrentItem(sidePage, false);
+                } else {
+                    isBeginPagerChange = true;
                 }
             }
-
             if (changeCallback != null) {
                 changeCallback.onPageScrollStateChanged(state);
             }
@@ -270,17 +271,14 @@ public class Banner extends RelativeLayout {
     }
 
     private RecyclerView.AdapterDataObserver itemDataSetChangeObserver = new RecyclerView.AdapterDataObserver() {
-        @Override
-        public final void onItemRangeChanged(int positionStart, int itemCount) { onChanged(); }
 
         @Override
         public final void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) { onChanged(); }
 
         @Override
-        public final void onItemRangeInserted(int positionStart, int itemCount) { onChanged(); }
-
-        @Override
-        public final void onItemRangeRemoved(int positionStart, int itemCount) { onChanged(); }
+        public final void onItemRangeInserted(int positionStart, int itemCount) {
+            if (positionStart > 1) onChanged();
+        }
 
         @Override
         public final void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) { onChanged(); }
@@ -485,7 +483,7 @@ public class Banner extends RelativeLayout {
      * 返回真实位置
      */
     public int getCurrentPager() {
-        int position = toRealPosition(currentPage);
+        int position = toRealPosition(tempPosition);
         return Math.max(position, 0);
     }
 

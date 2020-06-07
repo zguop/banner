@@ -37,6 +37,7 @@ public class FragmentStateAdapterActivity extends AppCompatActivity {
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
 
+
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
 
         banner.setAutoPlay(false)
@@ -51,9 +52,6 @@ public class FragmentStateAdapterActivity extends AppCompatActivity {
                     @Override
                     public void onPageSelected(int position) {
                         Log.e("aa", "onPageSelected position " + position);
-
-
-//                        Log.e("aa", " wai onPageSelected " + position);
                     }
                 })
                 .setAdapter(fragmentAdapter);
@@ -62,10 +60,6 @@ public class FragmentStateAdapterActivity extends AppCompatActivity {
 
 
 
-//
-//        FragmentAdapter fragmentAdapter2 = new FragmentAdapter(this);
-//        ViewPager2 viewPager2 = findViewById(R.id.viewPager2);
-//        viewPager2.setAdapter(fragmentAdapter2);
-//        fragmentAdapter2.addData(Utils.getImage(2));
+
     }
 }

@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 .setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        Log.e("aa" , "onPageScrolled "  + position);
                     }
 
                     @Override

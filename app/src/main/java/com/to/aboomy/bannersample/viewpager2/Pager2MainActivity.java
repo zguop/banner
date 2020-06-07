@@ -14,13 +14,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.saeed.infiniteflow.lib.OverlapSliderTransformer;
 import com.to.aboomy.bannersample.R;
 import com.to.aboomy.bannersample.util.ArrayStringItemSelectDialog;
 import com.to.aboomy.bannersample.util.Utils;
 import com.to.aboomy.bannersample.viewpager2.adapter.ImageAdapter;
 import com.to.aboomy.pager2banner.Banner;
 import com.to.aboomy.pager2banner.IndicatorView;
-import com.to.aboomy.pager2banner.ScaleInTransformer;
 import com.to.aboomy.statusbar_lib.StatusBarUtil;
 
 import java.util.Arrays;
@@ -32,6 +32,13 @@ import java.util.Random;
  * date 2020-01-13
  */
 public class Pager2MainActivity extends AppCompatActivity {
+
+    public static final String[] ANIMS = {
+            "NONE",
+            "OverlapSliderTransformer",
+            "SimpleSliderTransformer",
+            "StackSliderTransformer",
+    };
 
     private static final String[] INDICATOR_STR = {
             "INDICATOR_CIRCLE",
@@ -58,7 +65,7 @@ public class Pager2MainActivity extends AppCompatActivity {
                 .setIndicatorRadius(2f)
                 .setIndicatorSelectedRatio(3)
                 .setIndicatorSelectedRadius(2f)
-                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE)
+                .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE)
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
 
@@ -66,22 +73,17 @@ public class Pager2MainActivity extends AppCompatActivity {
                 .setIndicator(indicatorView)
                 .setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
                 .setPagerScrollDuration(800)
-                .setPageMargin(SizeUtils.dp2px( 40), SizeUtils.dp2px( 10))
-                .addPageTransformer(new ScaleInTransformer())
-
-
+                .setPageMargin(SizeUtils.dp2px(40), 0)
+//                .addPageTransformer(new ScaleInTransformer())
+                .addPageTransformer(new OverlapSliderTransformer(banner.getViewPager2().getOrientation(), 0.25f, 0, 1, 0))
                 .setOuterPageChangeListener(new ViewPager2.OnPageChangeCallback() {
                     @Override
                     public void onPageSelected(int position) {
-                        Log.e("aa" , "onPageSelected position " + position );
-
-
-//                        Log.e("aa", " wai onPageSelected " + position);
+                        Log.e("aa", "onPageSelected position " + position);
                     }
-                })
-        ;
+                });
 
-//        SizeUtils.dp2px()
+
         final ImageAdapter adapter = new ImageAdapter();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -172,6 +174,14 @@ public class Pager2MainActivity extends AppCompatActivity {
         });
 
         updateLoopText();
+
+        TextView transformerText = findViewById(R.id.transformer);
+        transformerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showShort("可以去看看ViewPager入口里的动画切换");
+            }
+        });
 
     }
 

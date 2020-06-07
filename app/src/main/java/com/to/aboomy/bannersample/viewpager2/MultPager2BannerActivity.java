@@ -52,7 +52,6 @@ public class MultPager2BannerActivity extends AppCompatActivity {
                 .setOuterPageChangeListener(new ViewPager2.OnPageChangeCallback() {
                     @Override
                     public void onPageSelected(int position) {
-                        Log.e("aa", "initBanner1 onPageSelected " + position);
 
                     }
                 })

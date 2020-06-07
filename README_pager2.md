@@ -11,13 +11,9 @@
 * 支持自定义view
 * 支持数据刷新
 * 支持垂直滚动
-* 支持任意RecyclerView.adapter，RecyclerView的使用方式。
+* 支持任意RecyclerView.adapter
 * 支持androidx，还在使用support请使用[banner](https://github.com/zguop/banner)，ViewPager版本
-* 良好的代码封装，更多优化请参考代码实现。
-
-ViewPager2
-* 暂不支持页面切换滑动速度。（已支持）
-* 暂不支持仿魅族样式。
+* 目前就4个类，良好的代码封装，更多请参考代码实现。
 
 
 [想使用ViewPager实现Banner请点击](https://github.com/zguop/banner)
@@ -46,6 +42,7 @@ ViewPager2
 |INDICATOR_BIG_CIRCLE||
 |![img5](gif/img5.gif)||
 
+
 #### 注意：0.0.5版本开始，IndicatorView更新
 
 * INDICATOR_DASH：不再提供默认的长度，默认是没有长度的，一定要设置setIndicatorSelectedRatio属性，将圆点进行拉伸为矩形。
@@ -57,7 +54,11 @@ ViewPager2
 |**收集更多的效果**|![img12](gif/img12.gif)|![img13](gif/img13.gif)
 |**Indicator查看simple代码** |![img14](gif/img14.gif)|![img15](gif/img15.gif)|
 
-#### 版本更新
+
+
+
+#### 版本更
+
 * 0.0.5：修复嵌套滑动的问题，主要是只有一页数据的时候，不拦截事件进行处理。
 * 0.0.4：修复issues#6，代理LayoutManager中的layout内部ReyclerView为null导致。
 * 0.0.3：修复issues #5，ViewPager2嵌套滑动冲突。
@@ -71,7 +72,7 @@ Gradle
 ```groovy
 	
 dependencies{
-    implementation 'com.to.aboomy:pager2banner:0.0.5' //最新版本
+    implementation 'com.to.aboomy:pager2banner:1.0.0' //最新版本
 }
 ```
 或者引用本地lib
@@ -144,17 +145,35 @@ public class ImageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 .setPageTransformer(true, new ScaleInTransformer())
     
 ```
+##### 支持访魅族样式
+```java
+//单独设置OverlapSliderTransformer，项目里有，可以拷贝到项目中使用 kotlin实现的-。-
+ .addPageTransformer(new OverlapSliderTransformer(banner.getViewPager2().getOrientation(), 0.25f, 0, 1,0))
 
-### 
+```
 
 
 ### 关于ViewPager切换动画
 
-Sample中集成了以下两个ViewPager切换动画，请运行Sample查看动画效果，参考需要的ViewPagerTransform放到项目中，或者根据需求进行自定义。
+pager2banner 只内置了 ScaleInTransformer ，这个比较常用。
+demo里集成了以下两个ViewPager切换动画，请运行Sample查看动画效果，需要哪个拷贝到项目中用好了。
 
 [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
 
 [MagicViewPager](https://github.com/hongyangAndroid/MagicViewPager)
+
+### 介绍一下 IndicatorView
+内置的indicator很强大，可以做到很多效果了，很灵活，可以运行demo尝试改变一下参数：
+
+```java
+    .setIndicatorRatio(1f) //ratio，默认值是1 ，也就是说默认是圆点，根据这个值，值越大，拉伸越长，就成了矩形，小于1，就变扁了呗
+    .setIndicatorRadius(2f) // radius 点的大小
+    .setIndicatorSelectedRatio(3) 
+    .setIndicatorSelectedRadius(2f)
+    .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_BIG_CIRCLE)       
+
+```
+
 
 ### 如何自定义Indicator
 ```java
@@ -238,8 +257,8 @@ public class IndicatorView extends View implements Indicator{
 
 |方法名|描述|
 |---|---| 
-|setPageTransformer(ViewPager2.PageTransformer transformer)|设置viewpager2的自定义动画，支持多个添加|
-setOuterPageChangeListener(ViewPager2.OnPageChangeCallback listener)|设置viewpager2的滑动监听
+|addPageTransformer(ViewPager2.PageTransformer transformer)|设置viewpager2的自定义动画，支持多个添加
+|setOuterPageChangeListener(ViewPager2.OnPageChangeCallback listener)|设置viewpager2的滑动监听
 |setAutoTurningTime(long autoTurningTime)|设置自动轮播时长
 |setAutoPlay(boolean autoPlay)|设置是否自动轮播，大于1页可以轮播
 |setIndicator(Indicator indicator)|设置indicator
