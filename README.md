@@ -1,6 +1,5 @@
 # Android轮播控件
 [ ![Download](https://api.bintray.com/packages/a13706649811/maven/banner/images/download.svg) ](https://bintray.com/a13706649811/maven/banner/_latestVersion)
-
 ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **Indicator** 接口，内置了圆形的IndicatorView，支持五种动画切换。
 项目集成各种indicator网红效果，打造花样Indicator，使用请参考Sample。
 
@@ -17,10 +16,12 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 * 解决添加到RecyclerView头部的滑动问题
 * 良好的代码封装，更多优化请参考代码实现。
 
+# ViewPager2看这里
+[ViewPager2文档请点击](https://github.com/zguop/banner/blob/master/README_pager2.md)，项目中新增pager2模块，查看Viewpager2实现banner无限轮播。
+
+
 ##### [版本更新内容点击查看](https://github.com/zguop/banner/releases)
 
-### ViewPager2版本
-[ViewPager2文档请点击](https://github.com/zguop/banner/blob/master/README_pager2.md)，项目中新增pager2模块，查看Viewpager2实现banner无限轮播。
 
 ## 效果图
 
