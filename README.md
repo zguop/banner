@@ -57,13 +57,7 @@ ViewPager2是androidx中的
 
 
 #### [版本更新内容点击查看](https://github.com/zguop/banner/releases)
-#### 历史版本更，后面更新到release标签上
 
-* 0.0.5：修复嵌套滑动的问题，主要是只有一页数据的时候，不拦截事件进行处理。
-* 0.0.4：修复issues#6，代理LayoutManager中的layout内部ReyclerView为null导致。
-* 0.0.3：修复issues #5，ViewPager2嵌套滑动冲突。
-* 0.0.2：修复banner默认是垂直滑动的问题，应该是横向滑动的。
-* 0.0.1：解决了ViewPager2页面滑动切换时间，新增setPagerScrollDuration方法设置。
 
 ## 使用步骤
 
