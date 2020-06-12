@@ -57,7 +57,7 @@ public class Banner extends RelativeLayout {
 
     public Banner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop() >> 1;
         initViews(context);
     }
 
@@ -365,6 +365,7 @@ public class Banner extends RelativeLayout {
      * @param pageMargin item与item之间的宽度
      */
     public Banner setPageMargin(int tlWidth, int brWidth, int pageMargin) {
+        if (pageMargin < 0) pageMargin = 0;
         addPageTransformer(new MarginPageTransformer(pageMargin));
         RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
         if (viewPager2.getOrientation() == ViewPager2.ORIENTATION_VERTICAL) {
@@ -374,7 +375,7 @@ public class Banner extends RelativeLayout {
         }
         recyclerView.setClipToPadding(false);
         needPage = NORMAL_COUNT + NORMAL_COUNT;
-        sidePage = needPage / NORMAL_COUNT;
+        sidePage = NORMAL_COUNT;
         return this;
     }
 

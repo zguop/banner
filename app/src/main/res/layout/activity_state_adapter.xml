@@ -11,4 +11,11 @@
         android:layout_height="150dp"
         android:layout_marginTop="30dp" />
 
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_marginTop="30dp"
+        android:id="@+id/viewPager2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
+
 </LinearLayout>

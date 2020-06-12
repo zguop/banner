@@ -59,6 +59,11 @@ public class FragmentStateAdapterActivity extends AppCompatActivity {
 
 
 
+//        ViewPager2 viewPager2 = findViewById(R.id.viewPager2);
+////        viewPager2.setOffscreenPageLimit(2);
+//        ImageAdapter adapter = new ImageAdapter();
+//        viewPager2.setAdapter(adapter);
+//        adapter.addData(Utils.getData(10));
 
 
     }
