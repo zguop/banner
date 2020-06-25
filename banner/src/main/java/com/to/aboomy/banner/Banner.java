@@ -286,7 +286,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     }
 
     /**
-     * {@link ViewPager.SimpleOnPageChangeListener}
+     * {@link android.support.v4.view.ViewPager.SimpleOnPageChangeListener}
      */
     public Banner setOuterPageChangeListener(ViewPager.OnPageChangeListener outerPageChangeListener) {
         this.outerPageChangeListener = outerPageChangeListener;

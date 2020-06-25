@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -14,13 +15,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class BannerViewPager extends ViewPager {
-    private final static int SCALED_TOUCH_SLOP = 8;
 
-    private float lastX;
-    private float lastY;
-    private float startX;
-    private float startY;
-
+    private float lastX, lastY, startX, startY;
+    private int scaledTouchSlop;
     private boolean scrollable = true;
     private boolean isFirstLayoutToField;
     private boolean overlapStyle;
@@ -34,6 +31,7 @@ public class BannerViewPager extends ViewPager {
 
     public BannerViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop() >> 1;
         scroller = new ViewPagerScroller(getContext());
         initViewPagerScroll();
     }
@@ -62,10 +60,10 @@ public class BannerViewPager extends ViewPager {
                     //可以滑动，才询问是否拦截事件
                     float distanceX = Math.abs(lastX - startX);
                     float distanceY = Math.abs(lastY - startY);
-                    getParent().requestDisallowInterceptTouchEvent(distanceX > SCALED_TOUCH_SLOP && distanceX > distanceY);
+                    getParent().requestDisallowInterceptTouchEvent(distanceX > scaledTouchSlop && distanceX > distanceY);
                 }
             } else if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
-                return Math.abs(lastX - startX) > SCALED_TOUCH_SLOP || Math.abs(lastY - startY) > SCALED_TOUCH_SLOP;
+                return Math.abs(lastX - startX) > scaledTouchSlop || Math.abs(lastY - startY) > scaledTouchSlop;
             }
             if (scrollable) {
                 return super.onInterceptTouchEvent(ev);
