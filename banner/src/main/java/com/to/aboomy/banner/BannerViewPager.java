@@ -17,13 +17,8 @@ import java.util.List;
 
 public class BannerViewPager extends ViewPager {
 
-    private float lastX;
-    private float lastY;
-    private float startX;
-    private float startY;
+    private float lastX, lastY, startX, startY;
     private int scaledTouchSlop;
-
-
     private boolean scrollable = true;
     private boolean isFirstLayoutToField;
     private boolean overlapStyle;
@@ -37,7 +32,7 @@ public class BannerViewPager extends ViewPager {
 
     public BannerViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop() >> 1;
         scroller = new ViewPagerScroller(getContext());
         initViewPagerScroll();
     }
