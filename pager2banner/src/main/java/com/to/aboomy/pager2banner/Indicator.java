@@ -15,7 +15,7 @@ public interface Indicator {
      *
      * @param pagerCount page num
      */
-    void initIndicatorCount(int pagerCount);
+    void initIndicatorCount(int pagerCount, int currentPage);
 
     /**
      * return View，and add banner

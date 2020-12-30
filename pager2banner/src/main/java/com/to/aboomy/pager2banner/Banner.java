@@ -2,7 +2,9 @@ package com.to.aboomy.pager2banner;
 
 import android.content.Context;
 import android.graphics.Outline;
+import android.graphics.Rect;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +26,8 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 public class Banner extends RelativeLayout {
@@ -45,7 +50,7 @@ public class Banner extends RelativeLayout {
     private int tempPosition;
 
     private float startX, startY, lastX, lastY;
-    private int scaledTouchSlop;
+    private final int scaledTouchSlop;
 
     public Banner(Context context) {
         this(context, null);
@@ -77,7 +82,7 @@ public class Banner extends RelativeLayout {
         viewPager2.setCurrentItem(tempPosition, false);
         adapterWrapper.notifyDataSetChanged();
         if (indicator != null) {
-            indicator.initIndicatorCount(getRealCount());
+            indicator.initIndicatorCount(getRealCount(), getCurrentPager());
         }
         if (isAutoPlay()) {
             startTurning();
@@ -270,7 +275,7 @@ public class Banner extends RelativeLayout {
         }
     }
 
-    private RecyclerView.AdapterDataObserver itemDataSetChangeObserver = new RecyclerView.AdapterDataObserver() {
+    private final RecyclerView.AdapterDataObserver itemDataSetChangeObserver = new RecyclerView.AdapterDataObserver() {
 
         @Override
         public final void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) { onChanged(); }
@@ -294,8 +299,13 @@ public class Banner extends RelativeLayout {
             //控制切换速度，采用反射方。法方法只会调用一次，替换掉内部的RecyclerView的LinearLayoutManager
             RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
             recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-            ProxyLayoutManger proxyLayoutManger = new ProxyLayoutManger(getContext(), viewPager2.getOrientation());
+            LinearLayoutManager o = (LinearLayoutManager) recyclerView.getLayoutManager();
+            ProxyLayoutManger proxyLayoutManger = new ProxyLayoutManger(getContext(), o);
             recyclerView.setLayoutManager(proxyLayoutManger);
+
+            Field mRecyclerView = RecyclerView.LayoutManager.class.getDeclaredField("mRecyclerView");
+            mRecyclerView.setAccessible(true);
+            mRecyclerView.set(o, recyclerView);
 
             Field LayoutMangerField = ViewPager2.class.getDeclaredField("mLayoutManager");
             LayoutMangerField.setAccessible(true);
@@ -327,9 +337,46 @@ public class Banner extends RelativeLayout {
     }
 
     private class ProxyLayoutManger extends LinearLayoutManager {
+        private final RecyclerView.LayoutManager layoutManager;
 
-        ProxyLayoutManger(Context context, int orientation) {
-            super(context, orientation, false);
+        ProxyLayoutManger(Context context, LinearLayoutManager layoutManager) {
+            super(context, layoutManager.getOrientation(), false);
+            this.layoutManager = layoutManager;
+        }
+
+        @Override
+        public boolean performAccessibilityAction(@NonNull RecyclerView.Recycler recycler,
+                                                  @NonNull RecyclerView.State state, int action, @Nullable Bundle args) {
+            return layoutManager.performAccessibilityAction(recycler, state, action, args);
+        }
+
+        @Override
+        public void onInitializeAccessibilityNodeInfo(@NonNull RecyclerView.Recycler recycler,
+                                                      @NonNull RecyclerView.State state, @NonNull AccessibilityNodeInfoCompat info) {
+            layoutManager.onInitializeAccessibilityNodeInfo(recycler, state, info);
+        }
+
+        @Override
+        public boolean requestChildRectangleOnScreen(@NonNull RecyclerView parent,
+                                                     @NonNull View child, @NonNull Rect rect, boolean immediate,
+                                                     boolean focusedChildVisible) {
+            return layoutManager.requestChildRectangleOnScreen(parent, child, rect, immediate, focusedChildVisible);
+        }
+
+        @Override
+        protected void calculateExtraLayoutSpace(@NonNull RecyclerView.State state,
+                                                 @NonNull int[] extraLayoutSpace) {
+            try {
+                Method method = layoutManager.getClass().getDeclaredMethod("calculateExtraLayoutSpace", state.getClass(), extraLayoutSpace.getClass());
+                method.setAccessible(true);
+                method.invoke(layoutManager, state, extraLayoutSpace);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override

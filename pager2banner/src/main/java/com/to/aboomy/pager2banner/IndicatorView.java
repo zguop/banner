@@ -81,7 +81,7 @@ public class IndicatorView extends View implements Indicator {
     }
 
     @Override
-    public void initIndicatorCount(int pagerCount) {
+    public void initIndicatorCount(int pagerCount, int currentPage) {
         this.pagerCount = pagerCount;
         setVisibility(pagerCount > 1 ? VISIBLE : GONE);
         requestLayout();
