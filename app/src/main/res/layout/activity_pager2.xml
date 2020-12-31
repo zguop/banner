@@ -120,7 +120,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/lib_pub_select_btn_main"
         android:gravity="center"
-        android:text="测试多次调用startTurning"
+        android:text="test"
         android:textAllCaps="false"
         android:textColor="@color/lib_pub_color_select_btn_main"
         android:textSize="15dp" />
