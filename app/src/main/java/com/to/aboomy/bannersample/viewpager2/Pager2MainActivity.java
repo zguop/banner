@@ -187,21 +187,6 @@ public class Pager2MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < 5; i++) {
-                    banner.stopTurning();
-//                    ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Boolean>() {
-//                        @Override
-//                        public Boolean doInBackground() throws Throwable {
-//                           banner.startTurning();
-//                            return null;
-//                        }
-//
-//                        @Override
-//                        public void onSuccess(Boolean result) {
-//
-//                        }
-//                    });
-                }
             }
         });
 
