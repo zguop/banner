@@ -43,6 +43,7 @@ public class Banner extends RelativeLayout {
     private Indicator indicator;
     private boolean isAutoPlay = true;
     private boolean isBeginPagerChange = true;
+    private boolean isTaskPostDelayed;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
     private long pagerScrollDuration = DEFAULT_PAGER_DURATION;
     private int needPage = NORMAL_COUNT;
@@ -546,10 +547,14 @@ public class Banner extends RelativeLayout {
     public void startTurning() {
         stopTurning();
         postDelayed(task, autoTurningTime);
+        isTaskPostDelayed = true;
     }
 
     public void stopTurning() {
-        removeCallbacks(task);
+        if(isTaskPostDelayed){
+            removeCallbacks(task);
+            isTaskPostDelayed = false;
+        }
     }
 
     public void setAdapter(@Nullable RecyclerView.Adapter adapter) {
