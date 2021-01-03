@@ -79,9 +79,12 @@ public class Banner extends RelativeLayout {
     }
 
     private void startPager(int startPosition) {
-        tempPosition = startPosition + sidePage;
-        viewPager2.setCurrentItem(tempPosition, false);
-        adapterWrapper.notifyDataSetChanged();
+        if (sidePage == NORMAL_COUNT) {
+            viewPager2.setAdapter(adapterWrapper);
+        } else {
+            adapterWrapper.notifyDataSetChanged();
+        }
+        setCurrentItem(startPosition, false);
         if (indicator != null) {
             indicator.initIndicatorCount(getRealCount(), getCurrentPager());
         }
@@ -529,7 +532,12 @@ public class Banner extends RelativeLayout {
     }
 
     public void setCurrentItem(int position) {
-        viewPager2.setCurrentItem(position + sidePage);
+        setCurrentItem(position, true);
+    }
+
+    public void setCurrentItem(int position, boolean smoothScroll) {
+        tempPosition = position + sidePage;
+        viewPager2.setCurrentItem(tempPosition, smoothScroll);
     }
 
     /**
