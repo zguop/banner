@@ -31,6 +31,7 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     private Indicator indicator;
     private boolean isAutoPlay = true;
     private long autoTurningTime = DEFAULT_AUTO_TIME;
+    private boolean isTaskPostDelayed;
 
     /**
      * 虚拟当前页 1表示真实页数的第一页
@@ -396,10 +397,14 @@ public class Banner extends RelativeLayout implements ViewPager.OnPageChangeList
     public void startTurning() {
         stopTurning();
         postDelayed(task, autoTurningTime);
+        isTaskPostDelayed = true;
     }
 
     public void stopTurning() {
-        removeCallbacks(task);
+        if (isTaskPostDelayed) {
+            removeCallbacks(task);
+            isTaskPostDelayed = false;
+        }
     }
 
 }

@@ -72,8 +72,8 @@ ViewPager无限轮播功能。可以自定义indicator，需自定义实现 **In
 Gradle 
 ```groovy
 dependencies{
-    implementation 'com.to.aboomy:banner:3.1.4'  //最新版本
-    implementation 'com.to.aboomy:banner:3.1.4-x' //androidx版本
+    implementation 'com.to.aboomy:banner:3.1.4'
+    implementation 'com.to.aboomy:banner:3.1.5-x' //androidx版本
 }
 ```
 或者引用本地lib
