@@ -79,7 +79,7 @@ public class Banner extends RelativeLayout {
     }
 
     private void startPager(int startPosition) {
-        if (sidePage == NORMAL_COUNT) {
+        if (sidePage == NORMAL_COUNT) { //一页多品模式下，重新设置Adapter，数据刷新貌似有bug
             viewPager2.setAdapter(adapterWrapper);
         } else {
             adapterWrapper.notifyDataSetChanged();
