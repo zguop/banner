@@ -528,6 +528,10 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
+    public void setCurrentItem(int position) {
+        viewPager2.setCurrentItem(position + sidePage);
+    }
+
     /**
      * 返回真实位置
      */
@@ -551,7 +555,7 @@ public class Banner extends RelativeLayout {
     }
 
     public void stopTurning() {
-        if(isTaskPostDelayed){
+        if (isTaskPostDelayed) {
             removeCallbacks(task);
             isTaskPostDelayed = false;
         }

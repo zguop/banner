@@ -186,7 +186,9 @@ public class Pager2MainActivity extends AppCompatActivity {
         findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int i = new Random().nextInt(adapter.getData().size());
+                ToastUtils.showShort("" + i);
+                banner.setCurrentItem(i);
             }
         });
 
