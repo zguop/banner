@@ -1,0 +1,104 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+// 包的GroupId
+def pkgGroupId = PKG_GROUP_ID
+// 包的ArtifactId
+def pkgArtifactId = PKG_ARTIFACT_ID
+// 包的版本号，下次更新是只需要更改版本号即可
+def pkgVersion = PKG_VERSION
+// 项目描述
+def pkgDesc = PKG_DESC
+// 开发者Id
+def pkgDeveloperId = PKG_DEVELOPER_ID
+// 开发者名字
+def pkgDeveloperName = PKG_DEVELOPER_NAME
+// 开发者邮箱
+def pkgDeveloperEmail = PKG_DEVELOPER_EMAIL
+// 项目主页
+def pkgWebsiteUrl = PKG_WEBSITE_URL
+//git地址
+def pkgVcsUrl = PKG_VCSURL
+
+
+tasks.register("sourceJar", Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set('sources')
+}
+
+Properties localProps = new Properties()
+File localProperties = new File(rootProject.rootDir, "local.properties")
+if (localProperties.exists() && localProperties.isFile()) {
+    localProperties.withInputStream { localProps.load(it) }
+}
+
+project.ext["signing.keyId"] = localProps.getProperty("signing.keyId")
+project.ext["signing.secretKeyRingFile"] = localProps.getProperty("signing.secretKeyRingFile")
+project.ext["signing.password"] = localProps.getProperty("signing.password")
+
+afterEvaluate {
+    publishing {
+        publications {
+            releaseAar(MavenPublication) {
+                from components.release
+                artifact sourceJar
+
+                groupId = pkgGroupId
+                artifactId = pkgArtifactId
+                version = pkgVersion
+
+                pom {
+                    name = pkgArtifactId
+                    description = pkgDesc
+                    url = pkgWebsiteUrl
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = pkgDeveloperId
+                            name = pkgDeveloperName
+                            email = pkgDeveloperEmail
+                        }
+                    }
+
+                    scm {
+                        url = pkgWebsiteUrl
+                        connection = pkgVcsUrl
+                        developerConnection = pkgVcsUrl
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "sonatypeStaging"
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = localProps.getProperty("ossrhUsername")
+                    password = localProps.getProperty("ossrhPassword")
+                }
+            }
+
+            maven {
+                name = "sonatypeSnapshots"
+                url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                credentials {
+                    username = localProps.getProperty("ossrhUsername")
+                    password = localProps.getProperty("ossrhPassword")
+                }
+            }
+        }
+    }
+
+    signing {
+        sign(publishing.publications)
+    }
+}

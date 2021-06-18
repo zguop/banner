@@ -22,4 +22,4 @@ dependencies {
     compileOnly "androidx.viewpager2:viewpager2:1.0.0"
 }
 
-apply from:"${rootProject.projectDir}/uploadBintray.gradle"
+apply from: rootProject.file('publishing.gradle')

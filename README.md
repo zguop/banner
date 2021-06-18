@@ -65,9 +65,13 @@ ViewPager2是androidx中的
 
 Gradle 
 ```groovy
+    repositories {
+        mavenCentral()
+    }
 	
 dependencies{
-    implementation 'com.to.aboomy:pager2banner:1.0.3' //最新版本
+    //已迁移至mavenCentral
+    implementation 'io.github.zguop:pager2Banner:1.0.5'
 }
 ```
 或者引用本地lib
